@@ -1,0 +1,53 @@
+.header-container{
+    border-bottom: 1px solid #cccccc57;
+    .navbar{
+        max-height: 48px;
+    }
+    .navbar-brand{
+        .logo{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    }
+    .navFunc{
+        display: flex;
+        align-items: center;
+    }
+    .drop{
+        .dropdown-toggle::after {
+            display: none !important; 
+          }
+        .dropdown-menu-dark{
+            left: unset;
+            right: 5%;
+            font-size: 15px;
+            .dropdown-item{
+                min-height: 40px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-weight: 500;
+                .iconDd{
+                    font-size: 17px;
+                }
+            }
+        }
+    }
+    .searchHeaderInput{
+        width: 100%;
+        .css-l3ln04-MuiAutocomplete-root .MuiOutlinedInput-root {
+            padding: 0 15px;
+            font-size: 14px;
+            &:hover .MuiOutlinedInput-notchedOutline{
+                border: 1px solid #1976d2;
+            }
+            .MuiOutlinedInput-notchedOutline{
+                border: none;
+                background-color: #52525212;
+                border-radius: 80px;
+            }
+        }
+       
+    }
+}
