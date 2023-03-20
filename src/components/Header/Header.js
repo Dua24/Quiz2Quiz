@@ -16,14 +16,15 @@ import { TbSpeakerphone } from 'react-icons/tb'
 import SwitchMode from "./SwitchMode/SwitchMode";
 import { Link } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
-
+import ModalQR from "./Modals/ModalQR";
+import ModalSignInUp from "./Modals/ModalSignInUp";
 const Header = () => {
     const [toggleModeDark, setToggleModeDark] = useState(false)
-
+    const [showModalQR, setShowModalQR] = useState(false)
+    const [showModalSignInUp, setShowModalSignInUp] = useState(false)
     return (
         <div className="header-container">
             <Container fluid>
-
                 <Navbar bg="light" expand="lg">
                     <Navbar.Brand className=" col-2">
                         <Link className="logo" to="/">
@@ -39,8 +40,12 @@ const Header = () => {
                         </Nav.Item>
                         <Nav.Item className="col-5">
                             <Nav.Link href="#link" style={{ display: "flex", justifyContent: "flex-end", gap: '15px' }}>
-                                <PriBtn type="apri" text="Get app" icons={<BsQrCodeScan />} />
-                                <PriBtn type="pri" text="Log in" />
+                                <div onClick={() => setShowModalQR(true)} >
+                                    <PriBtn type="spri" text="Get app" icons={<BsQrCodeScan />} />
+                                </div>
+                                <div onClick={() => setShowModalSignInUp(true)}>
+                                    <PriBtn type="pri" text="Log in" />
+                                </div>
                             </Nav.Link>
                         </Nav.Item>
                         <Nav.Item className="col-1">
@@ -93,6 +98,9 @@ const Header = () => {
                     </Navbar.Collapse>
                 </Navbar>
             </Container >
+
+            <ModalQR show={showModalQR} setShow={setShowModalQR} />
+            <ModalSignInUp show={showModalSignInUp} setShow={setShowModalSignInUp} />
         </div>
     )
 }
