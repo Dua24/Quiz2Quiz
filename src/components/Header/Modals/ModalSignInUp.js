@@ -7,12 +7,18 @@ import { version } from 'react-dom';
 const ModalSignInUp = (props) => {
     const { show, setShow } = props
     const [isVerified, setIsVerified] = useState(false)
-    const [verifiedInput, setVerifiedInput] = useState()
+    const [verifiedInput, setVerifiedInput] = useState(false)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
 
-
+    const handleCloseModal = () => {
+        setShow(false)
+        setEmail('')
+        setPassword('')
+        setVerifiedInput(false)
+        setIsVerified(false)
+    }
 
     const handleOnChangeInput = (e) => {
         if (e.target.name === 'email') {
@@ -28,7 +34,7 @@ const ModalSignInUp = (props) => {
     const handleVerifyInput = (value) => {
         setIsVerified(true)
         if (isVerified) {
-            if (value && value.length > 3 && value.length < 20) {
+            if (value && value.length >= 3 && value.length <= 20) {
                 setVerifiedInput(true)
             } else {
                 setVerifiedInput(false)
@@ -39,11 +45,8 @@ const ModalSignInUp = (props) => {
     const setClassNameVerified = () => {
         if (!isVerified) return ''
         if (verifiedInput) {
-            console.log("1")
             return 'Verified'
         } else {
-            console.log("2")
-
             return "noVerified"
         }
     }
@@ -62,7 +65,7 @@ const ModalSignInUp = (props) => {
     return (
         <Modal
             show={show}
-            onHide={() => setShow(false)}
+            onHide={handleCloseModal}
             className="modalSignInUp"
         >
             <Modal.Header closeButton>

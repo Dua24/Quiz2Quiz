@@ -15,7 +15,6 @@ const App = () => {
         </div>
         <div className="main-content" style={{ textAlign: 'left' }}>
           <Outlet />
-          aaaaaaaaaaaaaaaaaaaaa
         </div>
       </div>
     </div>

@@ -131,7 +131,9 @@ code {
     }
   }
 }
-
+.App.dark{
+  background-color: red !important;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
