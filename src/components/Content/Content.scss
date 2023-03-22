@@ -72,6 +72,7 @@
         .posts{
             display: flex;
             justify-content: center;
+            gap: 20px;
             .main-posts{
                 width: 640px;
                 .title{
@@ -93,40 +94,55 @@
                     padding: 10px 12px;
                     color: #9b9b9b;
                     font-weight: 700;
+                    .dropdown{
+                        &:hover{
+                            background-color: #e3e3e3;
+                            cursor: pointer;
+                            border-radius: 100px;
+
+                            button{
+                                background-color: #e3e3e3;
+                                border-radius: 100px;
+                            }
+                           
+                        }
+                        .dropdown-toggle{
+                            display: flex;
+                            align-items: center;
+                            &:after{
+                                display: none !important; 
+
+                            }
+                        }
+                        
+                        .dropdown-menu{
+                            max-height: 180px;
+                            overflow-y: auto;
+                            .dropdown-item{
+                            color: #9b9b9b ;
+                            font-weight: 500;
+                                &.active{
+                                    background-color: #fff;
+                                    color:#1e88e5 ;
+                                    font-weight: 600;
+                                }
+                                svg{
+                                    font-size: 19px;
+                                }
+                            }
+                        }
+                        button{
+                            background-color: #fff;
+                            color: #9b9b9b;
+                            font-weight: 700;
+                            outline: none;
+                            border: none;
+                        }
+                    }
                     .filter_items{
                         display: flex;
                         align-items: center;
-                        .dropdown{
-                            &:hover{
-                                background-color: #e3e3e3;
-                                cursor: pointer;
-                                border-radius: 100px;
-
-                                button{
-                                    background-color: #e3e3e3;
-                                    border-radius: 100px;
-                                }
-                               
-                            }
-                            .dropdown-menu{
-                                max-height: 180px;
-                                overflow-y: auto;
-                                .dropdown-item{
-                                    &.active{
-                                        background-color: #fff;
-                                        color:#1e88e5 ;
-                                        font-weight: 600;
-                                    }
-                                }
-                            }
-                            button{
-                                background-color: #fff;
-                                color: #9b9b9b;
-                                font-weight: 700;
-                                outline: none;
-                                border: none;
-                            }
-                        }
+                        
                         span{
                             display: flex;
                             align-items: center;
@@ -166,6 +182,55 @@
             .sub-posts{
                 margin-top: 36px;
                 width: 320px;
+                .accor_container{
+                    .accor_summary{
+                        flex-direction: row;
+                        .accor_title{
+                            font-size: 10px;
+                            font-weight: 700;
+                            letter-spacing: .5px;
+                            line-height: 12px;
+                            text-transform: uppercase;
+                        }
+                    }
+                    .accor_detail{
+                        padding: 4px 24px 10px;
+                        border-top: unset;
+                        display: flex;
+                        flex-wrap: wrap;
+                        p{
+                            display: inline-block;
+                            .detail_item{
+                                cursor: pointer;
+                                font-size: 12px;
+                                font-weight: 500;
+                                line-height: 16px;
+                                display: inline-block;
+                                text-decoration: none;
+                                margin-bottom: 8px;
+                                color: #000;
+                                margin-right: 24px;
+                                &:hover{
+                                    text-decoration: underline;
+                                }
+                            }
+                        }
+                        span{
+                            margin-bottom: 4px;
+                            padding: 0px 12px;
+                            border-radius: 33px;
+                            color:#0079d3;
+                            font-weight: 700;
+                            font-size: 14px;
+                            &:hover{
+                                cursor: pointer;
+                                background: #ccc;
+                            }
+                        }
+                     
+                    }
+                   
+                }
             }
         }
         
