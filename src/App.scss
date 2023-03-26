@@ -23,6 +23,7 @@ code {
     left: 0;
     right: 0;
     background-color: #fff;
+    z-index: 100;
   }
   .content{
     display: flex;
@@ -129,6 +130,18 @@ code {
       background-color: #dae0e6;
       margin-left: 270px;
     }
+  }
+  .backtotop{
+    position: fixed;
+    left: 82%;
+    bottom: 40px;
+    height: 20px;
+    font-size: 37px;
+    z-index: 4;
+    cursor: pointer;
+    background: transparent;
+    color: #1976d2;
+    border: none;
   }
 }
 .App.dark{

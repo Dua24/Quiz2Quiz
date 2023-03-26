@@ -12,6 +12,16 @@
         max-width: 1020px;
         
         .trending{
+            .trending_slider{
+                .react-multiple-carousel__arrow{
+                    z-index: 3;
+                }
+                .react-multi-carousel-dot--active{
+                    button{
+                        background-color: #1976d2
+                    }
+                }
+            }
             .item{
                 padding-left: 5px;
                 padding-right: 5px;
@@ -178,6 +188,158 @@
                         margin-left: auto;
                     }
                 }
+                // .contain-posts{
+                //     --post-line-color: #ccc;
+                //     border: 1px solid #ccc;
+                //     margin-bottom: 10px;
+                //     border-radius: 4px;
+                //     padding-left: 40px;
+                //     background-color: #fff;
+                //     max-height: 500px;
+                //     max-height: 750px;
+                //     .post_item{
+                //         position: relative;
+                //         margin-top: 5px;
+                //         margin-right: 5px;
+                //         padding-left: 3px;
+                //         .rate{
+                //             width: 40px;
+                //             display: inline-flex;
+                //             flex-direction: column;
+                //             align-items: center;
+                //             font-size: 28px;
+                //             font-weight: 400;
+                //             position: absolute;
+                //             top: 0;
+                //             left: -40px;
+                //             .like{
+                //                 &:hover{
+                //                     background-color: #ccc
+                //                 }
+                //                 &.active{
+                //                     color: #FF4500;
+                //                     &:hover{
+                //                         background-color: unset
+                //                     }
+                //                 }
+                //             }
+                //             .dislike{
+                //                 &:hover{
+                //                     background-color: #ccc
+                //                 }
+                //                 &.active{
+                //                     color: #7193ff;
+                //                     &:hover{
+                //                         background-color: unset
+                //                     }
+                //                 }
+                //             }
+                //             span{
+                //                 display: flex;
+                //                 color:#878A8C
+                //             }
+                //             .num_Evaluate{
+                //                 font-size: 13px;
+                //                 font-weight: 700;
+                //                 color: #000;
+                //             }
+                //         }
+                //         .content_post{
+                //             display: flex;
+                //             flex-direction: column;
+                //             gap: 9px;
+
+                //             .header_post{
+                //                 display: flex;
+                //                 align-items: center;
+                //                 .g1{
+                //                     img{
+                //                         height:20px;
+                //                         border-radius: 100px;
+                //                     }
+                //                 }
+                //                 .g2{
+                //                     display: flex;
+                //                     font-size: 12px;
+                //                     color: #7c7c7c;
+                //                     span{
+                //                         margin: 0 2px;
+                //                     }
+                //                     .name{
+                //                         font-weight: 700;
+                //                         line-height: 16px;
+                //                         color: #000;
+                //                         display: inline;
+                //                         line-height: 20px;
+                //                         text-decoration: none;
+                //                         vertical-align: baseline;
+                //                     }
+                //                     .dot{
+                //                         font-size: 6px;
+                //                         line-height: 20px;
+                //                         margin-left: 4px;
+                //                         margin-right: 4px;
+                //                     }
+                //                     .info{
+                //                     }
+                //                 }
+                //                 >button{
+                //                     min-width: 24px;
+                //                     max-width: 24px;
+                //                     font-size: 12px;
+                //                     text-transform: unset;
+                //                     padding: 4px 30px;
+                //                     margin-left: auto;
+                //                 }
+                //             }
+                //            .body_post{
+                //                 .post_detail{
+                //                     display: flex;
+                //                     flex-direction: column;
+                //                     gap: 12px;
+                //                     height: 100%;
+                //                     h3{
+                //                         font-size: 18px;
+                //                         font-weight: 500;
+                //                         line-height: 22px;
+                //                         margin: 0;
+                //                     }
+                //                     img{
+                //                         max-height: 512px;
+                //                         margin: 0 auto;
+                //                         max-width: 100%;
+                //                         display: block;
+                //                     }
+                //                     video{
+                //                         max-height: 512px;
+                //                         margin: 0 auto;
+                //                         max-width: 100%;
+                //                         display: block;
+ 
+                //                     }
+                //                 }
+                               
+                //            }
+                //            .footer_post{
+                //                 font-size: 12px;
+                //                 font-weight: 700;
+                //                 line-height: 16px;
+                //                 padding: 4px;
+                //                 color: #898989;
+                //                 display: flex;
+                //                 gap: 20px;
+                //                 .item{
+                //                     display: flex;
+                //                     align-items: center;
+                //                     gap:5px;
+                //                     svg{
+                //                         font-size: 24px;
+                //                     }
+                //                 }
+                //            }
+                //         }
+                //     }
+                // }
             }
             .sub-posts{
                 margin-top: 36px;
@@ -221,7 +383,7 @@
                             border-radius: 33px;
                             color:#0079d3;
                             font-weight: 700;
-                            font-size: 14px;
+                            font-size: 15px;
                             &:hover{
                                 cursor: pointer;
                                 background: #ccc;
@@ -236,3 +398,4 @@
         
     }
 }
+

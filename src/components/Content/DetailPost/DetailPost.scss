@@ -1,0 +1,74 @@
+
+:root{
+    --background_tool:#cccccc40;
+}
+.content{
+    .contain_DetailPost{
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding-top: 20px;
+        .main_detail{
+            width: 850px;
+            height: 1000px;
+            background: #a4aab0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .side{
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            .side1{
+                height: 250px;
+                background: #fff;
+            }
+            .side2{
+                height: 250px;
+                background: #fff;
+            }
+        }
+        .containEditor{
+            padding-top: 30px;
+            display: flex;
+            flex-direction: column-reverse;
+            background-color: #fff;
+            &.focus{
+                border: 1px solid red;
+            }
+            .rdw-editor-wrapper{
+                margin: 10px 40px;
+                display: flex;
+                flex-direction: column-reverse;
+                .rdw-editor-toolbar{
+                    background-color: var(--background_tool);
+                    .rdw-option-wrapper{
+                        background-color: var(--background_tool);
+                        border: none;
+                        &.rdw-option-active{
+                            background: var(--background_tool)
+                        }
+                    }
+                    .rdw-dropdown-wrapper{
+                        background-color: var(--background_tool);
+                    }
+                }
+                .rdw-editor-main{
+                    .public-DraftStyleDefault-ltr{
+                        min-height: 100px;
+                        margin: 4px;
+                    }
+                }
+                
+            }
+            .btnComment{
+                width: fit-content;
+                margin-left: auto;
+                margin-right: 40px;
+            }
+        }
+        
+    }
+}

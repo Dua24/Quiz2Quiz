@@ -1,12 +1,12 @@
-import "./Content.scss"
-import { useState } from "react"
-import Trending from "./Trending/Trending"
-import SubPosts from "./Posts/SubPosts"
-import FilterPost from "./Posts/FilterPost"
-import Posts from "./Posts/Posts"
-import video from '../../assets/video/video.mp4'
-import { useImmer } from "use-immer";
-const Content = () => {
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import video from '../../../assets/video/video.mp4'
+import "./DetailPost.scss"
+import "../../Content/Content.scss"
+import PostItem from "../Posts/PostItem"
+import _ from 'lodash'
+import EditorPost from "./Editor"
+const DetailPost = () => {
     const data = [
         {
             id: 1,
@@ -39,7 +39,7 @@ const Content = () => {
             name: 'r/AskReddit3',
             info: 'u/purple_rasberries3',
             post_time: '3 days',
-            post_detail: 'Choi game khog???',
+            post_detail: 'What video game have you played the most?',
             vid_detail: video,
             numComment: 72,
             type: 'vid'
@@ -83,27 +83,27 @@ const Content = () => {
             type: 'img'
         },
     ]
-    const [posts, setPosts] = useImmer(data)
+    const { id } = useParams()
+    const [dataPost, setDataPost] = useState(data.find(post => {
+        return post.id === +id
+    }))
+    useEffect(() => {
+        if (_.isEmpty(dataPost)) return <div>loading...</div>
+    }, [])
+
     return (
-
-        <div className="content-container">
-            <div className="header-content">
-                <Trending />
+        <div className="contain_DetailPost">
+            <div className="main_detail">
+                <PostItem post={dataPost} />
+                <EditorPost />
             </div>
-            <div className="body-content">
-
-                <div className="posts">
-                    <div className="main-posts">
-                        <FilterPost posts={posts} setPosts={setPosts} />
-                        <Posts posts={posts} setPosts={setPosts} />
-                    </div>
-                    <div className="sub-posts">
-                        <SubPosts />
-                    </div>
-                </div>
+            <div className="side">
+                <div className="side1">12</div>
+                <div className="side2">35</div>
             </div>
         </div>
     )
 }
 
-export default Content
+
+export default DetailPost

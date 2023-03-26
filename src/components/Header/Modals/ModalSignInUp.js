@@ -4,40 +4,105 @@ import { FcGoogle } from 'react-icons/fc'
 import { BsApple } from 'react-icons/bs'
 import PriButton from '../../Button/PriButton';
 import { version } from 'react-dom';
+import { type } from '@testing-library/user-event/dist/type';
 const ModalSignInUp = (props) => {
     const { show, setShow } = props
     const [isVerified, setIsVerified] = useState(false)
     const [verifiedInput, setVerifiedInput] = useState(false)
     const [email, setEmail] = useState("")
+    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [typeModal, setTypeModal] = useState("login")
+    const [disabledBtn, setDisabledBtn] = useState(true)
 
+
+    useEffect(() => {
+        handleDisableButton()
+    }, [username, password, email])
 
     const handleCloseModal = () => {
         setShow(false)
         setEmail('')
+        setUsername('')
         setPassword('')
         setVerifiedInput(false)
         setIsVerified(false)
     }
-
     const handleOnChangeInput = (e) => {
-        if (e.target.name === 'email') {
-            setEmail(e.target.value)
-            handleVerifyInput(e.target.value)
+        if (typeModal === 'login') {
+            if (e.target.name === 'username') {
+                setUsername(e.target.value)
+                handleVerifyInput(e.target.value)
+            }
+            if (e.target.name === 'password') {
+                e.target.type = 'password'
+                setPassword(e.target.value)
+            }
+        } else if (typeModal === 'continue') {
+            if (e.target.name === 'email') {
+                setEmail(e.target.value)
+            }
+        } else if (typeModal === 'signup') {
+            if (e.target.name === 'username') {
+                setUsername(e.target.value)
+                handleVerifyInput(e.target.value)
+            }
+            if (e.target.name === 'password') {
+                e.target.type = 'password'
+                setPassword(e.target.value)
+            }
+
+
         }
-        if (e.target.name === 'password') {
-            e.target.type = 'password'
-            setPassword(e.target.value)
-        }
+
     }
 
     const handleVerifyInput = (value) => {
         setIsVerified(true)
         if (isVerified) {
-            if (value && value.length >= 3 && value.length <= 20) {
+            if (value && value.length >= 3 && value.length < 20) {
                 setVerifiedInput(true)
+
             } else {
                 setVerifiedInput(false)
+            }
+        }
+    }
+
+
+    const handleChangeTypeModal = () => {
+        setEmail('')
+        setUsername('')
+        setPassword('')
+        setIsVerified(false)
+        setVerifiedInput(false)
+        if (typeModal === "login") {
+            setTypeModal('continue')
+        } else if (typeModal === "continue" || typeModal === "signup") {
+            setTypeModal('login')
+        }
+    }
+
+    const handleDisableButton = () => {
+        if (typeModal === "login") {
+            if (verifiedInput && password.length > 0) {
+                setDisabledBtn(false)
+            } else {
+                setDisabledBtn(true)
+            }
+        } else if (typeModal === "continue") {
+            if (email.length > 0) {
+                setDisabledBtn(false)
+
+            } else {
+                setDisabledBtn(true)
+
+            }
+        } else if (typeModal === 'signup') {
+            if (verifiedInput && password.length > 0) {
+                setDisabledBtn(false)
+            } else {
+                setDisabledBtn(true)
             }
         }
     }
@@ -61,6 +126,24 @@ const ModalSignInUp = (props) => {
         }
 
     }
+    const handleSubmit = () => {
+        if (typeModal === "login") {
+            setDisabledBtn(true)
+            console.log(
+                {
+                    username,
+                    password
+                }
+            )
+        } else if (typeModal === "continue") {
+            setDisabledBtn(true)
+            setTypeModal("signup")
+            console.log(email)
+        } else if (typeModal === "signup") {
+            setDisabledBtn(true)
+        }
+
+    }
 
     return (
         <Modal
@@ -71,63 +154,139 @@ const ModalSignInUp = (props) => {
             <Modal.Header closeButton>
             </Modal.Header>
             <Modal.Body>
+
                 <div className="header">
-                    <h2>Log in</h2>
-                    <p>By continuing, you agree are setting up a Reddit account
-                        and agree to our
-                        <a href="https://www.redditinc.com/policies/user-agreement"> User Agreement </a>
-                        and
-                        <a href="https://www.reddit.com/policies/privacy-policy"> Privacy Policy </a>.
-                    </p>
+                    {typeModal !== 'signup' ?
+                        <>
+                            <h2> {typeModal === 'login' ? 'Log in' : 'Sign up'}</h2>
+                            <p>By continuing, you agree are setting up a Reddit account
+                                and agree to our
+                                <a href="https://www.redditinc.com/policies/user-agreement"> User Agreement </a>
+                                and
+                                <a href="https://www.reddit.com/policies/privacy-policy"> Privacy Policy </a>.
+                            </p>
+                        </>
+                        :
+                        <>
+                            <h2>Choose your username</h2>
+                            <p>Your username is how other community members will see you. This name will be used to credit you for things you share on Reddit. What should we call you?</p>
+                        </>
+                    }
+
                 </div>
                 <form>
-                    <div className="sso">
-                        <div className="sso-btn">
-                            <FcGoogle className="icon" />
-                            <span>Continue with Google</span>
+                    {typeModal !== 'signup' &&
+                        <div className="sso">
+                            <div className="sso-btn">
+                                <FcGoogle className="icon" />
+                                <span>Continue with Google</span>
+                            </div>
+                            <div className="sso-btn">
+                                <BsApple className="icon" />
+                                <span>Continue with Apple</span>
+                            </div>
+                            <div className="divide">
+                                <span className="line"></span>
+                                <span className="text">or</span>
+                                <span className="line"></span>
+                            </div>
                         </div>
-                        <div className="sso-btn">
-                            <BsApple className="icon" />
-                            <span>Continue with Apple</span>
-                        </div>
-                        <div className="divide">
-                            <span className="line"></span>
-                            <span className="text">or</span>
-                            <span className="line"></span>
-                        </div>
-                    </div>
-                    <div className='form-floating mb-3 '>
-                        <input
-                            type='text'
-                            className={`form-control ${setClassNameVerified()}`}
-                            name="email"
-                            value={email}
-                            onChange={(e) => handleOnChangeInput(e)}
+                    }
 
-                        />
-                        <label>Username</label>
-                        {textNoVerified()}
 
-                    </div>
-                    <div className="form-floating">
-                        <input
-                            type="text"
-                            className="form-control"
-                            autoComplete="off"
-                            name="password"
-                            value={password}
-                            onChange={(e) => handleOnChangeInput(e)}
-                        />
-                        <label>Password</label>
-                    </div>
+                    {typeModal === "login" &&
+                        <>
+                            <div className='form-floating mb-3 '>
+                                <input
+                                    spellCheck={false}
+                                    type='text'
+                                    className={`form-control ${setClassNameVerified()}`}
+                                    name="username"
+                                    value={username}
+                                    onChange={(e) => handleOnChangeInput(e)}
+
+                                />
+                                <label>Username</label>
+                                {textNoVerified()}
+
+                            </div>
+                            <div className="form-floating">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    autoComplete="off"
+                                    name="password"
+                                    value={password}
+                                    onChange={(e) => handleOnChangeInput(e)}
+                                />
+                                <label>Password</label>
+                            </div>
+                        </>
+                    }
+                    {typeModal === "continue" &&
+                        <div className='form-floating mb-3 '>
+                            <input
+                                spellCheck={false}
+                                type='text'
+                                className={`form-control `}
+                                name="email"
+                                value={email}
+                                onChange={(e) => handleOnChangeInput(e)}
+
+                            />
+                            <label>Email</label>
+                        </div>}
+
+                    {typeModal === "signup" &&
+                        <>
+                            <div className='form-floating mb-3 '>
+                                <input
+                                    spellCheck={false}
+                                    type='text'
+                                    className={`form-control ${setClassNameVerified()}`}
+                                    name="username"
+                                    value={username}
+                                    onChange={(e) => handleOnChangeInput(e)}
+
+                                />
+                                <label>Choose a username</label>
+                                {textNoVerified()}
+
+                            </div>
+                            <div className="form-floating">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    autoComplete="off"
+                                    name="password"
+                                    value={password}
+                                    onChange={(e) => handleOnChangeInput(e)}
+                                />
+                                <label>Password</label>
+                            </div>
+                        </>
+                    }
                     <div className="forgot_info">
-                        Forget your <span>username</span> or <span>password</span> ?
+                        {typeModal === 'login' && <div>Forget your <span>username</span> or <span>password</span> ?</div>}
                     </div>
-                    <div className="btn_submit">
-                        <PriButton type="signinup" text='log in' />
-                    </div>
+                    {typeModal === "login" ?
+                        <div className="btn_submit" onClick={handleSubmit}>
+                            <PriButton disabled={disabledBtn} type="signinup" text={typeModal === "login" ? 'Log in' : "Continue"} />
+                        </div>
+                        :
+                        <div className="btn_submit" onClick={handleSubmit}>
+                            <PriButton disabled={disabledBtn} type="signinup" text={typeModal === "continue" ? 'Continue' : "Sign up"} />
+                        </div>
+                    }
+
+
                     <div className="bottomText">
-                        New to RedRed?<span> Sign Up </span>
+                        {typeModal === 'login' ?
+                            <div>New to RedRed?<span onClick={handleChangeTypeModal}> Sign Up </span></div>
+                            :
+                            <div>Already a redditor? <span onClick={handleChangeTypeModal}> Log in </span></div>
+                        }
+
                     </div>
                 </form>
             </Modal.Body>

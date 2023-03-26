@@ -76,7 +76,7 @@ const SubPosts = () => {
                         <AccordionDetails className="accor_detail">
                             {item.detail && item.detail.length > 0 && item.detail.map((detail, indexDetail) => {
                                 return (
-                                    <Typography ky={indexDetail}>
+                                    <Typography key={indexDetail}>
                                         <a className="detail_item">{detail}</a>
                                     </Typography>
                                 )

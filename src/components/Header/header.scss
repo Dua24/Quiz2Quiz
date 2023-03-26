@@ -107,6 +107,9 @@
    
    
 }
+.modal-backdrop{
+    z-index: 200;
+}
 .modalSignInUp{
     .modal-dialog{
         max-width: 400px;

@@ -38,7 +38,7 @@ export default (props) => {
         }))
     });
     return (
-        <ColorButton variant="contained">
+        <ColorButton disabled={props.disabled} variant="contained">
             {props.icons && <span style={{ marginRight: '8px' }}>{props.icons}</span>}
             {props.text}
         </ColorButton>

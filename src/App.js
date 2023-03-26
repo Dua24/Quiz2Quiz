@@ -2,6 +2,7 @@ import './App.scss';
 import { Outlet } from 'react-router-dom';
 import Header from './components/Header/Header';
 import SideBar from './components/Sidebar/Sidebar';
+import ScrollButton from './components/Button/Back2Top';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         </div>
         <div className="main-content" style={{ textAlign: 'left' }}>
           <Outlet />
+          <ScrollButton />
         </div>
       </div>
     </div>
