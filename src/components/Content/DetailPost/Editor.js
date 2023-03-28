@@ -26,6 +26,9 @@ const EditorPost = () => {
     return (
         <div className="containEditor" onClick={handleFocus}>
             <Editor
+                onBlur={() => {
+                    ref.current.wrapper.style = "border: unset"
+                }}
                 ref={ref}
                 editorState={editorState}
                 onEditorStateChange={setEditorState}

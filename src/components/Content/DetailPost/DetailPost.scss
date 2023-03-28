@@ -15,6 +15,142 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            .subPost{
+            background-color: #fff;
+            .containEditor{
+                padding-top: 30px;
+                display: flex;
+                flex-direction: column-reverse;
+                &.focus{
+                    border: 1px solid red;
+                }
+                .rdw-editor-wrapper{
+                    margin: 10px 40px;
+                    display: flex;
+                    flex-direction: column-reverse;
+                    .rdw-editor-toolbar{
+                        background-color: var(--background_tool);
+                        .rdw-option-wrapper{
+                            background-color: var(--background_tool);
+                            border: none;
+                            &.rdw-option-active{
+                                background: var(--background_tool)
+                            }
+                        }
+                        .rdw-dropdown-wrapper{
+                            background-color: var(--background_tool);
+                        }
+                    }
+                    .rdw-editor-main{
+                        .public-DraftStyleDefault-ltr{
+                            min-height: 100px;
+                            margin: 4px;
+                        }
+                    }
+                    
+                }
+                .btnComment{
+                    width: fit-content;
+                    margin-left: auto;
+                    margin-right: 40px;
+                }
+            }
+            .comments-container{
+                .contain_fcmt{
+                    position: relative;
+                    margin-top: 10px;
+                    margin-bottom: 20px;
+                    &:last-child{
+                        margin-bottom: 40px;
+                    }
+                    &.lv2{
+                        margin-left: 40px;
+                        &:last-child{
+                            margin-bottom: 40px;
+                        }
+                    }
+                    .line_level{
+                        width: 1px;
+                        background: #aea1a12e;
+                        position: absolute;
+                        top: calc(38px + 8px) ;
+                        left: 19px;
+                        height: -webkit-fill-available;
+                    }
+                    .f_cmt{
+                        display: flex;
+                        gap: 7px;
+                        margin-bottom: 10px;
+                        .f_cmter{
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            img{
+                                height:38px;
+                                border-radius: 100px;
+                            }
+                           
+                        }
+                        .f-cmt_content{
+                            display: flex;
+                            flex-direction: column;
+                            gap: 7px;
+                            .info{
+                                .header_post{
+                                    display: flex;
+                                    align-items: center;
+                                    .g2{
+                                        display: flex;
+                                        font-size: 12px;
+                                        color: #7c7c7c;
+                                        span{
+                                            margin: 0 2px;
+                                        }
+                                        .name{
+                                            font-weight: 700;
+                                            line-height: 16px;
+                                            color: #000;
+                                            display: inline;
+                                            line-height: 20px;
+                                            text-decoration: none;
+                                            vertical-align: baseline;
+                                        }
+                                        .dot{
+                                            font-size: 6px;
+                                            line-height: 20px;
+                                            margin-left: 4px;
+                                            margin-right: 4px;
+                                        }
+                                    }
+                                  
+                                }
+                            }
+                            .actions{
+                                display: flex;
+                                align-items: center;
+                                gap:20px;
+                                .rate{
+                                    display: flex;
+                                    flex-direction: row;
+                                    align-items: center;
+                                    gap: 7px;
+                                    
+                                }
+                                span{
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 5px;
+                                }
+                            }
+                        }
+                    }
+
+
+                }
+                
+               
+            }
+            }
         }
         .side{
             width: 320px;
@@ -30,45 +166,7 @@
                 background: #fff;
             }
         }
-        .containEditor{
-            padding-top: 30px;
-            display: flex;
-            flex-direction: column-reverse;
-            background-color: #fff;
-            &.focus{
-                border: 1px solid red;
-            }
-            .rdw-editor-wrapper{
-                margin: 10px 40px;
-                display: flex;
-                flex-direction: column-reverse;
-                .rdw-editor-toolbar{
-                    background-color: var(--background_tool);
-                    .rdw-option-wrapper{
-                        background-color: var(--background_tool);
-                        border: none;
-                        &.rdw-option-active{
-                            background: var(--background_tool)
-                        }
-                    }
-                    .rdw-dropdown-wrapper{
-                        background-color: var(--background_tool);
-                    }
-                }
-                .rdw-editor-main{
-                    .public-DraftStyleDefault-ltr{
-                        min-height: 100px;
-                        margin: 4px;
-                    }
-                }
-                
-            }
-            .btnComment{
-                width: fit-content;
-                margin-left: auto;
-                margin-right: 40px;
-            }
-        }
+        
         
     }
 }

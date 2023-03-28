@@ -8,12 +8,13 @@ const Posts = (props) => {
         <>
             {posts && posts.length > 0 && posts.map((post, i) => {
                 return (
-                    <PostItem
-                        key={i}
-                        post={post}
-                        setPosts={setPosts}
-                        i={i}
-                    />
+                    <div key={i}>
+                        <PostItem
+                            post={post}
+                            setPosts={setPosts}
+                        />
+                    </div>
+
                 )
             })}
         </>

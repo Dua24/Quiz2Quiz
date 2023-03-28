@@ -1,86 +1,28 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { RxThickArrowDown, RxThickArrowUp } from 'react-icons/rx'
 import PriButton from '../../Button/PriButton'
 import { TfiComments } from 'react-icons/tfi'
 import { RiShareForwardLine } from 'react-icons/ri'
 import { CiSaveDown2 } from 'react-icons/ci'
-import { useState } from "react"
 import "./PostItem.scss"
+import Rate from "../Rate"
 const PostItem = (props) => {
     const navigate = useNavigate()
-    const { post, i, setPosts } = props
-    const [isLike, setIsLike] = useState(false)
-    const [isDislike, setIsDislike] = useState(false)
-
+    const { post, setPosts } = props
     const { id } = useParams()
 
-    const handleLikeCount = (type, id) => {
-        setPosts(draft => {
-            const p = draft.find((p) => { return p.id === id })
-            if (!p['EvaluateType']) {
-                if (type === 'like') {
-                    p.num_Evaluate += 1
-                    p['EvaluateType'] = 'like'
-                    setIsLike(true)
-                    setIsDislike(false)
-                } else {
-                    p.num_Evaluate -= 1
-                    p['EvaluateType'] = 'dislike'
-                    setIsDislike(true)
-                    setIsLike(false)
 
-                }
-            } else {
-                if (type === 'like') {
-                    if (!isLike) {
-                        p.num_Evaluate += 2
-                        p['EvaluateType'] = 'like'
-                        setIsLike(true)
-                        setIsDislike(false)
-                    }
-                } else if (type === "dislike") {
-                    if (!isDislike) {
-                        p.num_Evaluate -= 2
-                        p['EvaluateType'] = 'dislike'
-                        setIsDislike(true)
-                        setIsLike(false)
-                    }
-                }
-            }
-
-        })
-
-    }
-    const handleActiveClassEvaluate = (type, evaluated) => {
-        if (evaluated === type) {
-            return 'active'
-        } else {
-            return ''
-        }
-    }
     return (
         <div
             className="contain-posts"
-            key={i}
+            key={post.id}
 
         >
             <div className="post_item">
-                <div className="rate">
-                    <span
-                        onClick={() => handleLikeCount('like', post.id)}
-                        className={`like ${handleActiveClassEvaluate('like', post.EvaluateType)}`}
-                    >
-                        <RxThickArrowUp />
-                    </span>
-                    <span className="num_Evaluate">{post.num_Evaluate}</span>
-                    <span
-                        className={`dislike ${handleActiveClassEvaluate('dislike', post.EvaluateType)}`}
-                        onClick={() => handleLikeCount('dislike', post.id)}
-
-                    >
-                        <RxThickArrowDown />
-                    </span>
-                </div>
+                <Rate
+                    setPosts={setPosts}
+                    post={post}
+                    type="post"
+                />
                 <div
                     className="content_post"
                     onClick={() => navigate(`/posts/${post.id}`)}

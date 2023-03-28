@@ -6,6 +6,8 @@ import "../../Content/Content.scss"
 import PostItem from "../Posts/PostItem"
 import _ from 'lodash'
 import EditorPost from "./Editor"
+import Comments from "./Comments"
+import { useImmer } from "use-immer"
 const DetailPost = () => {
     const data = [
         {
@@ -84,18 +86,22 @@ const DetailPost = () => {
         },
     ]
     const { id } = useParams()
-    const [dataPost, setDataPost] = useState(data.find(post => {
-        return post.id === +id
-    }))
-    useEffect(() => {
-        if (_.isEmpty(dataPost)) return <div>loading...</div>
-    }, [])
+    const [posts, setPosts] = useImmer(data)
+    const post = posts.find(postt => {
+        return postt.id === +id
+    })
+
+
+
 
     return (
         <div className="contain_DetailPost">
             <div className="main_detail">
-                <PostItem post={dataPost} />
-                <EditorPost />
+                <PostItem post={post ? post : {}} setPosts={setPosts} />
+                <div className="subPost">
+                    <EditorPost />
+                    <Comments />
+                </div>
             </div>
             <div className="side">
                 <div className="side1">12</div>
