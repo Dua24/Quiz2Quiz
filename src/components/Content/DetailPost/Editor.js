@@ -20,7 +20,7 @@ const EditorPost = () => {
     }, [editorState.getCurrentContent().getPlainText()])
 
     const handleFocus = () => {
-        ref.current.wrapper.style = "border: 1px solid #ccc"
+        ref.current.wrapper.style = "border: 1px solid #0b0b0b75"
     }
 
     return (
@@ -44,6 +44,7 @@ const EditorPost = () => {
                         { text: 'Golang', value: 'golang', url: 'go' },
                     ],
                 }}
+                placeholder="DUY NGUYEN ASK: What are your thoughts???"
             />
             <div className="btnComment">
                 <PriButton disabled={isDisableBtnCmt} type="pri" text="Comment" />

@@ -10,7 +10,6 @@
         padding-top: 20px;
         .main_detail{
             width: 850px;
-            height: 1000px;
             background: #a4aab0;
             display: flex;
             flex-direction: column;
@@ -25,11 +24,13 @@
                     border: 1px solid red;
                 }
                 .rdw-editor-wrapper{
+                    border: 1px solid #cccccc75;
                     margin: 10px 40px;
                     display: flex;
                     flex-direction: column-reverse;
                     .rdw-editor-toolbar{
                         background-color: var(--background_tool);
+                        margin-bottom: 0;
                         .rdw-option-wrapper{
                             background-color: var(--background_tool);
                             border: none;
@@ -42,6 +43,7 @@
                         }
                     }
                     .rdw-editor-main{
+                        padding-left: 8px;
                         .public-DraftStyleDefault-ltr{
                             min-height: 100px;
                             margin: 4px;
@@ -59,14 +61,36 @@
                 .contain_fcmt{
                     position: relative;
                     margin-top: 10px;
-                    margin-bottom: 20px;
+                    margin-bottom: 28px;
+
+                    .moreCmts{
+                        font-size: 12px;
+                        font-weight: 700;
+                        line-height: 16px;
+                        border-radius: 4px;
+                        border: 1px solid transparent;
+                        color: #ffd635;
+                        cursor: pointer;
+                        height: 24px;
+                        margin-left:40px;
+                        padding-left: 4px;
+                        &:hover{
+                            text-decoration: underline;
+                        }
+                    }
                     &:last-child{
                         margin-bottom: 40px;
                     }
-                    &.lv2{
+                    .lv2{
                         margin-left: 40px;
-                        &:last-child{
-                            margin-bottom: 40px;
+                        &:last-of-type{
+                            margin-bottom: 10px ;
+                        }
+                        .lv3{
+                            margin-left: 40px;
+                            &:last-of-type{
+                                margin-bottom: 10px;
+                        }
                         }
                     }
                     .line_level{
@@ -80,7 +104,6 @@
                     .f_cmt{
                         display: flex;
                         gap: 7px;
-                        margin-bottom: 10px;
                         .f_cmter{
                             display: flex;
                             flex-direction: column;
