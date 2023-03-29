@@ -16,7 +16,7 @@ const Comments = () => {
             imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
             name: 'r/AskReddit1',
             cmt_time: '7 seconds',
-            cmt_detail: 'What video game have you played the most?',
+            cmt_detail: 'What video game have you played a most?',
             reply: {
                 11: {
                     id: 11,
