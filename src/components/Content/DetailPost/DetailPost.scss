@@ -16,6 +16,7 @@
             gap: 10px;
             .subPost{
             background-color: #fff;
+            
             .containEditor{
                 padding-top: 30px;
                 display: flex;
@@ -157,7 +158,28 @@
                                     flex-direction: row;
                                     align-items: center;
                                     gap: 7px;
-                                    
+                                    .like{
+                                        &:hover{
+                                            background-color: #ccc
+                                        }
+                                        &.active{
+                                            color: #FF4500;
+                                            &:hover{
+                                                background-color: unset
+                                            }
+                                        }
+                                    }
+                                    .dislike{
+                                        &:hover{
+                                            background-color: #ccc
+                                        }
+                                        &.active{
+                                            color: #7193ff;
+                                            &:hover{
+                                                background-color: unset
+                                            }
+                                        }
+                                    }
                                 }
                                 span{
                                     display: flex;
