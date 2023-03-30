@@ -6,7 +6,9 @@ import { BrowserRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './redux/store';
 import Layout from './Layout';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import 'react-quill/dist/quill.snow.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
@@ -15,6 +17,19 @@ root.render(
     <BrowserRouter>
       <Layout />
     </BrowserRouter>
+    <ToastContainer
+      position="top-right"
+      autoClose={500}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable
+      pauseOnHover={false}
+      theme="light"
+    />
+    <ToastContainer />
     {/* </React.StrictMode> */}
   </Provider>
 );

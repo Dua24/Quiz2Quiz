@@ -3,6 +3,15 @@
     --background_tool:#cccccc40;
 }
 .content{
+    .quill {
+        margin: 9px 44px;
+        .ql-toolbar{
+            background-color: #eaecec
+        }
+        .ql-container{
+            min-height: 100px;
+        }
+    }
     .contain_DetailPost{
         display: flex;
         justify-content: center;
@@ -24,34 +33,7 @@
                 &.focus{
                     border: 1px solid red;
                 }
-                .rdw-editor-wrapper{
-                    border: 1px solid #cccccc75;
-                    margin: 10px 40px;
-                    display: flex;
-                    flex-direction: column-reverse;
-                    .rdw-editor-toolbar{
-                        background-color: var(--background_tool);
-                        margin-bottom: 0;
-                        .rdw-option-wrapper{
-                            background-color: var(--background_tool);
-                            border: none;
-                            &.rdw-option-active{
-                                background: var(--background_tool)
-                            }
-                        }
-                        .rdw-dropdown-wrapper{
-                            background-color: var(--background_tool);
-                        }
-                    }
-                    .rdw-editor-main{
-                        padding-left: 8px;
-                        .public-DraftStyleDefault-ltr{
-                            min-height: 100px;
-                            margin: 4px;
-                        }
-                    }
-                    
-                }
+                
                 .btnComment{
                     width: fit-content;
                     margin-left: auto;
@@ -191,6 +173,15 @@
                     }
 
 
+                }
+                .quill{
+                    border: 1px solid #383232;
+                    border-top-right-radius: 15px;
+                    border-top-left-radius: 15px;
+                    .ql-toolbar{
+                        border-top-right-radius: 15px;
+                        border-top-left-radius: 15px;
+                    }
                 }
                 
                
