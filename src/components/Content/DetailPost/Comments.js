@@ -2,7 +2,7 @@ import { useImmer } from "use-immer"
 import Rate from "../Rate"
 import "./DetailPost.scss"
 import { BiMessage } from 'react-icons/bi'
-import { BsThreeDots } from 'react-icons/bs'
+import { BsThreeDots, BsTrash3 } from 'react-icons/bs'
 import { useState, useRef } from "react"
 import "../Posts/PostItem.scss"
 import _ from 'lodash'
@@ -10,7 +10,6 @@ import ReactQuill from 'react-quill';
 import PriButton from "../../Button/PriButton"
 import { v4 as uuidv4 } from 'uuid'
 import { toast } from "react-toastify"
-
 const Comments = (props) => {
     const { comments, setComments, showCmtArea, handleShowReplyArea, setShowCmtArea } = props
     const [clickMoreCmts, setCLickMoreCmts] = useState(false)
@@ -21,21 +20,18 @@ const Comments = (props) => {
     const limitCmtObj = (objComments, idCmt) => {
         const limtiCmts = 2
         if (!clickMoreCmts) {
-            if (_.isObject(objComments) && !_.isEmpty(objComments)) {
-                if (_.size(objComments) <= limtiCmts) {
+            if (_.isArray(objComments) && !_.isEmpty(objComments)) {
+                if (objComments.length <= limtiCmts) {
                     return objComments
                 } else {
-                    return getFirstNObj(objComments, limtiCmts)
+                    return objComments.slice(0, limtiCmts)
                 }
             }
         } else {
             if (idCmt === currentRepClicked.idCmt) {
-                return Object.keys(comments[+idCmt].reply).slice(0).reduce((result, key) => {
-                    result[key] = objComments[key];
-                    return result;
-                }, {})
+                return objComments.slice(0)
             } else {
-                return getFirstNObj(objComments, limtiCmts)
+                return objComments.slice(0, limtiCmts)
             }
         }
     }
@@ -51,64 +47,54 @@ const Comments = (props) => {
             setCLickMoreCmts(false)
         }
     }
-    console.log(comments)
     const handleShowMoreCmt = (obj, id, idCmt) => {
-        if (!clickMoreCmts) {
-            return Object.keys(obj).length > 2 && +id === obj[Object.keys(obj)[1]].id
-                ?
-                <span
-                    className="moreCmts"
-                    onClick={() => handleClickShowHideCmts("show", idCmt)}
-                >
-                    {Object.keys(obj).length - 2}
-                    more replies
-                </span>
-                :
-                <></>
-        } else {
-            if (idCmt !== currentRepClicked.idCmt) {
-                return Object.keys(obj).length > 2 && +id === obj[Object.keys(obj)[1]].id
-                    ?
-                    <span
+        if (obj.length > 2) {
+            if (!clickMoreCmts) {
+                if (String(id) === String(obj[1].id)) {
+                    return <span
                         className="moreCmts"
                         onClick={() => handleClickShowHideCmts("show", idCmt)}
                     >
                         {Object.keys(obj).length - 2}
                         more replies
                     </span>
-                    :
-                    <></>
+                } else {
+                    return <></>
+                }
+
             } else {
-                return id === Object.keys(obj).pop()
-                    ?
-                    <span
+                if (idCmt === currentRepClicked.idCmt && String(id) === String(obj[obj.length - 1].id)) {
+                    return <span
                         className="moreCmts"
                         onClick={() => handleClickShowHideCmts("hide", idCmt)}
                     >
                         Hide replies
                     </span>
-                    :
-                    <></>
+                } else if (idCmt !== currentRepClicked.idCmt && String(id) === String(obj[1].id)) {
+                    return <span
+                        className="moreCmts"
+                        onClick={() => handleClickShowHideCmts("show", idCmt)}
+                    >
+                        {Object.keys(obj).length - 2}
+                        more replies
+                    </span>
+                } else {
+                    return <></>
+
+                }
             }
-
+        } else {
+            return <></>
         }
-    }
 
-    const getFirstNObj = (obj, n) => {
-        return Object.keys(obj) //get the keys out
-            .sort() //this will ensure consistent ordering of what you will get back. If you want something in non-aphabetical order, you will need to supply a custom sorting function
-            .slice(0, n) //get the first N
-            .reduce(function (memo, current) { //generate a new object out of them
-                memo[current] = obj[current]
-                return memo;
-            }, {})
-    }
 
+
+    }
 
     const handleReplyCmt = (idCmt, valueReply) => {
         const newIdReply = uuidv4()
         const newReply = {
-            id: 21,
+            id: newIdReply,
             num_Evaluate: 76,
             imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
             name: 'r/AskReddit1',
@@ -116,12 +102,26 @@ const Comments = (props) => {
             cmt_detail: valueReply,
         }
         setComments(draft => {
-            draft[idCmt].reply[newIdReply] = newReply
+            draft[idCmt].reply.push(newReply)
+
             setShowCmtArea('')
             setValue('')
             toast.success("Add reply comment successfully!!")
         })
     }
+
+    const handleDelete = (type, idReply, idCmt) => {
+
+        setComments(draft => {
+            if (type === "reply") {
+                const arr = draft[idCmt].reply.filter((item) => {
+                    return item.id !== idReply
+                })
+                draft[idCmt].reply = arr
+            }
+        })
+    }
+    console.log(comments)
     // const comment = {
     //     1: {
     //         id_cmt: 1,
@@ -194,6 +194,15 @@ const Comments = (props) => {
                                         onChange={setValue}
                                     />
                                     <span
+                                        onClick={() => setShowCmtArea('')}
+                                        style={{
+                                            position: 'absolute',
+                                            top: '5px',
+                                            right: ' 150px'
+                                        }}>
+                                        <PriButton type="spri" text="Close" />
+                                    </span>
+                                    <span
                                         onClick={() => handleReplyCmt(cmt.id, editorRef.current.editor.root.innerText)}
                                         style={{
                                             position: 'absolute',
@@ -202,15 +211,16 @@ const Comments = (props) => {
                                         }}>
                                         <PriButton type="pri" text="Post" />
                                     </span>
+
                                 </div>
                             }
                             <div className="contain_fcmt_lv2">
-                                {cmt.reply && Object.keys(cmt.reply).length > 0 && Object.entries(limitCmtObj(cmt.reply, idCmt)).map(([idReply1, reply]) => {
+                                {cmt.reply && cmt.reply.length > 0 && limitCmtObj(cmt.reply, idCmt).map((reply, idReply1) => {
                                     return (
                                         <div key={idReply1}>
                                             <div className="contain_fcmt lv2">
                                                 <div className="line_level"></div>
-                                                <div className="f_cmt" key={idReply1}>
+                                                <div className="f_cmt">
                                                     <div className="f_cmter">
                                                         <img src={reply.imgUser} />
                                                     </div>
@@ -228,7 +238,10 @@ const Comments = (props) => {
                                                             {reply.cmt_detail}
                                                         </div>
                                                         <div className="actions">
-                                                            <Rate post={cmt} setPosts={setComments} type="comment" idCmt={idCmt} idReply={idReply1} />
+                                                            <span onClick={() => handleDelete("reply", reply.id, cmt.id)}>
+                                                                <BsTrash3 />
+                                                                Delete
+                                                            </span>
                                                             <span>
                                                                 Share
                                                             </span>
@@ -240,7 +253,7 @@ const Comments = (props) => {
                                                 </div>
 
                                             </div>
-                                            {handleShowMoreCmt(cmt.reply, idReply1, idCmt)}
+                                            {handleShowMoreCmt(cmt.reply, reply.id, idCmt)}
                                         </div>
                                     )
                                 })}

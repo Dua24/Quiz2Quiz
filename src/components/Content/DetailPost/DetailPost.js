@@ -10,7 +10,9 @@ import Comments from "./Comments"
 import { useImmer } from "use-immer"
 import { v4 as uuidv4 } from 'uuid'
 import { toast } from 'react-toastify';
-
+import PriButton from "../../Button/PriButton"
+import { BiHomeSmile } from 'react-icons/bi'
+import { IoIosRadioButtonOff } from "react-icons/io";
 const DetailPost = () => {
     const data = [
         {
@@ -96,48 +98,44 @@ const DetailPost = () => {
             name: 'r/AskReddit1',
             cmt_time: '7 seconds',
             cmt_detail: 'What video game have you played a most?',
-            reply: {
-                11: {
+            reply: [
+                {
                     id: 11,
                     num_Evaluate: 76,
                     imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
                     name: 'r/AskReddit1',
                     cmt_time: '7 seconds',
                     cmt_detail: 'What video game have you played the most?1',
-                },
-                12: {
+                }, {
                     id: 12,
                     num_Evaluate: 76,
                     imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
                     name: 'r/AskReddit1',
                     cmt_time: '7 seconds',
                     cmt_detail: 'What video game have you played the most?2',
-                },
-                13: {
+                }, {
                     id: 13,
                     num_Evaluate: 76,
                     imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
                     name: 'r/AskReddit1',
                     cmt_time: '7 seconds',
                     cmt_detail: 'What video game have you played the most?3',
-                },
-                14: {
+                }, {
                     id: 14,
                     num_Evaluate: 76,
                     imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
                     name: 'r/AskReddit1',
                     cmt_time: '7 seconds',
                     cmt_detail: 'What video game have you played the most?4',
-                },
-                15: {
+                }, {
                     id: 15,
                     num_Evaluate: 76,
                     imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
                     name: 'r/AskReddit1',
                     cmt_time: '7 seconds',
                     cmt_detail: 'What video game have you played the most?5',
-                }
-            }
+                }]
+
         },
         2: {
             id: 2,
@@ -146,8 +144,8 @@ const DetailPost = () => {
             name: 'r/AskReddit1',
             cmt_time: '7 seconds',
             cmt_detail: 'What video game have you played the most?',
-            reply: {
-                21: {
+            reply: [
+                {
                     id: 21,
                     num_Evaluate: 76,
                     imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
@@ -155,33 +153,21 @@ const DetailPost = () => {
                     cmt_time: '7 seconds',
                     cmt_detail: 'What video game have you played the most?1',
                 },
-                22: {
+                {
                     id: 22,
                     num_Evaluate: 76,
                     imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
                     name: 'r/AskReddit1',
                     cmt_time: '7 seconds',
-                    cmt_detail: 'What video game have you played the most?2',
-
-                },
-                33: {
-                    id: 33,
+                    cmt_detail: 'What video game have you played the most?1',
+                }, {
+                    id: 23,
                     num_Evaluate: 76,
                     imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
                     name: 'r/AskReddit1',
                     cmt_time: '7 seconds',
-                    cmt_detail: 'What video game have you played the most?3',
-                },
-                44: {
-                    id: 44,
-                    num_Evaluate: 76,
-                    imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-                    name: 'r/AskReddit1',
-                    cmt_time: '7 seconds',
-                    cmt_detail: 'What video game have you played the most?4',
-
-                }
-            }
+                    cmt_detail: 'What video game have you played the most?1',
+                },]
         }
     }
     const { id } = useParams()
@@ -194,6 +180,10 @@ const DetailPost = () => {
         return postt.id === +id
     })
 
+    useEffect(() => {
+        // 👇️ scroll to top on page load
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }, []);
     const handleClickAddCmt = (value) => {
         const newIdCmt = uuidv4()
         const newCmt = {
@@ -203,6 +193,7 @@ const DetailPost = () => {
             name: 'r/AskReddit1',
             cmt_time: '7 seconds',
             cmt_detail: value,
+            reply: []
         }
         toast.success("Add comments successfully", {
             autoClose: 2000
@@ -216,7 +207,6 @@ const DetailPost = () => {
     const handleShowReplyArea = (idCmt) => {
         setShowCmtArea(idCmt)
     }
-
 
 
 
@@ -241,11 +231,48 @@ const DetailPost = () => {
                 </div>
             </div>
             <div className="side">
-                <div className="side1">12</div>
+                <div className="side1">
+                    <div className="text">About community</div>
+                    <div className="_info">
+                        <span className="g1">
+                            <img src={post.imgUser} />
+                        </span>
+                        <div className="g2">
+                            <span className="name">{post.name}</span>
+                        </div>
+                    </div>
+                    <div className="_descr">A place for pictures and photographs.</div>
+                    <div className="_timeCreated">
+                        <BiHomeSmile style={{ fontSize: '17px' }} />
+                        <span style={{ display: 'flex', gap: '4px' }}>
+                            Created
+                            <span className="date_detail">Jan 25, 2008</span>
+                        </span>
+                    </div>
+                    <div className="divide"></div>
+                    <div className="_socialRate">
+                        <div className="g1" >
+                            <span className="g1_detail" >29.9m</span>
+                            <span className="text" >Photographers</span>
+                        </div>
+                        <div className="g2" >
+                            <span className="g2_detail" >
+                                <IoIosRadioButtonOff className="offline" />
+                                25.6k
+                            </span>
+
+                            <span className='text'>Online</span>
+                        </div>
+                    </div>
+                    <div className="divide"></div>
+                    <div className="joinBtn">
+                        <PriButton type="pri" text="JOIN" />
+                    </div>
+                </div>
                 <div className="side2">35</div>
             </div>
 
-        </div>
+        </div >
     )
 }
 

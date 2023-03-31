@@ -8,7 +8,6 @@ import Rate from "../Rate"
 const PostItem = (props) => {
     const navigate = useNavigate()
     const { post, setPosts } = props
-    const { id } = useParams()
 
 
     return (

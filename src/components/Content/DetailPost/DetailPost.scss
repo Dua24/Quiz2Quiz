@@ -135,11 +135,15 @@
                                 display: flex;
                                 align-items: center;
                                 gap:20px;
+                                color:#8f8f8f;
                                 .rate{
                                     display: flex;
                                     flex-direction: row;
                                     align-items: center;
                                     gap: 7px;
+                                    .num_Evaluate{
+                                        color: #01030c;
+                                    }
                                     .like{
                                         &:hover{
                                             background-color: #ccc
@@ -167,6 +171,10 @@
                                     display: flex;
                                     align-items: center;
                                     gap: 5px;
+                                    &:hover{
+                                        cursor: pointer;
+                                        color: #150b0b;
+                                    }
                                 }
                             }
                         }
@@ -194,12 +202,114 @@
             flex-direction: column;
             gap: 15px;
             .side1{
-                height: 250px;
                 background: #fff;
+                padding: 12px;
+                .text{
+                    font-size: 14px;
+                    line-height: 18px;
+                    font-weight: 700;
+                    text-transform: none;
+                    margin-bottom:28px
+                }
+                ._info{
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-weight: 600;
+                    .g1{
+                        img{
+                            height: 54px;
+                            width: 54px;
+                            font-size: 54px;
+                            line-height: 54px;
+                            border-radius: 1000px;
+                            border: 1px solid #bebebe;
+                        }
+                    }
+                }
+                ._descr{
+                    font-size: 14px;
+                    line-height: 21px;
+                    font-weight: 400;
+                    margin: 14px 0
+                };
+                ._timeCreated{
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    color: #1b191991;
+                    font-weight: 500;
+                    font-size: 14px;
+                    .date_detail{
+                        display:  flex;
+                        gap: 5px
+                    }
+                }
+                ._socialRate{
+                    display: flex;
+                    gap: 70px;
+                    align-items: center;
+                    .g1{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 3px;
+                        .g1_detail{
+                            font-size: 16px;
+                            font-weight: 700
+                        }
+                        .text{
+                            font-size: 12px;
+                            font-weight: 500;
+                            color: #7c7c7c
+                        }
+                    }
+                    .g2{
+                            font-size: 16px;
+                            font-weight: 700;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 3px;
+                            .g2_detail{
+                                display: flex;
+                                align-items: center;
+                                gap: 4px;
+                                svg{
+                                    font-size: 8px;
+                                    border-radius: 1000px;
+                                    &.online{
+                                        background-color: #15f01e;
+                                        color: #15f01e;
+                                    }
+                                    &.offline{
+                                        background-color: #e01e1e;
+                                        color: #e01e1e;
+                                    }
+                                }
+                            }
+                            .text{
+                                font-size: 12px;
+                                font-weight: 500;
+                                color: #7c7c7c
+                            }
+                    }
+                }
+                .divide{
+                    background-color: rgba(26,26,27,0.07);
+                    border: none;
+                    height: 1px;
+                    margin: 16px 0;
+                }
+                .joinBtn{
+                    button{
+                        width: 100%;
+                    }
+                }
             }
             .side2{
                 height: 250px;
                 background: #fff;
+                padding: 12px;
             }
         }
         
