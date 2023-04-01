@@ -111,7 +111,6 @@ const Comments = (props) => {
     }
 
     const handleDelete = (type, idReply, idCmt) => {
-
         setComments(draft => {
             if (type === "reply") {
                 const arr = draft[idCmt].reply.filter((item) => {
@@ -121,7 +120,6 @@ const Comments = (props) => {
             }
         })
     }
-    console.log(comments)
     // const comment = {
     //     1: {
     //         id_cmt: 1,

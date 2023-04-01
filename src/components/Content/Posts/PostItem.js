@@ -5,10 +5,17 @@ import { RiShareForwardLine } from 'react-icons/ri'
 import { CiSaveDown2 } from 'react-icons/ci'
 import "./PostItem.scss"
 import Rate from "../Rate"
+import ModalSignInUp from "../../Header/Modals/ModalSignInUp"
+import { useState } from "react"
 const PostItem = (props) => {
     const navigate = useNavigate()
     const { post, setPosts } = props
-
+    const { id } = useParams
+    const [showModalSignInUp, setShowModalSignInUp] = useState(false)
+    const handleShowLoginModal = (e) => {
+        e.stopPropagation()
+        setShowModalSignInUp(true)
+    }
 
     return (
         <div
@@ -37,7 +44,13 @@ const PostItem = (props) => {
                             <span className="info">{post.info}</span>
                             <span className="post_time">{post.post_time} ago</span>
                         </div>
-                        <PriButton type="pri" text="Join" />
+                        {props.typeParent === "list" &&
+                            <span
+                                className="btnJoin"
+                                onClick={(e) => handleShowLoginModal(e)}
+                            >
+                                <PriButton type="pri" text="Join" />
+                            </span>}
                     </div>
                     <div className="body_post">
                         <div className="post_detail">
@@ -70,6 +83,7 @@ const PostItem = (props) => {
                     </div>
                 </div>
             </div>
+            <ModalSignInUp show={showModalSignInUp} setShow={setShowModalSignInUp} />
         </div>
     )
 }

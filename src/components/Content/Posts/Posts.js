@@ -12,6 +12,7 @@ const Posts = (props) => {
                         <PostItem
                             post={post}
                             setPosts={setPosts}
+                            typeParent="list"
                         />
                     </div>
 

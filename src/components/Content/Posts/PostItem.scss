@@ -4,8 +4,13 @@
     border-radius: 4px;
     padding-left: 40px;
     padding-top: 3px;
+    padding-bottom: 4px;
     background-color: #fff;
     max-height: 750px;
+    border: 2px solid #fff;
+    &:hover{
+        border-color: #b1b6cf;
+    }
     .post_item{
         position: relative;
         margin-top: 5px;
@@ -92,13 +97,16 @@
                     .info{
                     }
                 }
-                >button{
-                    min-width: 24px;
-                    max-width: 24px;
-                    font-size: 12px;
-                    text-transform: unset;
-                    padding: 4px 30px;
+                .btnJoin{
                     margin-left: auto;
+                    button{
+                        min-width: 24px;
+                        max-width: 24px;
+                        font-size: 12px;
+                        text-transform: unset;
+                        padding: 4px 30px;
+                    }
+                   
                 }
             }
            .body_post{
@@ -146,6 +154,14 @@
                     }
                 }
            }
+        }
+    }
+}
+
+.contain_DetailPost{
+    .contain-posts{
+        &:hover{
+            border-color: #fff
         }
     }
 }

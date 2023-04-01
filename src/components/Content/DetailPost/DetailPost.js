@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import video from '../../../assets/video/video.mp4'
 import "./DetailPost.scss"
 import "../../Content/Content.scss"
@@ -13,7 +13,11 @@ import { toast } from 'react-toastify';
 import PriButton from "../../Button/PriButton"
 import { BiHomeSmile } from 'react-icons/bi'
 import { IoIosRadioButtonOff } from "react-icons/io";
+import { TfiComments } from 'react-icons/tfi'
+import { FaArrowCircleLeft } from 'react-icons/fa'
+import ModalSignInUp from "../../Header/Modals/ModalSignInUp"
 const DetailPost = () => {
+    const navigate = useNavigate()
     const data = [
         {
             id: 1,
@@ -175,11 +179,15 @@ const DetailPost = () => {
     const [comments, setComments] = useImmer(dataComment)
     const [showCmtArea, setShowCmtArea] = useState(false)
     const [valueEditorCmt, setValueEditorCmt] = useState('');
-
+    const [currentPost, setCurrentPost] = useState(id)
     const post = posts.find(postt => {
         return postt.id === +id
     })
-
+    const [showModalSignInUp, setShowModalSignInUp] = useState(false)
+    const handleShowLoginModal = (e) => {
+        e.stopPropagation()
+        setShowModalSignInUp(true)
+    }
     useEffect(() => {
         // 👇️ scroll to top on page load
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -188,10 +196,10 @@ const DetailPost = () => {
         const newIdCmt = uuidv4()
         const newCmt = {
             id: newIdCmt,
-            num_Evaluate: 76,
+            num_Evaluate: 0,
             imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
             name: 'r/AskReddit1',
-            cmt_time: '7 seconds',
+            cmt_time: '1 seconds',
             cmt_detail: value,
             reply: []
         }
@@ -208,71 +216,129 @@ const DetailPost = () => {
         setShowCmtArea(idCmt)
     }
 
-
-
+    const handleNavigate = (postId) => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        navigate(`/posts/${postId}`)
+        setCurrentPost(postId)
+    }
     return (
-        <div className="contain_DetailPost">
-            <div className="main_detail">
-                <PostItem post={post ? post : {}} setPosts={setPosts} />
-                <div className="subPost">
-                    <EditorPost
-                        handleClickAddCmt={handleClickAddCmt}
-                        valueEditorCmt={valueEditorCmt}
-                        setValueEditorCmt={setValueEditorCmt}
-                    />
-                    <Comments
-                        dataComment={dataComment}
-                        comments={comments}
-                        setComments={setComments}
-                        handleShowReplyArea={handleShowReplyArea}
-                        showCmtArea={showCmtArea}
-                        setShowCmtArea={setShowCmtArea}
-                    />
-                </div>
+        <div className="container_detailPost_main">
+            <div className="seeAllPost" onClick={() => navigate("/")}>
+                <FaArrowCircleLeft />
+                See all posts
             </div>
-            <div className="side">
-                <div className="side1">
-                    <div className="text">About community</div>
-                    <div className="_info">
-                        <span className="g1">
-                            <img src={post.imgUser} />
-                        </span>
-                        <div className="g2">
-                            <span className="name">{post.name}</span>
-                        </div>
-                    </div>
-                    <div className="_descr">A place for pictures and photographs.</div>
-                    <div className="_timeCreated">
-                        <BiHomeSmile style={{ fontSize: '17px' }} />
-                        <span style={{ display: 'flex', gap: '4px' }}>
-                            Created
-                            <span className="date_detail">Jan 25, 2008</span>
-                        </span>
-                    </div>
-                    <div className="divide"></div>
-                    <div className="_socialRate">
-                        <div className="g1" >
-                            <span className="g1_detail" >29.9m</span>
-                            <span className="text" >Photographers</span>
-                        </div>
-                        <div className="g2" >
-                            <span className="g2_detail" >
-                                <IoIosRadioButtonOff className="offline" />
-                                25.6k
-                            </span>
-
-                            <span className='text'>Online</span>
-                        </div>
-                    </div>
-                    <div className="divide"></div>
-                    <div className="joinBtn">
-                        <PriButton type="pri" text="JOIN" />
+            <div className="contain_DetailPost">
+                <div className="main_detail">
+                    <PostItem post={post ? post : {}} setPosts={setPosts} typeParent="item" />
+                    <div className="subPost">
+                        <EditorPost
+                            handleClickAddCmt={handleClickAddCmt}
+                            valueEditorCmt={valueEditorCmt}
+                            setValueEditorCmt={setValueEditorCmt}
+                        />
+                        <Comments
+                            dataComment={dataComment}
+                            comments={comments}
+                            setComments={setComments}
+                            handleShowReplyArea={handleShowReplyArea}
+                            showCmtArea={showCmtArea}
+                            setShowCmtArea={setShowCmtArea}
+                        />
                     </div>
                 </div>
-                <div className="side2">35</div>
-            </div>
+                <div className="side">
+                    <div className="side1">
+                        <div className="text_slide">About community</div>
+                        <div className="contain_contentSlide1">
+                            <div className="_info">
+                                <span className="g1">
+                                    <img src={post.imgUser} />
+                                </span>
+                                <div className="g2">
+                                    <span className="name">{post.name}</span>
+                                </div>
+                            </div>
+                            <div className="_descr">A place for pictures and photographs.</div>
+                            <div className="_timeCreated">
+                                <BiHomeSmile style={{ fontSize: '17px' }} />
+                                <span style={{ display: 'flex', gap: '4px' }}>
+                                    Created
+                                    <span className="date_detail">Jan 25, 2008</span>
+                                </span>
+                            </div>
+                            <div className="divide"></div>
+                            <div className="_socialRate">
+                                <div className="g1" >
+                                    <span className="g1_detail" >29.9m</span>
+                                    <span className="text" >Photographers</span>
+                                </div>
+                                <div className="g2" >
+                                    <span className="g2_detail" >
+                                        <IoIosRadioButtonOff className="online" />
+                                        25.6k
+                                    </span>
 
-        </div >
+                                    <span className='text'>Online</span>
+                                </div>
+                            </div>
+                            <div className="divide"></div>
+                            <div className="joinBtn" onClick={(e) => handleShowLoginModal(e)}>
+                                <PriButton type="pri" text="JOIN" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="side2">
+                        <div className="text_slide">Similar to this post</div>
+                        <div className='contain_postSimilar'>
+                            {data && data.length > 0 && data.map((post, i) => {
+                                return (
+                                    <div
+                                        key={i}
+                                        className={`content_post ${String(currentPost) === String(post.id) && 'active'}`}
+                                        onClick={() => { handleNavigate(post.id) }}
+                                    >
+                                        <div className="header_post">
+                                            <span className="g1">
+                                                <img src={post.imgUser} />
+                                            </span>
+                                            <div className="g2">
+                                                <span className="name">{post.name}</span>
+                                            </div>
+                                            {String(id) === String(post.id) &&
+                                                <div className="current_post">Current</div>
+                                            }
+
+                                        </div>
+                                        <div className="body_post">
+                                            <div className="post_detail">
+                                                <h3>{post.post_detail}</h3>
+                                                {post.type === 'img' && <img src={post.img_detail} />}
+                                                {post.type === 'vid' && <video autoPlay muted loop controls>
+                                                    <source src={post.vid_detail} type="video/mp4" />
+                                                </video>}
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="footer_post">
+                                            <div className="item">
+                                                <TfiComments />
+                                                <span className="numComment text_after">{post.numComment}</span>
+                                                <span className="text_after">Comments</span>
+                                                <span className="post_time">{post.post_time} ago</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+
+            </div >
+            <ModalSignInUp show={showModalSignInUp} setShow={setShowModalSignInUp} />
+        </div>
     )
 }
 

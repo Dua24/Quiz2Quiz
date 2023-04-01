@@ -12,7 +12,7 @@ const Layout = () => {
     return (
         <Routes>
             <Route path="/" element={<App />}>
-                <Route path="/posts" element={<Content />} />
+                <Route path="/" element={<Content />} />
                 <Route path="/posts/:id" element={<DetailPost />} />
             </Route>
         </Routes>

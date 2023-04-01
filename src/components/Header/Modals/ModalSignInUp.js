@@ -6,7 +6,7 @@ import PriButton from '../../Button/PriButton';
 import { version } from 'react-dom';
 import { type } from '@testing-library/user-event/dist/type';
 const ModalSignInUp = (props) => {
-    const { show, setShow } = props
+    const { show, setShow, setIsAuthUser } = props
     const [isVerified, setIsVerified] = useState(false)
     const [verifiedInput, setVerifiedInput] = useState(false)
     const [email, setEmail] = useState("")
@@ -129,18 +129,16 @@ const ModalSignInUp = (props) => {
     const handleSubmit = () => {
         if (typeModal === "login") {
             setDisabledBtn(true)
-            console.log(
-                {
-                    username,
-                    password
-                }
-            )
+            setIsAuthUser(true)
+            setShow(false)
         } else if (typeModal === "continue") {
             setDisabledBtn(true)
             setTypeModal("signup")
             console.log(email)
         } else if (typeModal === "signup") {
             setDisabledBtn(true)
+            setIsAuthUser(true)
+            setShow(false)
         }
 
     }

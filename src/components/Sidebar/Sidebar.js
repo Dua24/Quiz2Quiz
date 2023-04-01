@@ -105,7 +105,7 @@ const SideBar = (props) => {
                     className="sidebar-btn-wrapper"
                 >
 
-                    <a href="https://github.com"><FaGithub />Duy Nguyen</a>
+                    <a href="https://github.com/Dua24/RedRed"><FaGithub />Duy Nguyen</a>
                 </div>
             </SidebarFooter>
         </ProSidebar >
