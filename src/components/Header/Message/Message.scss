@@ -196,7 +196,66 @@
             }
             &.started{
                 .boxchat{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: end;
+                    margin-bottom: 10px;
+                    background: #f6f7f8;
+                    height: 100%;
 
+                    .contain_messages{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 16px;
+                        margin-top: 12px;
+                        margin-bottom: 10px;
+                        max-height: 365px;
+                        overflow: auto;
+                        .owner{
+                            display: inline-flex;
+                            align-items: self-end;
+                            gap: 6px;
+                            margin-left: auto;
+                            margin-right: 8px;
+                            .msg{
+                                min-width: 40px;
+                                padding: 4px 12px;
+                                background: red;
+                                border-radius: 100px;
+                                display: inline-flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+                            .avt{
+                                img{
+                                    width: 22px;
+                                    border-radius: 100px;
+                                }
+                            }
+                        }
+                        .friend{
+                            display: inline-flex;
+                            align-items: self-end;
+                            gap: 6px;
+                            margin-right: auto;
+                            margin-left: 8px;
+                            .msg{
+                                min-width: 40px;
+                                padding: 4px 12px;
+                                background: rgba(0, 0, 255, 0.199);
+                                border-radius: 100px;
+                                display: inline-flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+                            .avt{
+                                img{
+                                    width: 24px;
+                                    border-radius: 100px;
+                                }
+                            }
+                        }
+                    }
                 }
                 .inputChat{
                     height: 46px;

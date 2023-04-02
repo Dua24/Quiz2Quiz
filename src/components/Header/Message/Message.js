@@ -108,6 +108,7 @@ const Message = (props) => {
             draft.splice(draft.findIndex(e => e.id === uf.id), 1);
         })
     }
+    console.log(dataUserFound)
     const handleAddNewChat = () => {
         setIsStartChat(false)
         setCurrentUserChatting('')
@@ -149,7 +150,81 @@ const Message = (props) => {
                         </div>
                     </div>
                     <div className="chat_container started">
-                        <div className="boxchat"></div>
+                        <div className="boxchat">
+                            <div className="contain_messages">
+                                <div className="owner">
+                                    <span className="msg">hi</span>
+                                    <span className="avt">
+                                        <img src={currentUserChatting.img} />
+                                    </span>
+                                </div>
+                                <div className="owner">
+                                    <span className="msg">hi2</span>
+                                    <span className="avt">
+                                        <img src={currentUserChatting.img} />
+                                    </span>
+                                </div>
+                                <div className="friend">
+                                    <span className="avt">
+                                        <img src={currentUserChatting.img} />
+                                    </span>
+                                    <span className="msg">hi2</span>
+                                </div>
+                                <div className="owner">
+                                    <span className="msg">hi2</span>
+                                    <span className="avt">
+                                        <img src={currentUserChatting.img} />
+                                    </span>
+                                </div>
+                                <div className="owner">
+                                    <span className="msg">hi</span>
+                                    <span className="avt">
+                                        <img src={currentUserChatting.img} />
+                                    </span>
+                                </div>
+                                <div className="owner">
+                                    <span className="msg">hi2</span>
+                                    <span className="avt">
+                                        <img src={currentUserChatting.img} />
+                                    </span>
+                                </div>
+                                <div className="friend">
+                                    <span className="avt">
+                                        <img src={currentUserChatting.img} />
+                                    </span>
+                                    <span className="msg">hi2</span>
+                                </div>
+                                <div className="owner">
+                                    <span className="msg">hi2</span>
+                                    <span className="avt">
+                                        <img src={currentUserChatting.img} />
+                                    </span>
+                                </div><div className="owner">
+                                    <span className="msg">hi</span>
+                                    <span className="avt">
+                                        <img src={currentUserChatting.img} />
+                                    </span>
+                                </div>
+                                <div className="owner">
+                                    <span className="msg">hi2</span>
+                                    <span className="avt">
+                                        <img src={currentUserChatting.img} />
+                                    </span>
+                                </div>
+                                <div className="friend">
+                                    <span className="avt">
+                                        <img src={currentUserChatting.img} />
+                                    </span>
+                                    <span className="msg">hi2</span>
+                                </div>
+                                <div className="owner">
+                                    <span className="msg">hi2</span>
+                                    <span className="avt">
+                                        <img src={currentUserChatting.img} />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                         <div className="inputChat">
                             <span className="camera">
                                 <FiCamera />
