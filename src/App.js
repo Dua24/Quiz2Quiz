@@ -16,7 +16,7 @@ const App = () => {
   return (
     <div className="App">
       <div className="header">
-        <Header setShowMessageBox={setShowMessageBox} />
+        <Header showMessageBox={showMessageBox} setShowMessageBox={setShowMessageBox} />
       </div>
       <div className="content ">
         <div className="sidebar">
@@ -25,7 +25,7 @@ const App = () => {
         <div className="main-content" style={{ textAlign: 'left' }}>
           <Outlet />
           <ScrollButton />
-          {showMessageBox && <Message showMessageBox={showMessageBox} setShowMessageBox={setShowMessageBox} />}
+          {<Message showMessageBox={showMessageBox} setShowMessageBox={setShowMessageBox} />}
 
         </div>
       </div>

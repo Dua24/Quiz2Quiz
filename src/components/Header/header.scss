@@ -24,6 +24,7 @@
                 font-size: 22px;
                 min-width: 40px;
                 &:hover{
+                    cursor: pointer;
                     background: #ccc;
 
                 }
@@ -37,6 +38,7 @@
                     align-items: center;
                     gap: 6px;
                     &:hover{
+                        cursor: pointer;
                         background: #ccc;
     
                     }
@@ -89,6 +91,7 @@
             padding: 0 15px;
             font-size: 14px;
             &:hover .MuiOutlinedInput-notchedOutline{
+                cursor: pointer;
                 border: 1px solid #1976d2;
             }
             .MuiOutlinedInput-notchedOutline{

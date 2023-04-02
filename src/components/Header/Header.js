@@ -20,7 +20,7 @@ import ModalSignInUp from "./Modals/ModalSignInUp";
 import { MdOutlineLanguage } from 'react-icons/md'
 import { CgProfile } from 'react-icons/cg'
 const Header = (props) => {
-    const { setShowMessageBox } = props
+    const { showMessageBox, setShowMessageBox } = props
     const [toggleModeDark, setToggleModeDark] = useState(false)
     const [showModalQR, setShowModalQR] = useState(false)
     const [showModalSignInUp, setShowModalSignInUp] = useState(false)
@@ -83,7 +83,7 @@ const Header = (props) => {
                             <>
                                 <div className="col-2"></div>
                                 <div className="col-4 contain_user_actions">
-                                    <span className="user_actions" onClick={() => setShowMessageBox(true)}>
+                                    <span className="user_actions" onClick={() => setShowMessageBox(!showMessageBox)}>
                                         <AiOutlineMessage />
                                     </span>
                                     <span className="user_actions">
