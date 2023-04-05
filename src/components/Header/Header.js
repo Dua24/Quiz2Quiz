@@ -19,13 +19,14 @@ import ModalQR from "./Modals/ModalQR";
 import ModalSignInUp from "./Modals/ModalSignInUp";
 import { MdOutlineLanguage } from 'react-icons/md'
 import { CgProfile } from 'react-icons/cg'
+import { useContext } from "react";
+import { AuthContext } from "../Context/Context";
 const Header = (props) => {
-    const { showMessageBox, setShowMessageBox } = props
+    const { showMessageBox, setShowMessageBox, setIsAuthUser } = props
     const [toggleModeDark, setToggleModeDark] = useState(false)
     const [showModalQR, setShowModalQR] = useState(false)
     const [showModalSignInUp, setShowModalSignInUp] = useState(false)
-
-    const [isAuthUser, setIsAuthUser] = useState(true)
+    const { isAuthUser } = useContext(AuthContext);
 
     return (
         <div className="header-container">
@@ -128,9 +129,9 @@ const Header = (props) => {
                                             </Dropdown.Item>
                                             <Dropdown.Divider />
 
-                                            <Dropdown.Item onClick={() => setShowModalSignInUp(true)}>
+                                            <Dropdown.Item onClick={() => setIsAuthUser(false)}>
                                                 <CiLogin className="iconDd" />
-                                                Log in / Sign up
+                                                Log out
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>

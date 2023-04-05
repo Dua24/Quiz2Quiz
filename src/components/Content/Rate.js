@@ -1,18 +1,21 @@
 import { RxThickArrowDown, RxThickArrowUp } from 'react-icons/rx'
 import { useState } from 'react'
 const Rate = (props) => {
-    const { setPosts, post, idCmt, idReply } = props
+    const { setPosts, post, idCmt, idReply, type, idPost } = props
     const [isLike, setIsLike] = useState(false)
     const [isDislike, setIsDislike] = useState(false)
-
     const handleLikeCount = (type, id) => {
         setPosts(draft => {
             let p
             if (props.type === 'post') {
                 p = draft.find((p) => { return p.id === id })
 
-            } else {
-                p = draft[idReply]
+            } else if (props.type === "comment") {
+                draft.forEach((e) => {
+                    if (String(e.id) === String(idPost)) {
+                        p = e.comments[idReply]
+                    }
+                })
             }
             if (!p['EvaluateType']) {
                 if (type === 'like') {

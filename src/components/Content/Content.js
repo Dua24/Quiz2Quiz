@@ -1,99 +1,89 @@
 import "./Content.scss"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import Trending from "./Trending/Trending"
 import SubPosts from "./Posts/SubPosts"
 import FilterPost from "./Posts/FilterPost"
 import Posts from "./Posts/Posts"
-import video from '../../assets/video/video.mp4'
-import { useImmer } from "use-immer";
-const Content = () => {
-    const data = [
-        {
-            id: 1,
-            num_Evaluate: 76,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit1',
-            info: 'u/purple_rasberries1',
-            post_time: '7 seconds',
-            post_detail: 'What video game have you played the most?',
-            numComment: 56,
-            type: 'text'
-        },
-        {
-            id: 2,
-            num_Evaluate: 22,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit2',
-            info: 'u/purple_rasberries2',
-            post_time: '12 hours',
-            post_detail: 'Countries with the most firearms in Civil hands',
-            img_detail: 'https://preview.redd.it/zye4bxyokapa1.jpg?width=640&crop=smart&auto=webp&v=enabled&s=d322e29fe507cd52537e3ee5ced13b5d0514ae70',
-            numComment: 112,
-            type: 'img'
 
-        },
-        {
-            id: 3,
-            num_Evaluate: 17,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit3',
-            info: 'u/purple_rasberries3',
-            post_time: '3 days',
-            post_detail: 'Choi game khog???',
-            vid_detail: video,
-            numComment: 72,
-            type: 'vid'
+import { AuthContext } from "../Context/Context"
+import { FiImage } from 'react-icons/fi'
+import { AiOutlineLink } from 'react-icons/ai'
+import PriButton from "../Button/PriButton"
+import { useEffect } from "react"
+import { v4 as uuidv4 } from 'uuid';
+import { toast } from "react-toastify"
+const Content = (props) => {
 
-        },
-        {
-            id: 4,
-            num_Evaluate: 78,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit4',
-            info: 'u/purple_rasberries4',
-            post_time: '23 minutes',
-            post_detail: 'I wanted to get my noodle wet',
-            img_detail: 'https://external-preview.redd.it/mv8HWsjJivXRwnw0zn7yNPvis5GhRjUo6HlF08naVu4.jpg?width=640&crop=smart&auto=webp&v=enabled&s=9aa5a572afaa64ea53fd030b76969e8fa7d03a89',
-            numComment: 26,
-            type: 'img'
-        },
-        {
-            id: 5,
-            num_Evaluate: 46,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit5',
-            info: 'u/purple_rasberries5',
-            post_time: '2 hours',
-            post_detail: 'What video game have you played the most?',
-            img_detail: 'https://i.redd.it/noinecoyi7pa1.png',
-            numComment: 834,
-            type: 'img'
+    const { isAuthUser, posts, setPosts } = useContext(AuthContext);
+    const [inputPostValue, setInputPostValue] = useState('')
+    const [disabledBtnPost, setDisabledBtnPost] = useState(true)
 
-        },
-        {
-            id: 6,
-            num_Evaluate: 19,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit5',
-            info: 'u/purple_rasberries5',
-            post_time: '9 minutes',
-            post_detail: '"I wanted to get my noodle wet"',
-            img_detail: 'https://preview.redd.it/hzfsxw2awcpa1.jpg?width=640&crop=smart&auto=webp&v=enabled&s=1cef44ea5c4857aab112a6f9c20242e2893ca737',
-            numComment: 126,
-            type: 'img'
-        },
-    ]
-    const [posts, setPosts] = useImmer(data)
+
+
+
+    useEffect(() => {
+        if (inputPostValue) {
+            setDisabledBtnPost(false)
+        }
+    }, [inputPostValue])
+
+
+    const handleCreatePost = () => {
+        setPosts(draft => {
+            draft.unshift({
+                id: uuidv4(),
+                num_Evaluate: 0,
+                imgUser: 'https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png?width=256&v=enabled&s=03183a5135951f470af249880aa2744be9b65c95',
+                name: 'r/ndnguyen',
+                info: 'u/duynguyen',
+                post_time: '1 seconds',
+                post_detail: inputPostValue,
+                numComment: 0,
+                type: 'text'
+            })
+        })
+        toast.success("Post successfully", {
+            autoClose: 2000
+        })
+        setInputPostValue("")
+    }
+
     return (
 
         <div className="content-container">
-            <div className="header-content">
-                <Trending />
-            </div>
+            {!isAuthUser &&
+                <div className="header-content">
+                    <Trending />
+                </div>}
+
             <div className="body-content">
 
                 <div className="posts">
                     <div className="main-posts">
+                        {isAuthUser &&
+                            <div className="create_post">
+                                <div className="logo_post">
+                                    <img src="https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png?width=256&v=enabled&s=03183a5135951f470af249880aa2744be9b65c95" />
+                                    <span></span>
+                                </div>
+                                <div className="input_post">
+                                    <input
+                                        value={inputPostValue}
+                                        onChange={(e) => setInputPostValue(e.target.value)}
+                                        placeholder="Create post" />
+                                </div>
+                                <div className="options_post">
+                                    <span>
+                                        <FiImage />
+                                    </span>
+                                    <span>
+                                        <AiOutlineLink />
+                                    </span>
+                                    <span onClick={() => handleCreatePost()}>
+                                        <PriButton disabled={disabledBtnPost} type="pri" text="Post" />
+                                    </span>
+                                </div>
+                            </div>}
                         <FilterPost posts={posts} setPosts={setPosts} />
                         <Posts posts={posts} setPosts={setPosts} />
                     </div>

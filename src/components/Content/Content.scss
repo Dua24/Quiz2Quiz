@@ -1,4 +1,69 @@
 .content-container{
+    .create_post{
+        align-items: center;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        display: flex;
+        margin-bottom: 16px;
+        padding: 4px 12px;
+        color: #9b9b9b;
+        min-height: 55px;
+        gap: 15px;
+        .logo_post{
+            cursor: pointer;
+            img{
+                width:40px;
+                border-radius: 200px;
+            }
+            span{
+                width: 14px;
+                height: 14px;
+                background: #46d160;
+                position: absolute;
+                bottom: 0;
+                right: 0px;
+                border-radius: 100px;
+                border: 1px solid #fff;
+            }
+        }
+        .input_post{
+            flex:1;
+            &:hover{
+                input{
+                    border-color: #1976d2;
+                }
+            }
+            input{
+                width: 100%;
+                padding: 5px 13px;
+                background: #ecedee;
+                border: none;
+                border-radius: 100px;
+                outline: none;
+                color: #686464bd;
+                border: 1px solid transparent;
+
+            }
+        }
+        .options_post{
+            min-width: 40px;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            span{
+                display: flex;
+                align-items: center;
+                padding: 4px;
+                &:hover{
+                    cursor: pointer;
+                    background-color: #ccc;
+                    border-radius:7px
+                }
+            }
+        }
+    }
     .title{
         font-size: 14px;
         font-weight: 500;
@@ -10,7 +75,7 @@
         padding: 16px 24px 0;
         margin: 0 auto;
         max-width: 1020px;
-        
+       
         .trending{
             .trending_slider{
                 .react-multiple-carousel__arrow{

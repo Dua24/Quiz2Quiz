@@ -16,182 +16,33 @@ import { IoIosRadioButtonOff } from "react-icons/io";
 import { TfiComments } from 'react-icons/tfi'
 import { FaArrowCircleLeft } from 'react-icons/fa'
 import ModalSignInUp from "../../Header/Modals/ModalSignInUp"
+import { useContext } from "react"
+import { AuthContext } from "../../Context/Context"
 const DetailPost = () => {
     const navigate = useNavigate()
-    const data = [
-        {
-            id: 1,
-            num_Evaluate: 76,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit1',
-            info: 'u/purple_rasberries1',
-            post_time: '7 seconds',
-            post_detail: 'What video game have you played the most?',
-            numComment: 56,
-            type: 'text'
-        },
-        {
-            id: 2,
-            num_Evaluate: 22,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit2',
-            info: 'u/purple_rasberries2',
-            post_time: '12 hours',
-            post_detail: 'Countries with the most firearms in Civil hands',
-            img_detail: 'https://preview.redd.it/zye4bxyokapa1.jpg?width=640&crop=smart&auto=webp&v=enabled&s=d322e29fe507cd52537e3ee5ced13b5d0514ae70',
-            numComment: 112,
-            type: 'img'
-
-        },
-        {
-            id: 3,
-            num_Evaluate: 17,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit3',
-            info: 'u/purple_rasberries3',
-            post_time: '3 days',
-            post_detail: 'What video game have you played the most?',
-            vid_detail: video,
-            numComment: 72,
-            type: 'vid'
-
-        },
-        {
-            id: 4,
-            num_Evaluate: 78,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit4',
-            info: 'u/purple_rasberries4',
-            post_time: '23 minutes',
-            post_detail: 'I wanted to get my noodle wet',
-            img_detail: 'https://external-preview.redd.it/mv8HWsjJivXRwnw0zn7yNPvis5GhRjUo6HlF08naVu4.jpg?width=640&crop=smart&auto=webp&v=enabled&s=9aa5a572afaa64ea53fd030b76969e8fa7d03a89',
-            numComment: 26,
-            type: 'img'
-        },
-        {
-            id: 5,
-            num_Evaluate: 46,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit5',
-            info: 'u/purple_rasberries5',
-            post_time: '2 hours',
-            post_detail: 'What video game have you played the most?',
-            img_detail: 'https://i.redd.it/noinecoyi7pa1.png',
-            numComment: 834,
-            type: 'img'
-
-        },
-        {
-            id: 6,
-            num_Evaluate: 19,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit5',
-            info: 'u/purple_rasberries5',
-            post_time: '9 minutes',
-            post_detail: '"I wanted to get my noodle wet"',
-            img_detail: 'https://preview.redd.it/hzfsxw2awcpa1.jpg?width=640&crop=smart&auto=webp&v=enabled&s=1cef44ea5c4857aab112a6f9c20242e2893ca737',
-            numComment: 126,
-            type: 'img'
-        },
-    ]
-    const dataComment = {
-        1: {
-            id: 1,
-            num_Evaluate: 76,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit1',
-            cmt_time: '7 seconds',
-            cmt_detail: 'What video game have you played a most?',
-            reply: [
-                {
-                    id: 11,
-                    num_Evaluate: 76,
-                    imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-                    name: 'r/AskReddit1',
-                    cmt_time: '7 seconds',
-                    cmt_detail: 'What video game have you played the most?1',
-                }, {
-                    id: 12,
-                    num_Evaluate: 76,
-                    imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-                    name: 'r/AskReddit1',
-                    cmt_time: '7 seconds',
-                    cmt_detail: 'What video game have you played the most?2',
-                }, {
-                    id: 13,
-                    num_Evaluate: 76,
-                    imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-                    name: 'r/AskReddit1',
-                    cmt_time: '7 seconds',
-                    cmt_detail: 'What video game have you played the most?3',
-                }, {
-                    id: 14,
-                    num_Evaluate: 76,
-                    imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-                    name: 'r/AskReddit1',
-                    cmt_time: '7 seconds',
-                    cmt_detail: 'What video game have you played the most?4',
-                }, {
-                    id: 15,
-                    num_Evaluate: 76,
-                    imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-                    name: 'r/AskReddit1',
-                    cmt_time: '7 seconds',
-                    cmt_detail: 'What video game have you played the most?5',
-                }]
-
-        },
-        2: {
-            id: 2,
-            num_Evaluate: 76,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit1',
-            cmt_time: '7 seconds',
-            cmt_detail: 'What video game have you played the most?',
-            reply: [
-                {
-                    id: 21,
-                    num_Evaluate: 76,
-                    imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-                    name: 'r/AskReddit1',
-                    cmt_time: '7 seconds',
-                    cmt_detail: 'What video game have you played the most?1',
-                },
-                {
-                    id: 22,
-                    num_Evaluate: 76,
-                    imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-                    name: 'r/AskReddit1',
-                    cmt_time: '7 seconds',
-                    cmt_detail: 'What video game have you played the most?1',
-                }, {
-                    id: 23,
-                    num_Evaluate: 76,
-                    imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-                    name: 'r/AskReddit1',
-                    cmt_time: '7 seconds',
-                    cmt_detail: 'What video game have you played the most?1',
-                },]
-        }
-    }
+    const { isAuthUser, posts, setPosts } = useContext(AuthContext);
     const { id } = useParams()
-    const [posts, setPosts] = useImmer(data)
-    const [comments, setComments] = useImmer(dataComment)
     const [showCmtArea, setShowCmtArea] = useState(false)
     const [valueEditorCmt, setValueEditorCmt] = useState('');
     const [currentPost, setCurrentPost] = useState(id)
-    const post = posts.find(postt => {
-        return postt.id === +id
-    })
+    const [post, setPost] = useImmer(posts.find(postt => {
+        console.log(postt.id, id)
+        return String(postt.id) === String(id)
+    }))
     const [showModalSignInUp, setShowModalSignInUp] = useState(false)
     const handleShowLoginModal = (e) => {
         e.stopPropagation()
         setShowModalSignInUp(true)
     }
+
+    console.log(post, ">>>")
+
     useEffect(() => {
         // 👇️ scroll to top on page load
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }, []);
+
+
     const handleClickAddCmt = (value) => {
         const newIdCmt = uuidv4()
         const newCmt = {
@@ -199,17 +50,28 @@ const DetailPost = () => {
             num_Evaluate: 0,
             imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
             name: 'r/AskReddit1',
-            cmt_time: '1 seconds',
+            cmt_time: '2 seconds',
             cmt_detail: value,
             reply: []
         }
         toast.success("Add comments successfully", {
             autoClose: 2000
         })
-        setComments(draft => {
+        setPosts(draft => {
             setValueEditorCmt('')
-            draft[newIdCmt] = newCmt
+            draft.forEach((e) => {
+                if (String(e.id) === String(id)) {
+                    if (e.comments) {
+                        e.comments[newIdCmt] = newCmt
+                    } else {
+                        e.comments = {}
+                        e.comments[newIdCmt] = newCmt
+                    }
+                    e.numComment++
+                }
+            })
         })
+
     }
 
     const handleShowReplyArea = (idCmt) => {
@@ -229,7 +91,10 @@ const DetailPost = () => {
             </div>
             <div className="contain_DetailPost">
                 <div className="main_detail">
-                    <PostItem post={post ? post : {}} setPosts={setPosts} typeParent="item" />
+                    <PostItem
+                        post={posts.find((e) => { return String(e.id) === String(id) }) ? posts.find((e) => { return String(e.id) === String(id) }) : {}}
+                        setPosts={setPosts}
+                        typeParent="item" />
                     <div className="subPost">
                         <EditorPost
                             handleClickAddCmt={handleClickAddCmt}
@@ -237,9 +102,9 @@ const DetailPost = () => {
                             setValueEditorCmt={setValueEditorCmt}
                         />
                         <Comments
-                            dataComment={dataComment}
-                            comments={comments}
-                            setComments={setComments}
+                            post={posts.find((e) => { return String(e.id) === String(id) })}
+                            idPost={id}
+                            setPosts={setPosts}
                             handleShowReplyArea={handleShowReplyArea}
                             showCmtArea={showCmtArea}
                             setShowCmtArea={setShowCmtArea}
@@ -290,7 +155,7 @@ const DetailPost = () => {
                     <div className="side2">
                         <div className="text_slide">Similar to this post</div>
                         <div className='contain_postSimilar'>
-                            {data && data.length > 0 && data.map((post, i) => {
+                            {posts && posts.length > 0 && posts.map((post, i) => {
                                 return (
                                     <div
                                         key={i}

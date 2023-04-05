@@ -7,8 +7,11 @@ import "./PostItem.scss"
 import Rate from "../Rate"
 import ModalSignInUp from "../../Header/Modals/ModalSignInUp"
 import { useState } from "react"
+import { useContext } from "react"
+import { AuthContext } from "../../Context/Context"
 const PostItem = (props) => {
     const navigate = useNavigate()
+    const { isAuthUser } = useContext(AuthContext);
     const { post, setPosts } = props
     const { id } = useParams
     const [showModalSignInUp, setShowModalSignInUp] = useState(false)
@@ -44,7 +47,7 @@ const PostItem = (props) => {
                             <span className="info">{post.info}</span>
                             <span className="post_time">{post.post_time} ago</span>
                         </div>
-                        {props.typeParent === "list" &&
+                        {props.typeParent === "list" && !isAuthUser &&
                             <span
                                 className="btnJoin"
                                 onClick={(e) => handleShowLoginModal(e)}

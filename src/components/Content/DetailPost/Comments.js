@@ -11,12 +11,13 @@ import PriButton from "../../Button/PriButton"
 import { v4 as uuidv4 } from 'uuid'
 import { toast } from "react-toastify"
 const Comments = (props) => {
-    const { comments, setComments, showCmtArea, handleShowReplyArea, setShowCmtArea } = props
+    const { setPosts, showCmtArea, handleShowReplyArea, setShowCmtArea, idPost, post } = props
     const [clickMoreCmts, setCLickMoreCmts] = useState(false)
     const [currentRepClicked, setCurrentRepClicked] = useState({})
     const [value, setValue] = useState('');
     const editorRef = useRef()
-
+    const comments = post.comments ? post.comments : {}
+    console.log(">>>>>", post)
     const limitCmtObj = (objComments, idCmt) => {
         const limtiCmts = 2
         if (!clickMoreCmts) {
@@ -95,28 +96,38 @@ const Comments = (props) => {
         const newIdReply = uuidv4()
         const newReply = {
             id: newIdReply,
-            num_Evaluate: 76,
             imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
             name: 'r/AskReddit1',
-            cmt_time: '7 seconds',
-            cmt_detail: valueReply,
+            reply_time: '7 seconds',
+            reply_detail: valueReply,
         }
-        setComments(draft => {
-            draft[idCmt].reply.push(newReply)
+        setPosts(draft => {
+            draft.forEach((e) => {
+                if (String(e.id) === String(idPost)) {
+                    e.comments[idCmt].reply.push(newReply)
+                    setShowCmtArea('')
+                    setValue('')
+                    toast.success("Add reply comment successfully!!", {
+                        autoClose: 2000
+                    })
+                }
+            })
 
-            setShowCmtArea('')
-            setValue('')
-            toast.success("Add reply comment successfully!!")
-        })
+        }
+        )
     }
 
     const handleDelete = (type, idReply, idCmt) => {
-        setComments(draft => {
+        setPosts(draft => {
             if (type === "reply") {
-                const arr = draft[idCmt].reply.filter((item) => {
-                    return item.id !== idReply
+                draft.forEach((e) => {
+                    if (String(e.id) === String(idPost)) {
+                        const arr = e.comments[idCmt].reply.filter((item) => {
+                            return item.id !== idReply
+                        })
+                        e.comments[idCmt].reply = arr
+                    }
                 })
-                draft[idCmt].reply = arr
             }
         })
     }
@@ -168,7 +179,13 @@ const Comments = (props) => {
                                         {cmt.cmt_detail}
                                     </div>
                                     <div className="actions">
-                                        <Rate post={cmt} setPosts={setComments} type="comment" idReply={cmt.id} />
+                                        <Rate
+                                            post={cmt}
+                                            setPosts={setPosts}
+                                            type="comment"
+                                            idReply={cmt.id}
+                                            idPost={idPost}
+                                        />
                                         <span onClick={() => handleShowReplyArea(cmt.id)}>
                                             <BiMessage />
                                             Reply
@@ -228,12 +245,12 @@ const Comments = (props) => {
                                                                 <div className="g2">
                                                                     <span className="name">{reply.name}</span>
                                                                     <span className='dot'>•</span>
-                                                                    <span className="post_time">{reply.cmt_time}</span>
+                                                                    <span className="post_time">{reply.reply_time}</span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className="detail">
-                                                            {reply.cmt_detail}
+                                                            {reply.reply_detail}
                                                         </div>
                                                         <div className="actions">
                                                             <span onClick={() => handleDelete("reply", reply.id, cmt.id)}>

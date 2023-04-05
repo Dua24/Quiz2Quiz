@@ -83,7 +83,7 @@ const Message = (props) => {
         if (uf) {
             return (
                 <div className="contain_startChat">
-                    <span >
+                    <span onClick={() => setSearchValue('')}  >
                         <PriButton type="spri" text="Cancle" />
                     </span>
                     <span onClick={() => handleAddDirectChat(uf)}>
@@ -108,7 +108,6 @@ const Message = (props) => {
             draft.splice(draft.findIndex(e => e.id === uf.id), 1);
         })
     }
-    console.log(dataUserFound)
     const handleAddNewChat = () => {
         setIsStartChat(false)
         setCurrentUserChatting('')
@@ -118,6 +117,11 @@ const Message = (props) => {
         setCurrentUserChatting(uf)
         setIsStartChat(true)
     }
+
+    const handleSendMsg = () => {
+
+    }
+
     const handleStartChat = (type) => {
         if (type === "direct") {
             return (
@@ -234,7 +238,10 @@ const Message = (props) => {
                                 value={chatValue}
                                 onChange={e => setChatValue(e.target.value)}
                             />
-                            <span className={`send ${chatValue && "active"}`}>
+                            <span
+                                className={`send ${chatValue && "active"}`}
+                                onClick={() => handleSendMsg()}
+                            >
                                 <TbSend />
                             </span>
                         </div>
