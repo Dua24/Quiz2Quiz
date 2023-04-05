@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { FcGoogle } from 'react-icons/fc'
 import { BsApple } from 'react-icons/bs'
 import PriButton from '../../Button/PriButton';
-import { version } from 'react-dom';
-import { type } from '@testing-library/user-event/dist/type';
+import { AuthContext } from '../../Context/Context';
 const ModalSignInUp = (props) => {
-    const { show, setShow, setIsAuthUser } = props
+    const { show, setShow } = props
+    const { setIsAuthUser } = useContext(AuthContext);
     const [isVerified, setIsVerified] = useState(false)
     const [verifiedInput, setVerifiedInput] = useState(false)
     const [email, setEmail] = useState("")

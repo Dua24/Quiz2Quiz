@@ -195,6 +195,11 @@
                                             cursor: pointer;
                                             color: #150b0b;
                                         }
+                                        &.delete{
+                                            &:hover{
+                                                color: #ba5f5f
+                                            }
+                                        }
                                     }
                                 }
                             }

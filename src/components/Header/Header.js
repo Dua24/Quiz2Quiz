@@ -13,7 +13,7 @@ import { SlArrowDown } from 'react-icons/sl'
 import { AiOutlineInfoCircle, AiOutlineMessage } from 'react-icons/ai'
 import { IoNotificationsOutline } from "react-icons/io5";
 import SwitchMode from "./SwitchMode/SwitchMode";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import ModalQR from "./Modals/ModalQR";
 import ModalSignInUp from "./Modals/ModalSignInUp";
@@ -22,11 +22,18 @@ import { CgProfile } from 'react-icons/cg'
 import { useContext } from "react";
 import { AuthContext } from "../Context/Context";
 const Header = (props) => {
-    const { showMessageBox, setShowMessageBox, setIsAuthUser } = props
+    const navigate = useNavigate()
+    const { showMessageBox, setShowMessageBox } = props
     const [toggleModeDark, setToggleModeDark] = useState(false)
     const [showModalQR, setShowModalQR] = useState(false)
-    const [showModalSignInUp, setShowModalSignInUp] = useState(false)
-    const { isAuthUser } = useContext(AuthContext);
+    const { isAuthUser, setIsAuthUser, setShowModalSignInUp, setPosts, data, user } = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        setIsAuthUser(false)
+        setShowModalSignInUp(false)
+        setPosts(data)
+        navigate('/')
+    }
 
     return (
         <div className="header-container">
@@ -109,8 +116,8 @@ const Header = (props) => {
                                     </Dropdown>
                                     <Dropdown className="drop" autoClose="outside">
                                         <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
-                                            <img src="https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png?width=256&v=enabled&s=03183a5135951f470af249880aa2744be9b65c95" />
-                                            <span>ndnguyen</span>
+                                            <img src={user.img_user} />
+                                            <span>{user.name_user}</span>
 
                                         </Dropdown.Toggle>
 
@@ -129,7 +136,7 @@ const Header = (props) => {
                                             </Dropdown.Item>
                                             <Dropdown.Divider />
 
-                                            <Dropdown.Item onClick={() => setIsAuthUser(false)}>
+                                            <Dropdown.Item onClick={handleLogOut}>
                                                 <CiLogin className="iconDd" />
                                                 Log out
                                             </Dropdown.Item>
@@ -145,7 +152,6 @@ const Header = (props) => {
             </Container >
 
             <ModalQR show={showModalQR} setShow={setShowModalQR} />
-            <ModalSignInUp show={showModalSignInUp} setShow={setShowModalSignInUp} setIsAuthUser={setIsAuthUser} />
         </div>
     )
 }

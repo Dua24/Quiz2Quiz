@@ -20,13 +20,12 @@ import { useContext } from "react"
 import { AuthContext } from "../../Context/Context"
 const DetailPost = () => {
     const navigate = useNavigate()
-    const { isAuthUser, posts, setPosts } = useContext(AuthContext);
+    const { isAuthUser, posts, setPosts, user } = useContext(AuthContext);
     const { id } = useParams()
     const [showCmtArea, setShowCmtArea] = useState(false)
     const [valueEditorCmt, setValueEditorCmt] = useState('');
     const [currentPost, setCurrentPost] = useState(id)
     const [post, setPost] = useImmer(posts.find(postt => {
-        console.log(postt.id, id)
         return String(postt.id) === String(id)
     }))
     const [showModalSignInUp, setShowModalSignInUp] = useState(false)
@@ -35,7 +34,6 @@ const DetailPost = () => {
         setShowModalSignInUp(true)
     }
 
-    console.log(post, ">>>")
 
     useEffect(() => {
         // 👇️ scroll to top on page load
@@ -48,11 +46,12 @@ const DetailPost = () => {
         const newCmt = {
             id: newIdCmt,
             num_Evaluate: 0,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit1',
+            imgUser: user.img_user,
+            name: `r/${user.name_user}`,
             cmt_time: '2 seconds',
             cmt_detail: value,
-            reply: []
+            reply: [],
+            deletable: true
         }
         toast.success("Add comments successfully", {
             autoClose: 2000

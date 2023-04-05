@@ -13,8 +13,7 @@ import { useEffect } from "react"
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from "react-toastify"
 const Content = (props) => {
-
-    const { isAuthUser, posts, setPosts } = useContext(AuthContext);
+    const { isAuthUser, posts, setPosts, user } = useContext(AuthContext);
     const [inputPostValue, setInputPostValue] = useState('')
     const [disabledBtnPost, setDisabledBtnPost] = useState(true)
 
@@ -33,13 +32,14 @@ const Content = (props) => {
             draft.unshift({
                 id: uuidv4(),
                 num_Evaluate: 0,
-                imgUser: 'https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png?width=256&v=enabled&s=03183a5135951f470af249880aa2744be9b65c95',
-                name: 'r/ndnguyen',
-                info: 'u/duynguyen',
+                imgUser: user.img_user,
+                name: `r/${user.name_user}`,
+                info: user.info_user,
                 post_time: '1 seconds',
                 post_detail: inputPostValue,
                 numComment: 0,
-                type: 'text'
+                type: 'text',
+                deletable: true
             })
         })
         toast.success("Post successfully", {
@@ -63,7 +63,7 @@ const Content = (props) => {
                         {isAuthUser &&
                             <div className="create_post">
                                 <div className="logo_post">
-                                    <img src="https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png?width=256&v=enabled&s=03183a5135951f470af249880aa2744be9b65c95" />
+                                    <img src={user.img_user} />
                                     <span></span>
                                 </div>
                                 <div className="input_post">

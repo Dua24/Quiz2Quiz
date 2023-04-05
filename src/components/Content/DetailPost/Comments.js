@@ -3,21 +3,24 @@ import Rate from "../Rate"
 import "./DetailPost.scss"
 import { BiMessage } from 'react-icons/bi'
 import { BsThreeDots, BsTrash3 } from 'react-icons/bs'
-import { useState, useRef } from "react"
+import { useState, useRef, useContext } from "react"
 import "../Posts/PostItem.scss"
 import _ from 'lodash'
 import ReactQuill from 'react-quill';
 import PriButton from "../../Button/PriButton"
 import { v4 as uuidv4 } from 'uuid'
 import { toast } from "react-toastify"
+import { FaRegTrashAlt } from 'react-icons/fa'
+import { AuthContext } from "../../Context/Context"
 const Comments = (props) => {
-    const { setPosts, showCmtArea, handleShowReplyArea, setShowCmtArea, idPost, post } = props
+    const { showCmtArea, handleShowReplyArea, setShowCmtArea, idPost, post } = props
+    const { setPosts, user } = useContext(AuthContext);
+
     const [clickMoreCmts, setCLickMoreCmts] = useState(false)
     const [currentRepClicked, setCurrentRepClicked] = useState({})
     const [value, setValue] = useState('');
     const editorRef = useRef()
     const comments = post.comments ? post.comments : {}
-    console.log(">>>>>", post)
     const limitCmtObj = (objComments, idCmt) => {
         const limtiCmts = 2
         if (!clickMoreCmts) {
@@ -96,15 +99,16 @@ const Comments = (props) => {
         const newIdReply = uuidv4()
         const newReply = {
             id: newIdReply,
-            imgUser: 'https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png',
-            name: 'r/AskReddit1',
+            imgUser: user.img_user,
+            name: `r/${user.name_user}`,
             reply_time: '7 seconds',
             reply_detail: valueReply,
+            deletable: true
         }
         setPosts(draft => {
             draft.forEach((e) => {
                 if (String(e.id) === String(idPost)) {
-                    e.comments[idCmt].reply.push(newReply)
+                    e.comments[idCmt].reply.unshift(newReply)
                     setShowCmtArea('')
                     setValue('')
                     toast.success("Add reply comment successfully!!", {
@@ -117,7 +121,7 @@ const Comments = (props) => {
         )
     }
 
-    const handleDelete = (type, idReply, idCmt) => {
+    const handleDeleteReplycmt = (type, idReply, idCmt) => {
         setPosts(draft => {
             if (type === "reply") {
                 draft.forEach((e) => {
@@ -154,6 +158,20 @@ const Comments = (props) => {
     //         }
     //     }
     // }
+
+    const handleDeleteComment = (e, cmtId) => {
+        setPosts(draft => {
+            draft.forEach((e, i) => {
+                if (String(e.id) === String(idPost)) {
+                    delete e.comments[cmtId]
+                    e.numComment--
+                }
+            })
+        })
+        toast.success("Delete comment successfully", {
+            autoClose: 2000
+        })
+    }
     return (
         <div className="comments-container" >
             {
@@ -180,8 +198,8 @@ const Comments = (props) => {
                                     </div>
                                     <div className="actions">
                                         <Rate
-                                            post={cmt}
-                                            setPosts={setPosts}
+                                            data={cmt}
+                                            setData={setPosts}
                                             type="comment"
                                             idReply={cmt.id}
                                             idPost={idPost}
@@ -193,9 +211,11 @@ const Comments = (props) => {
                                         <span>
                                             Share
                                         </span>
-                                        <span>
-                                            <BsThreeDots />
-                                        </span>
+                                        {cmt.deletable &&
+                                            <span className="delete" onClick={(e) => handleDeleteComment(e, cmt.id)}>
+                                                <FaRegTrashAlt />
+                                                Delete
+                                            </span>}
                                     </div>
                                 </div>
                             </div>
@@ -224,7 +244,7 @@ const Comments = (props) => {
                                             top: '5px',
                                             right: ' 55px'
                                         }}>
-                                        <PriButton type="pri" text="Post" />
+                                        <PriButton disabled={!value} type="pri" text="Post" />
                                     </span>
 
                                 </div>
@@ -253,16 +273,19 @@ const Comments = (props) => {
                                                             {reply.reply_detail}
                                                         </div>
                                                         <div className="actions">
-                                                            <span onClick={() => handleDelete("reply", reply.id, cmt.id)}>
-                                                                <BsTrash3 />
-                                                                Delete
-                                                            </span>
                                                             <span>
                                                                 Share
                                                             </span>
                                                             <span>
                                                                 <BsThreeDots />
                                                             </span>
+                                                            {reply.deletable &&
+                                                                <span className="delete" onClick={() => handleDeleteReplycmt("reply", reply.id, cmt.id)}>
+                                                                    <BsTrash3 />
+                                                                    Delete
+                                                                </span>
+                                                            }
+
                                                         </div>
                                                     </div>
                                                 </div>

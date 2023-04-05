@@ -152,6 +152,15 @@
                     svg{
                         font-size: 24px;
                     }
+                    &:hover{
+                        cursor: pointer;
+                        color: #3354bf;
+                    }
+                    &.delete{
+                        &:hover{
+                            color: #ba5f5f
+                        }
+                    }
                 }
            }
         }

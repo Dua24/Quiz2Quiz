@@ -1,11 +1,18 @@
 import { RxThickArrowDown, RxThickArrowUp } from 'react-icons/rx'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { AuthContext } from '../Context/Context';
 const Rate = (props) => {
-    const { setPosts, post, idCmt, idReply, type, idPost } = props
+    const { setData, data, idCmt, idReply, type, idPost } = props
+    const { isAuthUser, setShowModalSignInUp } = useContext(AuthContext);
+
     const [isLike, setIsLike] = useState(false)
     const [isDislike, setIsDislike] = useState(false)
     const handleLikeCount = (type, id) => {
-        setPosts(draft => {
+        if (!isAuthUser) {
+            setShowModalSignInUp(true)
+            return;
+        }
+        setData(draft => {
             let p
             if (props.type === 'post') {
                 p = draft.find((p) => { return p.id === id })
@@ -61,15 +68,15 @@ const Rate = (props) => {
     return (
         <div className="rate">
             <span
-                onClick={() => handleLikeCount('like', post.id)}
-                className={`like ${handleActiveClassEvaluate('like', post.EvaluateType)}`}
+                onClick={() => handleLikeCount('like', data.id)}
+                className={`like ${handleActiveClassEvaluate('like', data.EvaluateType)}`}
             >
                 <RxThickArrowUp />
             </span>
-            <span className="num_Evaluate">{post.num_Evaluate}</span>
+            <span className="num_Evaluate">{data.num_Evaluate}</span>
             <span
-                className={`dislike ${handleActiveClassEvaluate('dislike', post.EvaluateType)}`}
-                onClick={() => handleLikeCount('dislike', post.id)}
+                className={`dislike ${handleActiveClassEvaluate('dislike', data.EvaluateType)}`}
+                onClick={() => handleLikeCount('dislike', data.id)}
 
             >
                 <RxThickArrowDown />

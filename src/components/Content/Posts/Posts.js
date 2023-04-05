@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../Context/Context';
 
 const Posts = (props) => {
-    const { posts, setPosts } = useContext(AuthContext);
+    const { posts } = useContext(AuthContext);
 
 
     return (
@@ -15,7 +15,6 @@ const Posts = (props) => {
                     <div key={i}>
                         <PostItem
                             post={post}
-                            setPosts={setPosts}
                             typeParent="list"
                         />
                     </div>

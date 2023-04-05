@@ -15,7 +15,7 @@ const EditorPost = (props) => {
 
             />
             <div className="btnComment" onClick={(e) => props.handleClickAddCmt(editorRef.current.editor.root.innerText)}>
-                <PriButton type="pri" text="Comment" />
+                <PriButton disabled={!valueEditorCmt} type="pri" text="Comment" />
             </div>
         </div>
 

@@ -9,6 +9,7 @@ import { useState, useContext, createContext } from 'react';
 import { AuthContext } from './components/Context/Context';
 import { useImmer } from 'use-immer';
 import video from "./assets/video/video.mp4"
+import ModalSignInUp from './components/Header/Modals/ModalSignInUp';
 const App = () => {
   const data = [
     {
@@ -158,23 +159,33 @@ const App = () => {
       type: 'img'
     },
   ]
+  const user = {
+    name_user: "ndnguyen",
+    img_user: "https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png",
+    info_user: 'u/duyduyn'
+  }
+  const [isAuthUser, setIsAuthUser] = useState(false)
   const [posts, setPosts] = useImmer(data)
   const [showMessageBox, setShowMessageBox] = useState(false)
-  const [isAuthUser, setIsAuthUser] = useState(false)
+  const [showModalSignInUp, setShowModalSignInUp] = useState(false)
 
-  console.log("posts", posts)
 
   useEffect(() => {
     // 👇️ scroll to top on page load
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, []);
   return (
-    <AuthContext.Provider value={{ isAuthUser, posts, setPosts }}>
+    <AuthContext.Provider value={{
+      isAuthUser, setIsAuthUser,
+      posts, setPosts,
+      showModalSignInUp, setShowModalSignInUp,
+      user,
+      data
+    }}>
       <div className="App">
         <div className="header">
-          <Header showMessageBox={showMessageBox}
+          <Header
             setShowMessageBox={setShowMessageBox}
-            setIsAuthUser={setIsAuthUser}
           />
         </div>
         <div className="content ">
@@ -189,6 +200,7 @@ const App = () => {
           </div>
         </div>
       </div>
+      <ModalSignInUp show={showModalSignInUp} setShow={setShowModalSignInUp} setIsAuthUser={setIsAuthUser} />
     </AuthContext.Provider>
 
   )

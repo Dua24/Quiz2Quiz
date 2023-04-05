@@ -9,15 +9,39 @@ import ModalSignInUp from "../../Header/Modals/ModalSignInUp"
 import { useState } from "react"
 import { useContext } from "react"
 import { AuthContext } from "../../Context/Context"
+import { FaRegTrashAlt } from 'react-icons/fa'
+import { toast } from "react-toastify"
 const PostItem = (props) => {
     const navigate = useNavigate()
-    const { isAuthUser } = useContext(AuthContext);
-    const { post, setPosts } = props
+    const { isAuthUser, showModalSignInUp, setShowModalSignInUp, setIsAuthUser, setPosts } = useContext(AuthContext);
+    const { post } = props
     const { id } = useParams
-    const [showModalSignInUp, setShowModalSignInUp] = useState(false)
     const handleShowLoginModal = (e) => {
         e.stopPropagation()
         setShowModalSignInUp(true)
+    }
+
+    const handleMoveDetailPost = (postId) => {
+        if (!isAuthUser) {
+            setShowModalSignInUp(true)
+            return
+        }
+        navigate(`/posts/${postId}`)
+    }
+
+    const handleDeletePost = (e, postId) => {
+        navigate('/')
+        e.stopPropagation()
+        setPosts(draft => {
+            draft.forEach((e, i) => {
+                if (e.id === postId) {
+                    draft.splice(i, 1)
+                }
+            })
+        })
+        toast.success("Delete post successfully", {
+            autoClose: 2000
+        })
     }
 
     return (
@@ -28,13 +52,13 @@ const PostItem = (props) => {
         >
             <div className="post_item">
                 <Rate
-                    setPosts={setPosts}
-                    post={post}
+                    setData={setPosts}
+                    data={post}
                     type="post"
                 />
                 <div
                     className="content_post"
-                    onClick={() => navigate(`/posts/${post.id}`)}
+                    onClick={() => handleMoveDetailPost(post.id)}
                 >
                     <div className="header_post">
                         <span className="g1">
@@ -83,10 +107,16 @@ const PostItem = (props) => {
                             <CiSaveDown2 />
                             <span className="text_after">Save</span>
                         </div>
+                        {post.deletable &&
+                            <div className="item delete" onClick={(e) => handleDeletePost(e, post.id)}>
+                                <FaRegTrashAlt />
+                                <span className="text_after">Delete</span>
+                            </div>}
+
                     </div>
                 </div>
             </div>
-            <ModalSignInUp show={showModalSignInUp} setShow={setShowModalSignInUp} />
+
         </div>
     )
 }
