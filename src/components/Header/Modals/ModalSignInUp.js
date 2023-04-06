@@ -4,6 +4,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { BsApple } from 'react-icons/bs'
 import PriButton from '../../Button/PriButton';
 import { AuthContext } from '../../Context/Context';
+import { toast } from 'react-toastify';
 const ModalSignInUp = (props) => {
     const { show, setShow } = props
     const { setIsAuthUser } = useContext(AuthContext);
@@ -127,10 +128,15 @@ const ModalSignInUp = (props) => {
 
     }
     const handleSubmit = () => {
+        if (disabledBtn) return
         if (typeModal === "login") {
             setDisabledBtn(true)
             setIsAuthUser(true)
             setShow(false)
+            toast.success("Login successfully", {
+                position: "top-center",
+                autoClose: 2000,
+            })
         } else if (typeModal === "continue") {
             setDisabledBtn(true)
             setTypeModal("signup")

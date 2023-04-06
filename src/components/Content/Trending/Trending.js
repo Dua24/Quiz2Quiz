@@ -63,7 +63,7 @@ const Trending = () => {
                             <h5>Twitch Layoff 2</h5>
                             <p>Twitch Ceo lays off 400 employees</p>
                             <div className="owner">
-                                <img src="https://styles.redditmedia.com/t5_38jf0/styles/communityIcon_ldprshtow1r81.png?width=256&v=enabled&s=40e3c1141b5c1f75e4c110037736f6b22ff4519b"
+                                <img src="https://styles.redditmedia.com/t5_2qs0q/styles/communityIcon_kxcmzy9bt1381.jpg?width=256&v=enabled&s=ff4500c35f659689f09e6df7c9fcd7538b462644"
                                     className="owner_img"
                                 />
                                 <span className="detail">r/LivestreamFail and more</span>
@@ -115,7 +115,7 @@ const Trending = () => {
                             <h5>Twitch Layoff 6</h5>
                             <p>Twitch Ceo lays off 400 employees</p>
                             <div className="owner">
-                                <img src="https://styles.redditmedia.com/t5_38jf0/styles/communityIcon_ldprshtow1r81.png?width=256&v=enabled&s=40e3c1141b5c1f75e4c110037736f6b22ff4519b"
+                                <img src="https://styles.redditmedia.com/t5_39ne7/styles/communityIcon_k0dgce7sy1721.png"
                                     className="owner_img"
                                 />
                                 <span className="detail">r/LivestreamFail and more</span>

@@ -22,10 +22,10 @@ const PostItem = (props) => {
     }
 
     const handleMoveDetailPost = (postId) => {
-        if (!isAuthUser) {
-            setShowModalSignInUp(true)
-            return
-        }
+        // if (!isAuthUser) {
+        //     setShowModalSignInUp(true)
+        //     return
+        // }
         navigate(`/posts/${postId}`)
     }
 
@@ -42,6 +42,11 @@ const PostItem = (props) => {
         toast.success("Delete post successfully", {
             autoClose: 2000
         })
+    }
+
+    const handleNavigateParticipant = (e, participantId) => {
+        e.stopPropagation()
+        navigate(`/participant/${participantId}`)
     }
 
     return (
@@ -62,13 +67,11 @@ const PostItem = (props) => {
                 >
                     <div className="header_post">
                         <span className="g1">
-                            <img src={post.imgUser} />
+                            <img src={post.owner.img} />
                         </span>
                         <div className="g2">
-                            <span className="name">{post.name}</span>
+                            <span className="name" onClick={(e) => handleNavigateParticipant(e, post.owner.id)}>{post.owner.name}</span>
                             <span className='dot'>•</span>
-                            <span className="preText">Posted by</span>
-                            <span className="info">{post.info}</span>
                             <span className="post_time">{post.post_time} ago</span>
                         </div>
                         {props.typeParent === "list" && !isAuthUser &&

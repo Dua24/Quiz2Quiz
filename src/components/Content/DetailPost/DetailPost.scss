@@ -13,6 +13,7 @@
         }
     }
     .container_detailPost_main{
+        background-color: #646d73;
         .seeAllPost{
             background: #6ca3c4;
             display: inline-flex;
@@ -37,8 +38,9 @@
             gap: 20px;
             padding-top: 20px;
             .main_detail{
+                height: 100%;
                 width: 850px;
-                background: #a4aab0;
+                background: #646d73;
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
@@ -46,7 +48,7 @@
                 background-color: #fff;
                 
                 .containEditor{
-                    padding-top: 30px;
+                    padding-top: 14px;
                     display: flex;
                     flex-direction: column-reverse;
                     &.focus{
@@ -64,6 +66,7 @@
                         position: relative;
                         margin-top: 10px;
                         margin-bottom: 28px;
+                        margin-left: 20px;
     
                         .moreCmts{
                             font-size: 12px;
@@ -140,6 +143,10 @@
                                                 line-height: 20px;
                                                 text-decoration: none;
                                                 vertical-align: baseline;
+                                                &:hover{
+                                                    text-decoration: underline;
+                                                    cursor: pointer;
+                                                }
                                             }
                                             .dot{
                                                 font-size: 6px;

@@ -12,15 +12,25 @@ import { v4 as uuidv4 } from 'uuid'
 import { toast } from "react-toastify"
 import { FaRegTrashAlt } from 'react-icons/fa'
 import { AuthContext } from "../../Context/Context"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 const Comments = (props) => {
     const { showCmtArea, handleShowReplyArea, setShowCmtArea, idPost, post } = props
-    const { setPosts, user } = useContext(AuthContext);
-
+    const { setPosts, user, isAuthUser, setShowModalSignInUp } = useContext(AuthContext);
+    const navigate = useNavigate()
     const [clickMoreCmts, setCLickMoreCmts] = useState(false)
     const [currentRepClicked, setCurrentRepClicked] = useState({})
     const [value, setValue] = useState('');
     const editorRef = useRef()
     const comments = post.comments ? post.comments : {}
+
+
+    useEffect(() => {
+        if (value.includes('<br>') && value.length === 11) {
+            setValue('')
+        }
+    }, [value])
+
     const limitCmtObj = (objComments, idCmt) => {
         const limtiCmts = 2
         if (!clickMoreCmts) {
@@ -96,11 +106,20 @@ const Comments = (props) => {
     }
 
     const handleReplyCmt = (idCmt, valueReply) => {
+        if (value.includes('<br>') && value.length === 11 || !value) return
+        if (!isAuthUser) {
+            setShowModalSignInUp(true)
+            return
+        }
         const newIdReply = uuidv4()
         const newReply = {
             id: newIdReply,
             imgUser: user.img_user,
-            name: `r/${user.name_user}`,
+            owner: {
+                id: user.id,
+                name: `r/${user.name_user}`,
+                img: user.img_user
+            },
             reply_time: '7 seconds',
             reply_detail: valueReply,
             deletable: true
@@ -133,6 +152,9 @@ const Comments = (props) => {
                     }
                 })
             }
+        })
+        toast.success("Delete reply comment successfully!!", {
+            autoClose: 2000
         })
     }
     // const comment = {
@@ -181,13 +203,18 @@ const Comments = (props) => {
                             <div className="line_level"></div>
                             <div className="f_cmt" key={idCmt}>
                                 <div className="f_cmter">
-                                    <img src={cmt.imgUser} />
+                                    <img src={cmt.owner.img} />
                                 </div>
                                 <div className="f-cmt_content">
                                     <div className="info">
                                         <div className="header_post">
                                             <div className="g2">
-                                                <span className="name">{cmt.name}</span>
+                                                <span
+                                                    className="name"
+                                                    onClick={() => navigate(`/participant/${cmt.owner.id}`)}
+                                                >
+                                                    {cmt.owner.name}
+                                                </span>
                                                 <span className='dot'>•</span>
                                                 <span className="post_time">{cmt.cmt_time}</span>
                                             </div>
@@ -257,13 +284,19 @@ const Comments = (props) => {
                                                 <div className="line_level"></div>
                                                 <div className="f_cmt">
                                                     <div className="f_cmter">
-                                                        <img src={reply.imgUser} />
+                                                        <img src={reply.owner.img} />
                                                     </div>
                                                     <div className="f-cmt_content">
                                                         <div className="info">
                                                             <div className="header_post">
                                                                 <div className="g2">
-                                                                    <span className="name">{reply.name}</span>
+                                                                    <span
+                                                                        className="name"
+                                                                        onClick={() => navigate(`/participant/${reply.owner.id}`)}
+                                                                    >
+                                                                        {reply.owner.name}
+
+                                                                    </span>
                                                                     <span className='dot'>•</span>
                                                                     <span className="post_time">{reply.reply_time}</span>
                                                                 </div>

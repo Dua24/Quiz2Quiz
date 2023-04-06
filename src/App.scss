@@ -144,6 +144,10 @@ code {
     background: transparent;
     color: #1976d2;
     border: none;
+    svg{
+      background-color:#fff;
+      border-radius: 1000px;
+    }
   }
 }
 .App.dark{

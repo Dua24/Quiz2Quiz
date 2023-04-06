@@ -66,7 +66,10 @@
             .header_post{
                 display: flex;
                 align-items: center;
+                gap:2px;
                 .g1{
+                    display: flex;
+                    align-items: center;
                     img{
                         height:20px;
                         border-radius: 100px;
@@ -87,6 +90,10 @@
                         line-height: 20px;
                         text-decoration: none;
                         vertical-align: baseline;
+                        &:hover{
+                            text-decoration: underline;
+                            cursor: pointer;
+                        }
                     }
                     .dot{
                         font-size: 6px;

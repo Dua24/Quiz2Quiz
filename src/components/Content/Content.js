@@ -23,18 +23,23 @@ const Content = (props) => {
     useEffect(() => {
         if (inputPostValue) {
             setDisabledBtnPost(false)
+        } else {
+            setDisabledBtnPost(true)
         }
     }, [inputPostValue])
 
 
     const handleCreatePost = () => {
+        if (disabledBtnPost) return
         setPosts(draft => {
             draft.unshift({
                 id: uuidv4(),
                 num_Evaluate: 0,
-                imgUser: user.img_user,
-                name: `r/${user.name_user}`,
-                info: user.info_user,
+                owner: {
+                    id: user.id,
+                    name: `r/${user.name_user}`,
+                    img: user.img_user,
+                },
                 post_time: '1 seconds',
                 post_detail: inputPostValue,
                 numComment: 0,

@@ -29,9 +29,9 @@ const DetailPost = () => {
         return String(postt.id) === String(id)
     }))
     const [showModalSignInUp, setShowModalSignInUp] = useState(false)
-    const handleShowLoginModal = (e) => {
+    const handleClickBtnView = (e, participantId) => {
         e.stopPropagation()
-        setShowModalSignInUp(true)
+        navigate(`/participant/${participantId}`)
     }
 
 
@@ -42,12 +42,20 @@ const DetailPost = () => {
 
 
     const handleClickAddCmt = (value) => {
+        if (valueEditorCmt.includes('<br>') && valueEditorCmt.length === 11 || !valueEditorCmt) return
+        if (!isAuthUser) {
+            setShowModalSignInUp(true)
+            return
+        }
         const newIdCmt = uuidv4()
         const newCmt = {
             id: newIdCmt,
             num_Evaluate: 0,
-            imgUser: user.img_user,
-            name: `r/${user.name_user}`,
+            owner: {
+                id: user.id,
+                name: `r/${user.name_user}`,
+                img: user.img_user
+            },
             cmt_time: '2 seconds',
             cmt_detail: value,
             reply: [],
@@ -116,10 +124,11 @@ const DetailPost = () => {
                         <div className="contain_contentSlide1">
                             <div className="_info">
                                 <span className="g1">
-                                    <img src={post.imgUser} />
+                                    <img src={post.owner.img} />
                                 </span>
                                 <div className="g2">
-                                    <span className="name">{post.name}</span>
+                                    <span
+                                        className="name">{post.owner.name}</span>
                                 </div>
                             </div>
                             <div className="_descr">A place for pictures and photographs.</div>
@@ -146,8 +155,8 @@ const DetailPost = () => {
                                 </div>
                             </div>
                             <div className="divide"></div>
-                            <div className="joinBtn" onClick={(e) => handleShowLoginModal(e)}>
-                                <PriButton type="pri" text="JOIN" />
+                            <div className="joinBtn" onClick={(e) => handleClickBtnView(e, post.owner.id)}>
+                                <PriButton type="pri" text="VIEW" />
                             </div>
                         </div>
                     </div>
@@ -163,10 +172,10 @@ const DetailPost = () => {
                                     >
                                         <div className="header_post">
                                             <span className="g1">
-                                                <img src={post.imgUser} />
+                                                <img src={post.owner.img} />
                                             </span>
                                             <div className="g2">
-                                                <span className="name">{post.name}</span>
+                                                <span className="name">{post.owner.name}</span>
                                             </div>
                                             {String(id) === String(post.id) &&
                                                 <div className="current_post">Current</div>
