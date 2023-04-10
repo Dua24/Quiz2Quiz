@@ -97,9 +97,6 @@ const Header = (props) => {
                                     <span className="user_actions">
                                         <IoNotificationsOutline />
                                     </span>
-                                    <span className="user_actions">
-                                        <BsPlusLg />
-                                    </span>
                                     <Dropdown className="drop" autoClose="outside">
                                         <Dropdown.Toggle className="dropdown_toggle_language" variant="secondary">
                                             <MdOutlineLanguage />

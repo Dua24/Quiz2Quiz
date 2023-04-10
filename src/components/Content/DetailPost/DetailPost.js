@@ -61,9 +61,7 @@ const DetailPost = () => {
             reply: [],
             deletable: true
         }
-        toast.success("Add comments successfully", {
-            autoClose: 2000
-        })
+        toast.success("Add comments successfully")
         setPosts(draft => {
             setValueEditorCmt('')
             draft.forEach((e) => {

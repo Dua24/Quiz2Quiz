@@ -168,6 +168,11 @@
                             color: #ba5f5f
                         }
                     }
+                    &.disable{
+                        color: #ccc;
+                        user-select: none;
+                        cursor: not-allowed;
+                    }
                 }
            }
         }

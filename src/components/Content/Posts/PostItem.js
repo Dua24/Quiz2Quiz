@@ -39,9 +39,7 @@ const PostItem = (props) => {
                 }
             })
         })
-        toast.success("Delete post successfully", {
-            autoClose: 2000
-        })
+        toast.success("Delete post successfully")
     }
 
     const handleNavigateParticipant = (e, participantId) => {

@@ -9,8 +9,12 @@ import { RxLayout } from 'react-icons/rx'
 import { AiOutlineRise } from 'react-icons/ai'
 import { TfiLayoutMenuV, TfiLayoutAccordionMerged } from 'react-icons/tfi'
 import Dropdown from 'react-bootstrap/Dropdown';
+import { useContext } from 'react'
+import { AuthContext } from '../../Context/Context'
 const FilterPost = (props) => {
     const { posts, setPosts } = props
+    const { isAuthUser } = useContext(AuthContext);
+
     const [classNameActive, setClassNameActive] = useState('')
     const [nameFilter, setNameFilter] = useState('')
     const handleFilter = (type) => {
@@ -62,7 +66,7 @@ const FilterPost = (props) => {
     }
     return (
         <>
-            <h4 className="title">Popular posts</h4>
+            {!isAuthUser && <h4 className="title">Popular posts</h4>}
             <div className="filter_posts ">
                 <div className="filter_items ">
                     <span
@@ -70,28 +74,18 @@ const FilterPost = (props) => {
                         onClick={() => handleFilter('hot')}>
                         <FaHotjar /> Hot
                     </span>
-                    <Dropdown>
+                    {/* <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
                             Everywhere <BiChevronDown style={{ fontSize: '22px' }} />
                         </Dropdown.Toggle>
-
                         <Dropdown.Menu>
                             <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
                             <Dropdown.Item href="#/action-2" className="active">Another action</Dropdown.Item>
                             <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                             <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                            
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
                     <span
                         className={nameFilter === 'new' && classNameActive || ''}
                         onClick={() => handleFilter('new')}
@@ -103,17 +97,17 @@ const FilterPost = (props) => {
                         className={nameFilter === 'top' && classNameActive || ''}
                     ><RiVipCrownLine /> Top</span>
                 </div>
-                <Dropdown>
+                {/* <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        <SlOptions />
+                       <SlOptions />
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
                         <Dropdown.Item href="#/action-1"><AiOutlineRise /> Action</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
+                    </Dropdown.Menu> 
+                </Dropdown> */}
 
-                <Dropdown className="layout_option">
+                {/* <Dropdown className="layout_option">
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         <RxLayout style={{ fontSize: '24px' }} /> <BiChevronDown style={{ fontSize: '22px' }} />
                     </Dropdown.Toggle>
@@ -123,7 +117,7 @@ const FilterPost = (props) => {
                         <Dropdown.Item href="#/action-1"><TfiLayoutAccordionMerged /> Classic</Dropdown.Item>
                         <Dropdown.Item href="#/action-1"><TfiLayoutMenuV /> Compact</Dropdown.Item>
                     </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown> */}
                 <span ></span>
             </div>
         </>

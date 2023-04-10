@@ -29,7 +29,6 @@ root.render(
       pauseOnHover={false}
       theme="light"
     />
-    <ToastContainer />
     {/* </React.StrictMode> */}
   </Provider>
 );

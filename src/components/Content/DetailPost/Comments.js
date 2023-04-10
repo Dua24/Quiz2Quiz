@@ -130,9 +130,7 @@ const Comments = (props) => {
                     e.comments[idCmt].reply.unshift(newReply)
                     setShowCmtArea('')
                     setValue('')
-                    toast.success("Add reply comment successfully!!", {
-                        autoClose: 2000
-                    })
+                    toast.success("Add reply comment successfully!!")
                 }
             })
 
@@ -153,9 +151,7 @@ const Comments = (props) => {
                 })
             }
         })
-        toast.success("Delete reply comment successfully!!", {
-            autoClose: 2000
-        })
+        toast.success("Delete reply comment successfully!!")
     }
     // const comment = {
     //     1: {
@@ -190,9 +186,7 @@ const Comments = (props) => {
                 }
             })
         })
-        toast.success("Delete comment successfully", {
-            autoClose: 2000
-        })
+        toast.success("Delete comment successfully")
     }
     return (
         <div className="comments-container" >

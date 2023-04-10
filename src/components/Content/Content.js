@@ -17,9 +17,6 @@ const Content = (props) => {
     const [inputPostValue, setInputPostValue] = useState('')
     const [disabledBtnPost, setDisabledBtnPost] = useState(true)
 
-
-
-
     useEffect(() => {
         if (inputPostValue) {
             setDisabledBtnPost(false)

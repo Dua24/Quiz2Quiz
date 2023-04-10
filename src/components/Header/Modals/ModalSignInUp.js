@@ -135,7 +135,6 @@ const ModalSignInUp = (props) => {
             setShow(false)
             toast.success("Login successfully", {
                 position: "top-center",
-                autoClose: 2000,
             })
         } else if (typeModal === "continue") {
             setDisabledBtn(true)
