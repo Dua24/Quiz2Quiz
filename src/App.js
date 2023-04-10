@@ -16,7 +16,7 @@ const App = () => {
       id: 1,
       num_Evaluate: 76,
       post_time: '7 seconds',
-      post_detail: 'What video game have you played the most?',
+      post_detail: 'What video game have you played the most?s',
       type: 'text',
       owner: {
         id: 1,
