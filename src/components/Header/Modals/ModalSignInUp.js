@@ -29,11 +29,18 @@ const ModalSignInUp = (props) => {
         setVerifiedInput(false)
         setIsVerified(false)
     }
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
     const handleOnChangeInput = (e) => {
         if (typeModal === 'login') {
             if (e.target.name === 'username') {
                 setUsername(e.target.value)
-                handleVerifyInput(e.target.value)
+                handleVerifyInput(e.target.value, 'name')
             }
             if (e.target.name === 'password') {
                 e.target.type = 'password'
@@ -42,11 +49,13 @@ const ModalSignInUp = (props) => {
         } else if (typeModal === 'continue') {
             if (e.target.name === 'email') {
                 setEmail(e.target.value)
+                handleVerifyInput(e.target.value, 'email')
+
             }
         } else if (typeModal === 'signup') {
             if (e.target.name === 'username') {
                 setUsername(e.target.value)
-                handleVerifyInput(e.target.value)
+                handleVerifyInput(e.target.value, 'name')
             }
             if (e.target.name === 'password') {
                 e.target.type = 'password'
@@ -58,14 +67,23 @@ const ModalSignInUp = (props) => {
 
     }
 
-    const handleVerifyInput = (value) => {
+    const handleVerifyInput = (value, type) => {
         setIsVerified(true)
         if (isVerified) {
-            if (value && value.length >= 3 && value.length < 20) {
-                setVerifiedInput(true)
+            if (type === 'name') {
+                if (value && value.length >= 3 && value.length < 20) {
+                    setVerifiedInput(true)
+
+                } else {
+                    setVerifiedInput(false)
+                }
 
             } else {
-                setVerifiedInput(false)
+                if (validateEmail(value)) {
+                    setVerifiedInput(true)
+                } else {
+                    setVerifiedInput(false)
+                }
             }
         }
     }
@@ -116,12 +134,20 @@ const ModalSignInUp = (props) => {
             return "noVerified"
         }
     }
-    const textNoVerified = () => {
+    const textNoVerified = (type) => {
         if (isVerified) {
             if (!verifiedInput) {
-                return (
-                    <span className="err">Username must be between 3 and 20 characters</span>
-                )
+                if (type === "name") {
+                    return (
+                        <span className="err">Username must be between 3 and 20 characters</span>
+                    )
+                } else if (type === "email") {
+                    return (
+                        <span className="err">Invalid email</span>
+                    )
+
+                }
+
 
             }
         }
@@ -139,7 +165,6 @@ const ModalSignInUp = (props) => {
         } else if (typeModal === "continue") {
             setDisabledBtn(true)
             setTypeModal("signup")
-            console.log(email)
         } else if (typeModal === "signup") {
             setDisabledBtn(true)
             setIsAuthUser(true)
@@ -210,7 +235,7 @@ const ModalSignInUp = (props) => {
 
                                 />
                                 <label>Username</label>
-                                {textNoVerified()}
+                                {textNoVerified("name")}
 
                             </div>
                             <div className="form-floating">
@@ -238,6 +263,7 @@ const ModalSignInUp = (props) => {
 
                             />
                             <label>Email</label>
+                            {textNoVerified('email')}
                         </div>}
 
                     {typeModal === "signup" &&
@@ -253,7 +279,7 @@ const ModalSignInUp = (props) => {
 
                                 />
                                 <label>Choose a username</label>
-                                {textNoVerified()}
+                                {textNoVerified('name')}
 
                             </div>
                             <div className="form-floating">

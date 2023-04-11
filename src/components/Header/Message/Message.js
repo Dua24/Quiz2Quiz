@@ -24,9 +24,17 @@ const Message = (props) => {
         {
             id: 2,
             img: "https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png",
-            name: "Alibi",
+            name: "envy",
             checked: false
         }
+        ,
+        {
+            id: 3,
+            img: "https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png",
+            name: "bbbbbbb",
+            checked: false
+        }
+
     ]
     const { user } = useContext(AuthContext);
 
@@ -74,24 +82,16 @@ const Message = (props) => {
     const [currentUserChatting, setCurrentUserChatting] = useState({})
     const [messages, setMessages] = useImmer(message)
 
-
-
     useEffect(() => {
         if (searchValue) {
-            const uf = listFriend.find((e) => { return e.name.toLowerCase().includes(searchValue.toLowerCase()) })
-            if (uf) {
-                if (!dataUserFound.find((e) => { return e.id === uf.id })) {
-                    setDataUserFound(draft => { draft.push(uf) })
-                }
-            } else {
-                setDataUserFound([])
-            }
+            const newFilteredUserFound = listFriend.filter((user) =>
+                user.name.toLowerCase().includes(searchValue.toLowerCase())
+            );
+            setDataUserFound(newFilteredUserFound);
         } else {
-            setDataUserFound([])
-
+            setDataUserFound([]);
         }
-    }, [searchValue])
-
+    }, [searchValue]);
 
     const handleMsgBox = (type, e) => {
         if (type === "min") {
@@ -160,9 +160,7 @@ const Message = (props) => {
     }
 
     const handleSendMsg = (e) => {
-        console.log("VAO handle")
         if (e.key === "Enter") {
-            console.log("Vao enter")
             sendMsg()
         }
     }
@@ -185,11 +183,11 @@ const Message = (props) => {
         if (type === "direct") {
             return (
                 <div className="contain_chat_recent">
-                    {recentChatArr && recentChatArr.length > 0 && recentChatArr.map((uf) => {
+                    {recentChatArr && recentChatArr.length > 0 && recentChatArr.map((uf, i) => {
                         return (
                             <div
                                 className={`chaters ${currentUserChatting.id === uf.id && 'active'}`}
-                                key={uf.id}
+                                key={i}
                                 onClick={() => handleTabchater(uf)}
                             >
                                 <img src={uf.img} />
@@ -197,8 +195,9 @@ const Message = (props) => {
                             </div>
                         )
 
-                    })}
-                </div>
+                    })
+                    }
+                </div >
             )
         } else if (type === 'chat') {
             return (
@@ -313,9 +312,9 @@ const Message = (props) => {
                                             />
                                         </InputGroup>
                                         <div className="user_found_container">
-                                            {dataUserFound && dataUserFound.length > 0 && dataUserFound.map((uf) => {
+                                            {dataUserFound && dataUserFound.length > 0 && dataUserFound.map((uf, i) => {
                                                 return (
-                                                    <div className="user_found" key={uf.id} onClick={() => handleOnChangeCheck(uf.id)}>
+                                                    <div className="user_found" key={i} onClick={() => handleOnChangeCheck(uf.id)}>
                                                         <img src={uf.img} />
                                                         <span >{uf.name}</span>
                                                         <input

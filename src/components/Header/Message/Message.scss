@@ -29,6 +29,8 @@
             padding: 12px 7px;
         }
         .contain_chat_recent{
+            max-height: 400px;
+            overflow: auto;
             .chaters{
                 padding: 15px 15px 12px;
                 display: flex;

@@ -241,7 +241,7 @@ const App = () => {
           <div className="main-content" style={{ textAlign: 'left' }}>
             <Outlet params={{ isAuthUser }} />
             <ScrollButton />
-            {<Message showMessageBox={showMessageBox} setShowMessageBox={setShowMessageBox} />}
+            {isAuthUser && <Message showMessageBox={showMessageBox} setShowMessageBox={setShowMessageBox} />}
 
           </div>
         </div>
