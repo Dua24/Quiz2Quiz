@@ -203,7 +203,7 @@ const App = () => {
     },
   ]
   const user = {
-    id: 121212,
+    id: 109,
     name_user: "ndnguyen",
     img_user: "https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png",
   }

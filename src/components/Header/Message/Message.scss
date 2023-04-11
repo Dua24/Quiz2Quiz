@@ -219,12 +219,13 @@
                             margin-right: 8px;
                             .msg{
                                 min-width: 40px;
-                                padding: 4px 12px;
-                                background: red;
+                                padding: 6px 10px;
+                                background: #fff;
                                 border-radius: 100px;
                                 display: inline-flex;
                                 align-items: center;
                                 justify-content: center;
+                                border: 1px solid #cccccc54;
                             }
                             .avt{
                                 img{
@@ -242,11 +243,12 @@
                             .msg{
                                 min-width: 40px;
                                 padding: 4px 12px;
-                                background: rgba(0, 0, 255, 0.199);
+                                background: #1976d254;
                                 border-radius: 100px;
                                 display: inline-flex;
                                 align-items: center;
                                 justify-content: center;
+                                border: 1px solid #cccccc85;
                             }
                             .avt{
                                 img{

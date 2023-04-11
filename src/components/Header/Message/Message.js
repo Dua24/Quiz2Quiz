@@ -10,6 +10,9 @@ import { useEffect, useRef, useState } from "react"
 import { useImmer } from "use-immer"
 import PriButton from "../../Button/PriButton"
 import _ from 'lodash'
+import { useContext } from "react"
+import { AuthContext } from "../../Context/Context"
+import { v4 as uuidv4 } from 'uuid'
 const Message = (props) => {
     const userFound = [
         {
@@ -25,6 +28,41 @@ const Message = (props) => {
             checked: false
         }
     ]
+    const { user } = useContext(AuthContext);
+
+    const message = {
+        1: {
+            message_id: 1,
+            sender_id: 1,
+            reciever_id: user.id,
+            content: "duy nguyen nhan!!"
+        },
+        2: {
+            message_id: 2,
+            sender_id: user.id,
+            reciever_id: 1,
+            content: "user nhan cho duy nguyen!!"
+        },
+        3: {
+            message_id: 3,
+            sender_id: user.id,
+            reciever_id: 2,
+            content: "user nhan cho aliba!!"
+        },
+        4: {
+            message_id: 4,
+            sender_id: 1,
+            reciever_id: user.id,
+            content: "duy nguyen nhan cho user lan 2"
+        },
+        5: {
+            message_id: 5,
+            sender_id: 2,
+            reciever_id: user.id,
+            content: "aliba nhan cho user lan 1"
+        }
+    }
+
     const { showMessageBox, setShowMessageBox } = props
     const [minMessageBox, setMinMessageBox] = useState(false)
     const [listFriend, setListFriend] = useState(userFound)
@@ -34,6 +72,9 @@ const Message = (props) => {
     const [searchValue, setSearchValue] = useState('')
     const [recentChatArr, setRecentChatsArr] = useImmer([])
     const [currentUserChatting, setCurrentUserChatting] = useState({})
+    const [messages, setMessages] = useImmer(message)
+
+
 
     useEffect(() => {
         if (searchValue) {
@@ -118,10 +159,28 @@ const Message = (props) => {
         setIsStartChat(true)
     }
 
-    const handleSendMsg = () => {
-
+    const handleSendMsg = (e) => {
+        console.log("VAO handle")
+        if (e.key === "Enter") {
+            console.log("Vao enter")
+            sendMsg()
+        }
     }
 
+    const sendMsg = () => {
+        if (chatValue) {
+            const newMsgId = uuidv4()
+            setMessages(draft => {
+                draft[newMsgId] = {
+                    message_id: newMsgId,
+                    sender_id: user.id,
+                    reciever_id: currentUserChatting.id,
+                    content: chatValue
+                }
+                setChatValue("")
+            })
+        }
+    }
     const handleStartChat = (type) => {
         if (type === "direct") {
             return (
@@ -156,77 +215,31 @@ const Message = (props) => {
                     <div className="chat_container started">
                         <div className="boxchat">
                             <div className="contain_messages">
-                                <div className="owner">
-                                    <span className="msg">hi</span>
-                                    <span className="avt">
-                                        <img src={currentUserChatting.img} />
-                                    </span>
-                                </div>
-                                <div className="owner">
-                                    <span className="msg">hi2</span>
-                                    <span className="avt">
-                                        <img src={currentUserChatting.img} />
-                                    </span>
-                                </div>
-                                <div className="friend">
-                                    <span className="avt">
-                                        <img src={currentUserChatting.img} />
-                                    </span>
-                                    <span className="msg">hi2</span>
-                                </div>
-                                <div className="owner">
-                                    <span className="msg">hi2</span>
-                                    <span className="avt">
-                                        <img src={currentUserChatting.img} />
-                                    </span>
-                                </div>
-                                <div className="owner">
-                                    <span className="msg">hi</span>
-                                    <span className="avt">
-                                        <img src={currentUserChatting.img} />
-                                    </span>
-                                </div>
-                                <div className="owner">
-                                    <span className="msg">hi2</span>
-                                    <span className="avt">
-                                        <img src={currentUserChatting.img} />
-                                    </span>
-                                </div>
-                                <div className="friend">
-                                    <span className="avt">
-                                        <img src={currentUserChatting.img} />
-                                    </span>
-                                    <span className="msg">hi2</span>
-                                </div>
-                                <div className="owner">
-                                    <span className="msg">hi2</span>
-                                    <span className="avt">
-                                        <img src={currentUserChatting.img} />
-                                    </span>
-                                </div><div className="owner">
-                                    <span className="msg">hi</span>
-                                    <span className="avt">
-                                        <img src={currentUserChatting.img} />
-                                    </span>
-                                </div>
-                                <div className="owner">
-                                    <span className="msg">hi2</span>
-                                    <span className="avt">
-                                        <img src={currentUserChatting.img} />
-                                    </span>
-                                </div>
-                                <div className="friend">
-                                    <span className="avt">
-                                        <img src={currentUserChatting.img} />
-                                    </span>
-                                    <span className="msg">hi2</span>
-                                </div>
-                                <div className="owner">
-                                    <span className="msg">hi2</span>
-                                    <span className="avt">
-                                        <img src={currentUserChatting.img} />
-                                    </span>
-                                </div>
+                                {Object.entries(messages).map(([key, value]) => {
+                                    if (value.sender_id === user.id && value.reciever_id === currentUserChatting.id) {
+                                        return (
+                                            <div key={key} className="owner">
+                                                <span className="msg">{value.content}</span>
+                                                <span className="avt">
+                                                    <img src={user.img_user} />
+                                                </span>
+                                            </div>
+                                        )
+                                    } else {
+                                        if (value.sender_id === currentUserChatting.id) {
+                                            return (
+                                                <div key={key} className="friend">
+                                                    <span className="avt">
+                                                        <img src={currentUserChatting.img} />
+                                                    </span>
+                                                    <span className="msg">{value.content}</span>
+                                                </div>
+                                            )
+                                        }
+                                    }
+                                })}
+
+
                             </div>
                         </div>
                         <div className="inputChat">
@@ -237,10 +250,12 @@ const Message = (props) => {
                                 type="text"
                                 value={chatValue}
                                 onChange={e => setChatValue(e.target.value)}
+                                onKeyDown={(e) => handleSendMsg(e)}
                             />
                             <span
                                 className={`send ${chatValue && "active"}`}
-                                onClick={() => handleSendMsg()}
+                                onClick={() => sendMsg()}
+
                             >
                                 <TbSend />
                             </span>
