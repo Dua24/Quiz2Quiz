@@ -5,11 +5,12 @@
     padding-left: 40px;
     padding-top: 3px;
     padding-bottom: 4px;
-    background-color: #fff;
+    background-color: var(--background_component);
     max-height: 750px;
-    border: 2px solid #fff;
+    border: 2px solid var(--background_rate_hover);
     &:hover{
-        border-color: #b1b6cf;
+        border-color: var(--icon_color)
+
     }
     .post_item{
         position: relative;
@@ -28,7 +29,8 @@
             left: -40px;
             .like{
                 &:hover{
-                    background-color: #ccc
+                    background-color: var(--background_rate_hover);
+                    color:#ff0000b3
                 }
                 &.active{
                     color: #FF4500;
@@ -39,7 +41,8 @@
             }
             .dislike{
                 &:hover{
-                    background-color: #ccc
+                    background-color: var(--background_rate_hover);
+                    color:#3f51b5;
                 }
                 &.active{
                     color: #7193ff;
@@ -55,7 +58,7 @@
             .num_Evaluate{
                 font-size: 13px;
                 font-weight: 700;
-                color: #000;
+                color: var(--text_color);
             }
         }
         .content_post{
@@ -85,7 +88,7 @@
                     .name{
                         font-weight: 700;
                         line-height: 16px;
-                        color: #000;
+                        color: var(--text_color);
                         display: inline;
                         line-height: 20px;
                         text-decoration: none;
@@ -112,6 +115,8 @@
                         font-size: 12px;
                         text-transform: unset;
                         padding: 4px 30px;
+                        background-color:var(--btn_join);
+                        color:var(--text_btn_color)
                     }
                    
                 }
@@ -182,7 +187,7 @@
 .contain_DetailPost{
     .contain-posts{
         &:hover{
-            border-color: #fff
+            border-color: var(--background_rate_hover)
         }
     }
 }

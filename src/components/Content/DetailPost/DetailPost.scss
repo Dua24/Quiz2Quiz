@@ -6,16 +6,22 @@
     .quill {
         margin: 9px 44px;
         .ql-toolbar{
-            background-color: #eaecec
+            background-color: var(--background_component);
+            
         }
         .ql-container{
             min-height: 100px;
+            .ql-editor{
+                &::before{
+                    color: var(--text_sidebar_color);
+                }
+            }
         }
     }
     .container_detailPost_main{
-        background-color: #646d73;
+        background-color: var(--detail_post_background);
         .seeAllPost{
-            background: #6ca3c4;
+            background: var(--header_slide_bg);
             display: inline-flex;
             align-items: center;
             padding: 3px 9px;
@@ -23,12 +29,12 @@
             font-size: 16px;
             border-radius: 100px;
             font-weight: 400;
-            color: #fff;
+            color: var(--background_component);
             margin-left: 35px;
             margin-top: 18px;
             &:hover{
                 cursor: pointer;
-                background: #1e88e5;
+                background: var(--filter_active);
 
             }
         }
@@ -40,14 +46,15 @@
             .main_detail{
                 height: 100%;
                 width: 850px;
-                background: #646d73;
+                background: var(--detail_post_background);
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
                 .subPost{
-                background-color: #fff;
+                background-color: var(--background_component);
                 
                 .containEditor{
+                    background-color: var(--background_component);
                     padding-top: 14px;
                     display: flex;
                     flex-direction: column-reverse;
@@ -59,6 +66,14 @@
                         width: fit-content;
                         margin-left: auto;
                         margin-right: 40px;
+                        button{
+                            background-color:var(--btn_join);
+                            color: var(--text_btn_color);
+                            &.css-1skeclo-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+                                background-color:var(--icon_color);
+                                color: var(--text_btn_color);
+                            }
+                        }
                     }
                 }
                 .comments-container{
@@ -138,7 +153,7 @@
                                             .name{
                                                 font-weight: 700;
                                                 line-height: 16px;
-                                                color: #000;
+                                                color: var(--text_color);
                                                 display: inline;
                                                 line-height: 20px;
                                                 text-decoration: none;
@@ -162,18 +177,19 @@
                                     display: flex;
                                     align-items: center;
                                     gap:20px;
-                                    color:#8f8f8f;
+                                    color:var(--icon_color);
                                     .rate{
                                         display: flex;
                                         flex-direction: row;
                                         align-items: center;
                                         gap: 7px;
                                         .num_Evaluate{
-                                            color: #01030c;
+                                            color: var(--icon_color);
                                         }
                                         .like{
                                             &:hover{
-                                                background-color: #ccc
+                                                background-color: var(--background_rate_hover);
+                                                color: #FF4500;
                                             }
                                             &.active{
                                                 color: #FF4500;
@@ -184,7 +200,8 @@
                                         }
                                         .dislike{
                                             &:hover{
-                                                background-color: #ccc
+                                                background-color: var(--background_rate_hover);
+                                                color: #7193ff;
                                             }
                                             &.active{
                                                 color: #7193ff;
@@ -200,7 +217,7 @@
                                         gap: 5px;
                                         &:hover{
                                             cursor: pointer;
-                                            color: #150b0b;
+                                            color: var(--text_sidebar_color);
                                         }
                                         &.delete{
                                             &:hover{
@@ -219,6 +236,7 @@
                         border-top-right-radius: 15px;
                         border-top-left-radius: 15px;
                         .ql-toolbar{
+                            background-color: var(--background_component);
                             border-top-right-radius: 15px;
                             border-top-left-radius: 15px;
                         }
@@ -239,12 +257,12 @@
                     font-weight: 700;
                     text-transform: none;
                     margin-bottom:28px;
-                    background: #6ca3c4;
-                    color: #fff;
+                    background: var(--header_slide_bg);
+                    color: var(--background_component);
                     padding: 12px;
                 }
                 .side1{
-                    background: #fff;
+                    background: var(--background_component);
                     .contain_contentSlide1{
                         padding: 12px;
     
@@ -253,6 +271,7 @@
                             align-items: center;
                             gap: 8px;
                             font-weight: 600;
+                            color: var(--text_color);
                             .g1{
                                 img{
                                     height: 54px;
@@ -268,13 +287,15 @@
                             font-size: 14px;
                             line-height: 21px;
                             font-weight: 400;
-                            margin: 14px 0
+                            margin: 14px 0;
+                            color: var(--text_color);
+
                         };
                         ._timeCreated{
                             display: flex;
                             align-items: center;
                             gap: 5px;
-                            color: #1b191991;
+                            color: var(--text_color);
                             font-weight: 500;
                             font-size: 14px;
                             .date_detail{
@@ -347,25 +368,24 @@
                         .joinBtn{
                             button{
                                 width: 100%;
-                                background-color: #e37466;
+                                background-color: var(--view_bg);
+                                color: var(--text_btn_color);
                             }
                         }
                     }
                 }
                 .side2{
-                    background: #fff;
+                    background: var(--background_component);
                     .contain_postSimilar{
                         padding: 12px;
                         .content_post{
                             display: flex;
                             flex-direction: column;
                             gap: 9px;
-                            border-bottom: 1px solid #ccc;
+                            border-bottom: 1px solid var(--background_rate_hover);
                             margin-bottom: 16px;
                             padding: 12px;
-                            &.active{
-                                background: #f6fbff
-                            }
+                           
                             .header_post{
                                 display: flex;
                                 align-items: center;
@@ -386,7 +406,7 @@
                                     .name{
                                         font-weight: 500;
                                         line-height: 16px;
-                                        color: #000;
+                                        color: var(--text_color);
                                         display: inline;
                                         line-height: 20px;
                                         text-decoration: none;
@@ -403,11 +423,11 @@
                                     margin-left: auto;
                                     font-size: 12px;
                                     margin-right: 15px;
-                                    background: #2196f3;
+                                    background: var(--btn_join);
                                     padding: 4px 10px;
                                     border-radius: 100px;
                                     font-weight: 600;
-                                    color: #fff;
+                                    color: var(--text_btn_color);
                                 }
                                 >button{
                                     min-width: 24px;

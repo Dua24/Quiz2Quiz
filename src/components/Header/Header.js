@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./header.scss"
 import logo from "../../assets/logo/reddit-logo.png"
 import logoTitle from "../../assets/logo/reddit-title.png"
@@ -7,7 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import SearchInput from "./SearchInput";
 import PriBtn from "../Button/PriButton"
 import Dropdown from 'react-bootstrap/Dropdown';
-import { BsQrCodeScan, BsPlusLg } from "react-icons/bs";
+import { BsQrCodeScan, BsPlusLg, BsLightbulb } from "react-icons/bs";
 import { CiUser, CiDark, CiLogin } from 'react-icons/ci'
 import { SlArrowDown } from 'react-icons/sl'
 import { AiOutlineInfoCircle, AiOutlineMessage } from 'react-icons/ai'
@@ -24,9 +24,15 @@ import { AuthContext } from "../Context/Context";
 const Header = (props) => {
     const navigate = useNavigate()
     const { showMessageBox, setShowMessageBox } = props
-    const [toggleModeDark, setToggleModeDark] = useState(false)
     const [showModalQR, setShowModalQR] = useState(false)
     const { isAuthUser, setIsAuthUser, setShowModalSignInUp, setPosts, data, user } = useContext(AuthContext);
+    const [darkMode, setDarkMode] = useState(false);
+    useEffect(() => {
+        document.body.classList.toggle('dark', darkMode);
+    }, [darkMode]);
+    const toggleMode = () => {
+        setDarkMode(!darkMode);
+    }
 
     const handleLogOut = () => {
         setIsAuthUser(false)
@@ -54,7 +60,7 @@ const Header = (props) => {
                         {!isAuthUser ?
                             <>
                                 <Nav.Item className="col-5">
-                                    <Nav.Link href="#link" style={{ display: "flex", justifyContent: "flex-end", gap: '15px' }}>
+                                    <Nav.Link style={{ display: "flex", justifyContent: "flex-end", gap: '15px' }}>
                                         <div onClick={() => setShowModalQR(true)} >
                                             <PriBtn type="spri" text="Get app" icons={<BsQrCodeScan />} />
                                         </div>
@@ -71,11 +77,20 @@ const Header = (props) => {
 
                                         <Dropdown.Menu variant="dark">
                                             <Dropdown.Item
-                                                onClick={() => setToggleModeDark(!toggleModeDark)}
+                                                onClick={toggleMode}
                                             >
-                                                <CiDark className="iconDd" />
-                                                Dark Mode
-                                                <SwitchMode toggled={toggleModeDark} />
+
+                                                {!darkMode ?
+                                                    <> <CiDark className="iconDd" />
+                                                        Dark Mode
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <BsLightbulb className="iconDd" />
+                                                        Light Mode</>
+                                                }
+
+                                                <SwitchMode toggled={darkMode} />
                                             </Dropdown.Item>
                                             <Dropdown.Divider />
 
@@ -120,11 +135,11 @@ const Header = (props) => {
 
                                         <Dropdown.Menu variant="dark">
                                             <Dropdown.Item
-                                                onClick={() => setToggleModeDark(!toggleModeDark)}
+                                                onClick={toggleMode}
                                             >
                                                 <CiDark className="iconDd" />
                                                 Dark Mode
-                                                <SwitchMode toggled={toggleModeDark} />
+                                                <SwitchMode toggled={darkMode} />
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                             >

@@ -1,11 +1,11 @@
 .participant_container{
-    background-color: #fff;
+    background-color: var(--background_component);
     .board{
         height: 140px;
-        background: rgb(55, 60, 63);
+        background: var(--detail_post_background);
     }
     .user_info{
-        background-color: #fff;
+        background-color: var(--background_component);
         max-width: 990px;
         display: flex;
         flex-direction: column;
@@ -54,22 +54,22 @@
                 font-size: 14px;
                 font-weight: 600;
                 line-height: 18px;
-                border-bottom: 3px solid #373c3f;
-                color: #1c1c1c;
+                border-bottom: 3px solid var(--filter_active);
+                color: var(--text_sidebar_color);
                 cursor: pointer;
             }
         }
     }
     .user_newfeed_container{
-        background-color: #646d73;
+        background-color: var(--detail_post_background);
         .user_newfeed{
             padding: 20px 0;
             max-width: 990px;
             margin: 0 auto;
             .filter_posts{
                 align-items: center;
-                background-color: #fff;
-                border: 1px solid #ccc;
+                background-color: var(--background_component);
+                border: 1px solid var(--background_rate_hover);
                 border-radius: 4px;
                 box-sizing: border-box;
                 display: -ms-flexbox;
@@ -148,7 +148,7 @@
                         &.active{
                             background-color: rgba(204, 204, 204, 0.3411764706);
                             cursor: pointer;
-                            color:#1e88e5
+                            color:var(--filter_active)
                         }
                     }
                 }

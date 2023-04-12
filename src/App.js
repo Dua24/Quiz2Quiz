@@ -10,6 +10,7 @@ import { AuthContext } from './components/Context/Context';
 import { useImmer } from 'use-immer';
 import video from "./assets/video/video.mp4"
 import ModalSignInUp from './components/Header/Modals/ModalSignInUp';
+import "./globalSass.scss"
 const App = () => {
   const data = [
     {

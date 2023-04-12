@@ -6,6 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: var(--text_color);
 }
 *{
   box-sizing: border-box;
@@ -22,7 +23,7 @@ code {
     top: 0;
     left: 0;
     right: 0;
-    background-color: #fff;
+    background-color: var(--background_component);
     z-index: 100;
   }
   .content{
@@ -38,7 +39,8 @@ code {
           padding: 0;
         }
         .pro-sidebar-inner {
-          background-color: #fff;
+          background-color: var(--background_component);
+          color: #878A8C;
           .pro-sidebar-content{
             flex-grow: unset;
             max-height: 500px;
@@ -48,7 +50,6 @@ code {
             .title{
               display: block;
               padding: 16px 24px 8px;
-              color: #878A8C;
               font-size: 10px;
               font-weight: 500;
               line-height: 16px;
@@ -56,7 +57,7 @@ code {
             }
             .pro-menu-item.pro-sub-menu{
               .pro-inner-list-item{
-                background-color:#fff !important;
+                background-color:var(--background_component) !important;
                 padding-left: 36px;
                 .pro-menu-item{
                   max-width: 80%;
@@ -68,10 +69,11 @@ code {
             }
             .pro-inner-item{
               padding: 8px 24px;
-              color:#000;
+              color:var(--text_sidebar_color);
               &:hover{
                 cursor: pointer;
-                background-color: rgba(0,0,0,0.04)
+                background-color: var(--hover_background);
+                color: var(--hover_text);
               }
              
               .pro-icon-wrapper{
@@ -105,7 +107,7 @@ code {
             justify-content: space-evenly;
             .sidebar-btn-wrapper{
               border: 1px solid rgba(0,0,0,0.2);
-              background-color: #1976d2;
+              background-color: var(--btn_join);
               border-radius: 100px;
               padding: 7px 42px;
               &:hover{
@@ -114,7 +116,7 @@ code {
               }
               a{
                 text-decoration: none;
-                color:#fff;
+                color:var(--text_btn_color);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -128,7 +130,7 @@ code {
     }
     .main-content{
       width: 100vw;
-      background-color: #dae0e6;
+      background-color: var(--content_background);
       margin-left: 270px;
       
     }
@@ -142,10 +144,10 @@ code {
     z-index: 4;
     cursor: pointer;
     background: transparent;
-    color: #1976d2;
+    color: var(--btn_join);
     border: none;
     svg{
-      background-color:#fff;
+      background-color:var(--text_btn_color);
       border-radius: 1000px;
     }
   }
