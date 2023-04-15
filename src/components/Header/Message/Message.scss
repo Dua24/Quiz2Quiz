@@ -5,20 +5,20 @@
     height: 500px;
     bottom: 0;
     z-index: 999;
-    box-shadow: 1px 1em 2.45em 1.525em rgb(178 188 197);
+    box-shadow: -4px -0.3em 3.15em -1.075em var(--background_rate_hover);
     display: flex;
     border-top-left-radius:17px ;
     border-top-right-radius:17px ;
     .direct_chat{
         width: 300px;
         // background:#ffffff;
-        background:#fff;
+        background:var(--background_component);
         height: 100%;
         border-top-left-radius:17px;
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        border-right: 1px solid #ccc6;
+        border-right: 1px solid var(--background_rate_hover);
         .text_direct{
             font-size: 12px;
             font-weight: 400;
@@ -35,6 +35,7 @@
                 padding: 15px 15px 12px;
                 display: flex;
                 gap: 6px;
+                background-color: var((--background_component));
                 img{
                     width: 26px;
                     border-radius: 100px;
@@ -42,10 +43,10 @@
                 >span{
                     font-size: 12px;
                     font-weight: 700;
-                    color: #878A8C;
+                    color: var(--text_color);
                 }
                 &:hover{
-                    background:#f6f7f8;
+                    background:var(--background_rate_hover);
                     cursor: pointer;
 
                 }
@@ -72,7 +73,7 @@
             font-weight: 700;
             &:hover{
                 cursor: pointer;
-                background-color: #0c0c0c21;
+                background-color: var(--background_rate_hover);
             }
             svg{
                 font-size: 19px;
@@ -80,7 +81,7 @@
         }
 }
     .chat{
-        background: #f6f7f8;
+        background: var(--bg_chat);
         width: 100%;
         border-top-right-radius:17px;
         padding: 7px 10px;
@@ -94,7 +95,7 @@
                 font-size: 16px;
                 font-weight: 500;
                 line-height: 20px;
-                color: #000;
+                color: var(--text_color);
             }
             .header_nav{
                 font-size: 25px;
@@ -129,11 +130,10 @@
             }
             .md_search_input{
                 background: #fff;
-                border-radius: 6px;
                 overflow: hidden;
                 .contain_search_input{
-                padding: 16px 12px 4px;
-
+                    padding: 16px 12px 4px;
+                    background-color: var(--background_component);
                     .icon_search_input{
                         background: #fff;
                         border:none;
@@ -151,6 +151,7 @@
                     }
                 }
                 .user_found_container{
+                    background-color: var(--background_component);
                     .not_exist{
                         font-size: 12px;
                         font-weight: 400;
@@ -164,7 +165,7 @@
                         border-bottom: 1px solid #cccccc3d;
                         padding: 7px 15px;
                         &:hover{
-                            background-color: #e4e3e3;
+                            background-color: var(--hover_background);
                             cursor: pointer;
 
                         }
@@ -189,11 +190,22 @@
                 gap: 7px;
                 margin-top: auto;
                 margin-left: auto;
-                button{
-                    font-size: 14px;
-                    padding: 4px 16px;
-                    text-transform: none;
-                   
+              
+                span{
+                    button{
+                        background-color:var(--btn_join);
+                        color: var(--text_btn_color);
+                        &.css-1skeclo-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+                            background-color:var(--icon_color);
+                            color: var(--text_btn_color);
+                        }
+                    }
+                }
+                .cl{
+                    button{
+                        background-color:var(--bg_chat);
+                        color: var(--text_color);
+                    }
                 }
             }
             &.started{
@@ -202,7 +214,7 @@
                     flex-direction: column;
                     justify-content: end;
                     margin-bottom: 10px;
-                    background: #f6f7f8;
+                    background: var(--bg_chat);
                     height: 100%;
 
                     .contain_messages{
@@ -222,7 +234,7 @@
                             .msg{
                                 min-width: 40px;
                                 padding: 6px 10px;
-                                background: #fff;
+                                background: var(--background_component);
                                 border-radius: 100px;
                                 display: inline-flex;
                                 align-items: center;
@@ -263,19 +275,20 @@
                 }
                 .inputChat{
                     height: 46px;
-                    background-color: #f7f7f7;
+                    background-color: var(--bg_chat);
                     margin-top: auto;
                     display: flex;
                     align-items: center;
                     gap: 16px;
                     input{
-                        background-color: #fff;
-                        color: #000;
+                        background-color: var(--background_component);
+                        color: var(--text_color);
                         flex: 1 1;
                         border: none;
                         outline: none;
                         padding: 8px 10px;
-                        border-radius: 100px
+                        border-radius: 100px;
+                        border:1px solid #ccc
                     }
                     span{
                         font-size: 23px;
@@ -314,11 +327,10 @@
     height: 40px;
     bottom: 0;
     z-index: 999;
-    box-shadow: 1px 1em 2.45em 1.525em rgb(178 188 197);
     display: flex;
     border-top-left-radius: 17px;
     border-top-right-radius: 17px;
-    background: #fff;
+    background: var(--background_component);
     font-weight: 600;
     display: flex;
     align-items: center;

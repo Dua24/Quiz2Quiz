@@ -65,7 +65,7 @@ const PostItem = (props) => {
                 >
                     <div className="header_post">
                         <span className="g1">
-                            <img src={post.owner.img} />
+                            <img src={post.owner.image} />
                         </span>
                         <div className="g2">
                             <span className="name" onClick={(e) => handleNavigateParticipant(e, post.owner.id)}>{post.owner.name}</span>

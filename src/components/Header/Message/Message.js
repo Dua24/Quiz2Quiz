@@ -81,7 +81,12 @@ const Message = (props) => {
     const [recentChatArr, setRecentChatsArr] = useImmer([])
     const [currentUserChatting, setCurrentUserChatting] = useState({})
     const [messages, setMessages] = useImmer(message)
-
+    const messagesEndRef = useRef(null);
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages]);
     useEffect(() => {
         if (searchValue) {
             const newFilteredUserFound = listFriend.filter((user) =>
@@ -92,6 +97,7 @@ const Message = (props) => {
             setDataUserFound([]);
         }
     }, [searchValue]);
+
 
     const handleMsgBox = (type, e) => {
         if (type === "min") {
@@ -124,7 +130,7 @@ const Message = (props) => {
         if (uf) {
             return (
                 <div className="contain_startChat">
-                    <span onClick={() => setSearchValue('')}  >
+                    <span className="cl" onClick={() => setSearchValue('')}  >
                         <PriButton type="spri" text="Cancle" />
                     </span>
                     <span onClick={() => handleAddDirectChat(uf)}>
@@ -213,7 +219,7 @@ const Message = (props) => {
                     </div>
                     <div className="chat_container started">
                         <div className="boxchat">
-                            <div className="contain_messages">
+                            <div className="contain_messages" >
                                 {Object.entries(messages).map(([key, value]) => {
                                     if (value.sender_id === user.id && value.reciever_id === currentUserChatting.id) {
                                         return (
@@ -238,7 +244,7 @@ const Message = (props) => {
                                     }
                                 })}
 
-
+                                <div ref={messagesEndRef}></div>
                             </div>
                         </div>
                         <div className="inputChat">
@@ -254,7 +260,6 @@ const Message = (props) => {
                             <span
                                 className={`send ${chatValue && "active"}`}
                                 onClick={() => sendMsg()}
-
                             >
                                 <TbSend />
                             </span>

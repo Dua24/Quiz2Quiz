@@ -241,7 +241,7 @@ const Comments = (props) => {
                                 </div>
                             </div>
                             {showCmtArea === cmt.id &&
-                                <div style={{ position: 'relative' }}>
+                                <div className="hh" style={{ position: 'relative' }}>
                                     <ReactQuill
                                         placeholder='Typing for reply'
                                         ref={editorRef}
@@ -250,6 +250,7 @@ const Comments = (props) => {
                                         onChange={setValue}
                                     />
                                     <span
+                                        className="cl"
                                         onClick={() => setShowCmtArea('')}
                                         style={{
                                             position: 'absolute',

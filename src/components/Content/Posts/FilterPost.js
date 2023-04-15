@@ -64,6 +64,7 @@ const FilterPost = (props) => {
             })
         }
     }
+    console.log(posts)
     return (
         <>
             {!isAuthUser && <h4 className="title">Popular posts</h4>}

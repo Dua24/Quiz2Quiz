@@ -23,6 +23,7 @@
                 border-radius: 100px;
                 font-size: 22px;
                 min-width: 40px;
+                color:var(--text_color);
                 &:hover{
                     cursor: pointer;
                     background: #ccc;
@@ -47,13 +48,13 @@
                         border-radius: 100px;
                     }
                     >span{
-                        color: #000;
+                        color:  var(--text_color);
                     }
                 }
                 .dropdown_toggle_language{
-                    background: #fff;
+                    background: var(--background_component);
                     border:none;
-                    color:#000;
+                    color:var(--text_color);
                     font-size: 22px;
                     min-width: 40px;
 
@@ -67,6 +68,10 @@
         align-items: center;
     }
     .drop{
+        #dropdown-button-dark-example1{
+            background: var(--background_component);
+            color: var(--text_sidebar_color)
+        }
         .dropdown-toggle::after {
             display: none !important; 
           }
@@ -74,12 +79,14 @@
             left: unset;
             right: 5%;
             font-size: 15px;
+            background-color: var(--background_component);
             .dropdown-item{
                 min-height: 40px;
                 display: flex;
                 align-items: center;
                 gap: 8px;
                 font-weight: 500;
+                color: var(--text_sidebar_color);
                 .iconDd{
                     font-size: 17px;
                 }
@@ -111,6 +118,7 @@
             .modal-title{
                 font-weight:700;
                 font-size: 30px;
+                color: #000;
             }
             border-bottom:unset;
         
@@ -120,6 +128,7 @@
                 font-weight: 700;
                 text-align: center;
                 margin: 8px 0 18px 0;
+                color: #000;
             }
             .qr{
                 display: flex;
@@ -166,6 +175,7 @@
 .modalSignInUp{
     .modal-dialog{
         max-width: 400px;
+        color: #000;
         .modal-header{
             border-bottom:unset;
             

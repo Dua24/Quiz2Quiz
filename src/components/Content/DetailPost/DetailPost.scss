@@ -7,7 +7,6 @@
         margin: 9px 44px;
         .ql-toolbar{
             background-color: var(--background_component);
-            
         }
         .ql-container{
             min-height: 100px;
@@ -228,20 +227,37 @@
                                 }
                             }
                         }
-    
-    
-                    }
-                    .quill{
-                        border: 1px solid #383232;
-                        border-top-right-radius: 15px;
-                        border-top-left-radius: 15px;
-                        .ql-toolbar{
-                            background-color: var(--background_component);
-                            border-top-right-radius: 15px;
-                            border-top-left-radius: 15px;
+                        .hh{
+                            .quill{
+                                border: 1px solid #383232;
+                                border-top-right-radius: 15px;
+                                border-top-left-radius: 15px;
+                                .ql-toolbar{
+                                    background-color: var(--background_component);
+                                    border-top-right-radius: 15px;
+                                    border-top-left-radius: 15px;
+                                }
+                            }
+                            >span{
+                                button{
+                                    background-color:var(--btn_join);
+                                    color: var(--text_btn_color);
+                                    &.css-1skeclo-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+                                        background-color:var(--icon_color);
+                                        color: var(--text_btn_color);
+                                    }
+                                }
+                            }
+                            .cl{
+                                button{
+                                    background-color:#e37466;
+                                    color: #fff;
+                                }
+                            }
                         }
+    
                     }
-                    
+                  
                    
                 }
                 }

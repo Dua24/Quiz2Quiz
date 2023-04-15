@@ -1,13 +1,13 @@
 .content-container{
     .create_post{
         align-items: center;
-        background-color: #fff;
+        background-color: var(--background_component);
         border: 1px solid #ccc;
         border-radius: 4px;
         display: flex;
         margin-bottom: 16px;
         padding: 4px 12px;
-        color: #1f1e1ebd;
+        color: var(--icon_color);
         min-height: 55px;
         gap: 15px;
         .logo_post{
@@ -30,6 +30,10 @@
         }
         .input_post{
             flex:1;
+            display: flex;
+            flex-direction: column;
+            align-items: end;
+            position: relative;
             &:hover{
                 input{
                     border-color: #1976d2;
@@ -37,14 +41,33 @@
             }
             input{
                 width: 100%;
-                padding: 5px 13px;
+                padding: 5px 106px 5px 13px;
                 background: #ecedee;
                 border: none;
                 border-radius: 100px;
                 outline: none;
-                color: #686464bd;
+                color: #000;
                 border: 1px solid transparent;
 
+            }
+            .nameAttch{
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 14px;
+                color: black;
+                cursor: pointer;
+                font-weight: 600;
+                max-width: 85px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: start;
+                background: #ccc;
+                padding: 0 3px;
             }
         }
         .options_post{
@@ -60,7 +83,14 @@
                 &:hover{
                     cursor: pointer;
                     background-color: #ccc;
-                    border-radius:7px
+                }
+                button{
+                    background-color:var(--btn_join);
+                    color: var(--text_btn_color);
+                    &.css-1skeclo-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+                        background-color:var(--icon_color);
+                        color: var(--text_btn_color);
+                    }
                 }
             }
         }
@@ -81,6 +111,7 @@
             .trending_slider{
                 .react-multiple-carousel__arrow{
                     z-index: 3;
+                    display: none;
                 }
                 .react-multi-carousel-dot--active{
                     button{

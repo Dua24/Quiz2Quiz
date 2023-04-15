@@ -29,7 +29,7 @@ const Trending = () => {
                     focusOnSelect={true}
                     swipeable={false}
                     draggable={false}
-                    showDots={true}
+                    showDots={false}
                     responsive={responsive}
                     ssr={false} // means to render carousel on server-side.
                     infinite={true}

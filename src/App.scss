@@ -18,6 +18,11 @@ code {
 
 .App {
   text-align: center;
+  .loadwait{
+    height: 30px;
+    width: 30px;
+    margin: 0 auto;
+  }
   .header{
     position: fixed;
     top: 0;

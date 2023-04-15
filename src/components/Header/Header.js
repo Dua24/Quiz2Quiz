@@ -44,11 +44,12 @@ const Header = (props) => {
     return (
         <div className="header-container">
             <Container fluid>
-                <Navbar bg="light" expand="lg">
+                <Navbar expand="lg">
                     <Navbar.Brand className=" col-2">
                         <Link className="logo" to="/">
                             <img src={logo} width="33" height="33" className="d-inline-block align-top" alt="" />
                             <img src={logoTitle} width="60" className="d-inline-block align-top" alt="" />
+
                         </Link>
 
                     </Navbar.Brand>

@@ -11,6 +11,8 @@ import { useImmer } from 'use-immer';
 import video from "./assets/video/video.mp4"
 import ModalSignInUp from './components/Header/Modals/ModalSignInUp';
 import "./globalSass.scss"
+import { getAllPosts } from './services/apiServices';
+import moment from 'moment';
 const App = () => {
   const data = [
     {
@@ -211,16 +213,56 @@ const App = () => {
 
 
   const [isAuthUser, setIsAuthUser] = useState(false)
-  const [posts, setPosts] = useImmer(data)
+  const [posts, setPosts] = useImmer()
   const [showMessageBox, setShowMessageBox] = useState(false)
   const [showModalSignInUp, setShowModalSignInUp] = useState(false)
 
+  useEffect(() => {
+    fetchListPosts()
+  }, [])
 
+  const fetchListPosts = async () => {
+    const res = await getAllPosts()
+    console.log(res)
+    if (res && res.EC === 0) {
+
+      res.DT.forEach((e) => {
+        e['post_time'] = handleDurationPostPosted(e.createdAt)
+      })
+      setPosts(res.DT)
+    }
+  }
+
+
+  const handleDurationPostPosted = (timeCreateAt) => {
+    const start = moment(timeCreateAt);
+    const now = moment();
+    console.log("db", timeCreateAt)
+    console.log("now", now)
+    const duration = moment.duration(now.diff(start));
+
+    let durationText;
+    if (duration.asSeconds() < 60) {
+      durationText = `${Math.ceil(duration.asSeconds())} seconds`;
+    } else if (duration.asMinutes() < 60) {
+      durationText = `${duration.minutes()} minutes`;
+    } else {
+      durationText = `${duration.hours()} hours, ${duration.minutes()} minutes`;
+    }
+    return durationText
+  }
+
+  console.log("posts>>> ", posts)
 
   useEffect(() => {
     // 👇️ scroll to top on page load
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, []);
+
+
+
+
+
   return (
     <AuthContext.Provider value={{
       isAuthUser, setIsAuthUser,
