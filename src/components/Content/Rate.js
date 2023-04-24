@@ -1,82 +1,69 @@
 import { RxThickArrowDown, RxThickArrowUp } from 'react-icons/rx'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../Context/Context';
+import { useSelector } from 'react-redux';
+import { getRatingsByUser, rate } from '../../services/apiServices';
+import _ from 'lodash';
 const Rate = (props) => {
-    const { setData, data, idCmt, idReply, type, idPost } = props
-    const { isAuthUser, setShowModalSignInUp } = useContext(AuthContext);
+    const { data, fetchListPosts } = props
+    const { setShowModalSignInUp } = useContext(AuthContext);
+    const { isAuthenticated, account } = useSelector(state => state.user)
+    const [typeRate, setTypeRate] = useState('')
+    const [rattingsByUser, setRattingsByUser] = useState([])
 
-    const [isLike, setIsLike] = useState(false)
-    const [isDislike, setIsDislike] = useState(false)
-    const handleLikeCount = (type, id) => {
-        if (!isAuthUser) {
-            setShowModalSignInUp(true)
-            return;
+    useEffect(() => {
+        fetchRatingsByUser()
+    }, [isAuthenticated])
+
+    const fetchRatingsByUser = async () => {
+        if (isAuthenticated) {
+            const res = await getRatingsByUser(account.id)
+            if (res && res.EC == 0) {
+                setRattingsByUser(res.DT)
+            }
+        } else {
+            setTypeRate('')
+            setRattingsByUser([])
         }
-        setData(draft => {
-            let p
-            if (props.type === 'post') {
-                p = draft.find((p) => { return p.id === id })
 
-            } else if (props.type === "comment") {
-                draft.forEach((e) => {
-                    if (String(e.id) === String(idPost)) {
-                        p = e.comments[idReply]
+    }
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            if (rattingsByUser && !_.isEmpty(rattingsByUser)) {
+                rattingsByUser.forEach((e) => {
+                    if (e.post === data._id) {
+                        setTypeRate(e.type)
                     }
                 })
             }
-            if (!p['EvaluateType']) {
-                if (type === 'like') {
-                    p.num_Evaluate += 1
-                    p['EvaluateType'] = 'like'
-                    setIsLike(true)
-                    setIsDislike(false)
-                } else {
-                    p.num_Evaluate -= 1
-                    p['EvaluateType'] = 'dislike'
-                    setIsDislike(true)
-                    setIsLike(false)
+        }
+    }, [rattingsByUser])
 
-                }
-            } else {
-                if (type === 'like') {
-                    if (!isLike) {
-                        p.num_Evaluate += 2
-                        p['EvaluateType'] = 'like'
-                        setIsLike(true)
-                        setIsDislike(false)
-                    }
-                } else if (type === "dislike") {
-                    if (!isDislike) {
-                        p.num_Evaluate -= 2
-                        p['EvaluateType'] = 'dislike'
-                        setIsDislike(true)
-                        setIsLike(false)
-                    }
-                }
-            }
 
-        })
-
-    }
-    const handleActiveClassEvaluate = (type, evaluated) => {
-        if (evaluated === type) {
-            return 'active'
-        } else {
-            return ''
+    const handleLikeCount = async (type, postId) => {
+        if (!isAuthenticated) {
+            setShowModalSignInUp(true)
+            return;
+        }
+        const res = await rate(type, account.id, postId)
+        if (res && res.EC === 0) {
+            setTypeRate(type)
+            fetchListPosts()
         }
     }
     return (
         <div className="rate">
             <span
-                onClick={() => handleLikeCount('like', data.id)}
-                className={`like ${handleActiveClassEvaluate('like', data.EvaluateType)}`}
+                onClick={() => handleLikeCount('like', data._id)}
+                className={`like ${typeRate === 'like' && 'active'}`}
             >
                 <RxThickArrowUp />
             </span>
             <span className="num_Evaluate">{data.num_Evaluate}</span>
             <span
-                className={`dislike ${handleActiveClassEvaluate('dislike', data.EvaluateType)}`}
-                onClick={() => handleLikeCount('dislike', data.id)}
+                onClick={() => handleLikeCount('dislike', data._id)}
+                className={`dislike ${typeRate === 'dislike' && 'active'}`}
 
             >
                 <RxThickArrowDown />

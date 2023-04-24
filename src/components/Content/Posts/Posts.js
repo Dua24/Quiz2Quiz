@@ -5,8 +5,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../Context/Context';
 
 const Posts = (props) => {
-    const { posts } = useContext(AuthContext);
-
+    const { posts } = props
 
     return (
         <>

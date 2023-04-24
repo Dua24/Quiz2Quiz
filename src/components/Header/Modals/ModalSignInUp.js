@@ -1,13 +1,17 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { FcGoogle } from 'react-icons/fc'
 import { BsApple } from 'react-icons/bs'
 import PriButton from '../../Button/PriButton';
 import { AuthContext } from '../../Context/Context';
 import { toast } from 'react-toastify';
+import { checkEmailExist, login, register } from '../../../services/apiServices';
+import md5 from 'md5';
+import { useDispatch } from 'react-redux';
+import { doLogin } from '../../../redux/action/userAction';
+import ModalLoading from './ModalLoading';
 const ModalSignInUp = (props) => {
     const { show, setShow } = props
-    const { setIsAuthUser } = useContext(AuthContext);
     const [isVerified, setIsVerified] = useState(false)
     const [verifiedInput, setVerifiedInput] = useState(false)
     const [email, setEmail] = useState("")
@@ -15,13 +19,25 @@ const ModalSignInUp = (props) => {
     const [password, setPassword] = useState("")
     const [typeModal, setTypeModal] = useState("login")
     const [disabledBtn, setDisabledBtn] = useState(true)
-
-
+    const refInput = useRef()
+    const dispatch = useDispatch()
+    const [showloading, setShowloading] = useState(false)
     useEffect(() => {
         handleDisableButton()
     }, [username, password, email])
 
+    useEffect(() => {
+        refInput?.current?.focus()
+    }, [show, typeModal])
+
+
+    const formSubmit = (e) => {
+        e.preventDefault()
+        handleSubmit()
+    }
+
     const handleCloseModal = () => {
+        setTypeModal('login')
         setShow(false)
         setEmail('')
         setUsername('')
@@ -38,9 +54,9 @@ const ModalSignInUp = (props) => {
     };
     const handleOnChangeInput = (e) => {
         if (typeModal === 'login') {
-            if (e.target.name === 'username') {
-                setUsername(e.target.value)
-                handleVerifyInput(e.target.value, 'name')
+            if (e.target.name === 'email') {
+                setEmail(e.target.value)
+                handleVerifyInput(e.target.value, 'email')
             }
             if (e.target.name === 'password') {
                 e.target.type = 'password'
@@ -50,7 +66,6 @@ const ModalSignInUp = (props) => {
             if (e.target.name === 'email') {
                 setEmail(e.target.value)
                 handleVerifyInput(e.target.value, 'email')
-
             }
         } else if (typeModal === 'signup') {
             if (e.target.name === 'username') {
@@ -66,7 +81,6 @@ const ModalSignInUp = (props) => {
         }
 
     }
-
     const handleVerifyInput = (value, type) => {
         setIsVerified(true)
         if (isVerified) {
@@ -110,7 +124,7 @@ const ModalSignInUp = (props) => {
                 setDisabledBtn(true)
             }
         } else if (typeModal === "continue") {
-            if (email.length > 0) {
+            if (verifiedInput && email.length > 0) {
                 setDisabledBtn(false)
 
             } else {
@@ -153,22 +167,69 @@ const ModalSignInUp = (props) => {
         }
 
     }
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        if (showloading) {
+            return
+        }
+        const start = performance.now()
+        setShowloading(true)
         if (disabledBtn) return
         if (typeModal === "login") {
-            setDisabledBtn(true)
-            setIsAuthUser(true)
-            setShow(false)
-            toast.success("Login successfully", {
-                position: "top-center",
-            })
+            const res = await login(email, md5(password))
+            console.log("res ", res)
+            const end = performance.now()
+            setShowloading(true)
+            setTimeout(() => {
+                setShowloading(false)
+            }, (end - start))
+            if (res.EC === 0) {
+                setDisabledBtn(true)
+                dispatch(doLogin(res.DT))
+                toast.info("Login successfully", {
+                    position: "top-center",
+                })
+                handleCloseModal()
+
+            } else {
+                toast.error(res.DT, {
+                    position: "top-center",
+                })
+            }
         } else if (typeModal === "continue") {
+            const res = await checkEmailExist(email)
+            const end = performance.now()
+            setShowloading(true)
+            setTimeout(() => {
+                setShowloading(false)
+            }, (end - start))
+            if (res && res.EC == 0) {
+                setTypeModal("signup")
+            } else {
+                toast.error(res.DT, {
+                    position: "top-center",
+                })
+
+            }
             setDisabledBtn(true)
-            setTypeModal("signup")
         } else if (typeModal === "signup") {
-            setDisabledBtn(true)
-            setIsAuthUser(true)
-            setShow(false)
+            const res = await register(email, md5(password), username)
+            const end = performance.now()
+            setShowloading(true)
+            setTimeout(() => {
+                setShowloading(false)
+            }, (end - start))
+            if (res.EC === 0) {
+                setDisabledBtn(true)
+                toast.success("Register successfully", {
+                    position: "top-center",
+                })
+            } else {
+                toast.error(res.DT, {
+                    position: "top-center",
+                })
+            }
+            handleCloseModal()
+
         }
 
     }
@@ -202,7 +263,7 @@ const ModalSignInUp = (props) => {
                     }
 
                 </div>
-                <form>
+                <form onSubmit={formSubmit}>
                     {typeModal !== 'signup' &&
                         <div className="sso">
                             <div className="sso-btn">
@@ -228,14 +289,15 @@ const ModalSignInUp = (props) => {
                                 <input
                                     spellCheck={false}
                                     type='text'
-                                    className={`form-control ${setClassNameVerified()}`}
-                                    name="username"
-                                    value={username}
+                                    className={`form-control `}
+                                    name="email"
+                                    value={email}
                                     onChange={(e) => handleOnChangeInput(e)}
+                                    ref={refInput}
 
                                 />
-                                <label>Username</label>
-                                {textNoVerified("name")}
+                                <label>Email</label>
+                                {textNoVerified('email')}
 
                             </div>
                             <div className="form-floating">
@@ -258,6 +320,7 @@ const ModalSignInUp = (props) => {
                                 type='text'
                                 className={`form-control `}
                                 name="email"
+                                ref={refInput}
                                 value={email}
                                 onChange={(e) => handleOnChangeInput(e)}
 
@@ -275,6 +338,7 @@ const ModalSignInUp = (props) => {
                                     className={`form-control ${setClassNameVerified()}`}
                                     name="username"
                                     value={username}
+                                    ref={refInput}
                                     onChange={(e) => handleOnChangeInput(e)}
 
                                 />
@@ -298,14 +362,19 @@ const ModalSignInUp = (props) => {
                     <div className="forgot_info">
                         {typeModal === 'login' && <div>Forget your <span>username</span> or <span>password</span> ?</div>}
                     </div>
+                    <button style={{ visibility: "hidden" }} type="submit"></button>
                     {typeModal === "login" ?
+
                         <div className="btn_submit" onClick={handleSubmit}>
                             <PriButton disabled={disabledBtn} type="signinup" text={typeModal === "login" ? 'Log in' : "Continue"} />
                         </div>
+
                         :
+
                         <div className="btn_submit" onClick={handleSubmit}>
                             <PriButton disabled={disabledBtn} type="signinup" text={typeModal === "continue" ? 'Continue' : "Sign up"} />
                         </div>
+
                     }
 
 
@@ -319,6 +388,7 @@ const ModalSignInUp = (props) => {
                     </div>
                 </form>
             </Modal.Body>
+            <ModalLoading show={showloading} setShow={setShowloading} />
         </Modal>
     )
 }

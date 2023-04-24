@@ -7,10 +7,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import SearchInput from "./SearchInput";
 import PriBtn from "../Button/PriButton"
 import Dropdown from 'react-bootstrap/Dropdown';
-import { BsQrCodeScan, BsPlusLg, BsLightbulb } from "react-icons/bs";
+import { BsQrCodeScan, BsLightbulb } from "react-icons/bs";
 import { CiUser, CiDark, CiLogin } from 'react-icons/ci'
 import { SlArrowDown } from 'react-icons/sl'
-import { AiOutlineInfoCircle, AiOutlineMessage } from 'react-icons/ai'
+import { AiOutlineMessage } from 'react-icons/ai'
 import { IoNotificationsOutline } from "react-icons/io5";
 import SwitchMode from "./SwitchMode/SwitchMode";
 import { Link, useNavigate } from "react-router-dom";
@@ -21,24 +21,38 @@ import { MdOutlineLanguage } from 'react-icons/md'
 import { CgProfile } from 'react-icons/cg'
 import { useContext } from "react";
 import { AuthContext } from "../Context/Context";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../services/apiServices";
+import { doLogout } from "../../redux/action/userAction";
+import { toast } from "react-toastify";
+import { pressDarkMode } from "../../redux/action/darkModeAction";
 const Header = (props) => {
-    const navigate = useNavigate()
     const { showMessageBox, setShowMessageBox } = props
     const [showModalQR, setShowModalQR] = useState(false)
-    const { isAuthUser, setIsAuthUser, setShowModalSignInUp, setPosts, data, user } = useContext(AuthContext);
-    const [darkMode, setDarkMode] = useState(false);
+    const { setShowModalSignInUp } = useContext(AuthContext);
+    const dispatch = useDispatch()
+    const { account, isAuthenticated } = useSelector(state => state.user)
+    const { status } = useSelector(state => state.darkMode)
+    const [darkMode, setDarkMode] = useState(status.dark);
     useEffect(() => {
         document.body.classList.toggle('dark', darkMode);
     }, [darkMode]);
+
     const toggleMode = () => {
+        dispatch(pressDarkMode(!darkMode))
         setDarkMode(!darkMode);
     }
+    const handleLogOut = async () => {
+        const res = await logout(account.email)
+        if (res && res.EC === 0) {
+            dispatch(doLogout())
+            toast.info("Logout successfully", {
+                position: "top-center",
+            })
+        } else {
+            toast.error("CO Loi khi log out...")
+        }
 
-    const handleLogOut = () => {
-        setIsAuthUser(false)
-        setShowModalSignInUp(false)
-        setPosts(data)
-        navigate('/')
     }
 
     return (
@@ -58,7 +72,7 @@ const Header = (props) => {
                         <Nav.Item className="col-6">
                             <SearchInput />
                         </Nav.Item>
-                        {!isAuthUser ?
+                        {!isAuthenticated ?
                             <>
                                 <Nav.Item className="col-5">
                                     <Nav.Link style={{ display: "flex", justifyContent: "flex-end", gap: '15px' }}>
@@ -129,8 +143,8 @@ const Header = (props) => {
                                     </Dropdown>
                                     <Dropdown className="drop" autoClose="outside">
                                         <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
-                                            <img src={user.img_user} />
-                                            <span>{user.name_user}</span>
+                                            <img src={account.image} />
+                                            <span>{account.username}</span>
 
                                         </Dropdown.Toggle>
 

@@ -11,11 +11,16 @@ import { useContext } from "react"
 import { AuthContext } from "../../Context/Context"
 import { FaRegTrashAlt } from 'react-icons/fa'
 import { toast } from "react-toastify"
+import { useSelector } from "react-redux"
+import { deletePost } from "../../../services/apiServices"
 const PostItem = (props) => {
     const navigate = useNavigate()
-    const { isAuthUser, showModalSignInUp, setShowModalSignInUp, setIsAuthUser, setPosts } = useContext(AuthContext);
+    const { setShowModalSignInUp, setPosts, fetchListPosts } = useContext(AuthContext);
     const { post } = props
     const { id } = useParams
+    const { isAuthenticated, account } = useSelector(state => state.user)
+
+
     const handleShowLoginModal = (e) => {
         e.stopPropagation()
         setShowModalSignInUp(true)
@@ -29,28 +34,24 @@ const PostItem = (props) => {
         navigate(`/posts/${postId}`)
     }
 
-    const handleDeletePost = (e, postId) => {
-        navigate('/')
+    const handleDeletePost = async (e, postId) => {
         e.stopPropagation()
-        setPosts(draft => {
-            draft.forEach((e, i) => {
-                if (e.id === postId) {
-                    draft.splice(i, 1)
-                }
-            })
-        })
-        toast.success("Delete post successfully")
+        const res = await deletePost(postId)
+        if (res && res.EC === 0) {
+            fetchListPosts()
+            toast.success("Delete post successfully")
+        }
+        navigate(`/`)
     }
 
     const handleNavigateParticipant = (e, participantId) => {
         e.stopPropagation()
         navigate(`/participant/${participantId}`)
     }
-
     return (
         <div
             className="contain-posts"
-            key={post.id}
+            key={post._id}
 
         >
             <div className="post_item">
@@ -58,21 +59,22 @@ const PostItem = (props) => {
                     setData={setPosts}
                     data={post}
                     type="post"
+                    fetchListPosts={fetchListPosts}
                 />
                 <div
                     className="content_post"
-                    onClick={() => handleMoveDetailPost(post.id)}
+                    onClick={() => handleMoveDetailPost(post._id)}
                 >
                     <div className="header_post">
                         <span className="g1">
-                            <img src={post.owner.image} />
+                            <img src={post.owner.image || "https://external-preview.redd.it/5kh5OreeLd85QsqYO1Xz_4XSLYwZntfjqou-8fyBFoE.png?auto=webp&s=dbdabd04c399ce9c761ff899f5d38656d1de87c2"} />
                         </span>
                         <div className="g2">
-                            <span className="name" onClick={(e) => handleNavigateParticipant(e, post.owner.id)}>{post.owner.name}</span>
+                            <span className="name" onClick={(e) => handleNavigateParticipant(e, post.owner._id)}>{post.owner.name}</span>
                             <span className='dot'>•</span>
                             <span className="post_time">{post.post_time} ago</span>
                         </div>
-                        {props.typeParent === "list" && !isAuthUser &&
+                        {props.typeParent === "list" && !isAuthenticated &&
                             <span
                                 className="btnJoin"
                                 onClick={(e) => handleShowLoginModal(e)}
@@ -84,9 +86,6 @@ const PostItem = (props) => {
                         <div className="post_detail">
                             <h3>{post.post_detail}</h3>
                             {post.type === 'img' && <img src={post.img_detail} />}
-                            {post.type === 'vid' && <video autoPlay muted loop controls>
-                                <source src={post.vid_detail} type="video/mp4" />
-                            </video>}
                             <div>
 
                             </div>
@@ -97,7 +96,7 @@ const PostItem = (props) => {
                     <div className="footer_post">
                         <div className="item">
                             <TfiComments />
-                            <span className="numComment text_after">{post.numComment}</span>
+                            <span className="numComment text_after">{post.comments.length}</span>
                             <span className="text_after">Comments</span>
                         </div>
                         <div className="item">
@@ -108,8 +107,8 @@ const PostItem = (props) => {
                             <CiSaveDown2 />
                             <span className="text_after">Save</span>
                         </div>
-                        {post.deletable &&
-                            <div className="item delete" onClick={(e) => handleDeletePost(e, post.id)}>
+                        {post?.owner?._id === account.id &&
+                            <div className="item delete" onClick={(e) => handleDeletePost(e, post._id)}>
                                 <FaRegTrashAlt />
                                 <span className="text_after">Delete</span>
                             </div>}

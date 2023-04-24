@@ -1,22 +1,18 @@
 import { useState } from 'react'
 import { FaHotjar } from 'react-icons/fa'
 import { MdNewReleases } from 'react-icons/md'
-import { RiVipCrownLine, RiLayoutRowLine } from 'react-icons/ri'
-import { SlOptions, SlArrowDown } from 'react-icons/sl'
-import { BsGrid1X2 } from 'react-icons/bs'
-import { BiChevronDown } from 'react-icons/bi'
-import { RxLayout } from 'react-icons/rx'
-import { AiOutlineRise } from 'react-icons/ai'
-import { TfiLayoutMenuV, TfiLayoutAccordionMerged } from 'react-icons/tfi'
-import Dropdown from 'react-bootstrap/Dropdown';
-import { useContext } from 'react'
-import { AuthContext } from '../../Context/Context'
+import { RiVipCrownLine } from 'react-icons/ri'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 const FilterPost = (props) => {
     const { posts, setPosts } = props
-    const { isAuthUser } = useContext(AuthContext);
+    const { isAuthenticated } = useSelector(state => state.user)
 
-    const [classNameActive, setClassNameActive] = useState('')
-    const [nameFilter, setNameFilter] = useState('')
+    const [classNameActive, setClassNameActive] = useState('active')
+    const [nameFilter, setNameFilter] = useState('new')
+    useEffect(() => {
+        setNameFilter('new')
+    }, [posts?.length])
     const handleFilter = (type) => {
         const handleCompare = (a, b, type) => {
             setClassNameActive('active')
@@ -35,7 +31,7 @@ const FilterPost = (props) => {
         } else if (type === "hot") {
             setNameFilter(type)
             setPosts(draft => {
-                draft.sort((a, b) => handleCompare(a.numComment, b.numComment, 'desc'));
+                draft.sort((a, b) => handleCompare(a.comments.length, b.comments.length, 'desc'));
             })
         } else if (type === "new") {
             setNameFilter(type)
@@ -64,10 +60,9 @@ const FilterPost = (props) => {
             })
         }
     }
-    console.log(posts)
     return (
         <>
-            {!isAuthUser && <h4 className="title">Popular posts</h4>}
+            {!isAuthenticated && <h4 className="title">Popular posts</h4>}
             <div className="filter_posts ">
                 <div className="filter_items ">
                     <span

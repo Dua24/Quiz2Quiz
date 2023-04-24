@@ -47,6 +47,19 @@
                         text-transform: unset;
                     }
                 }
+                .g2_detail{
+                    font-weight: 600;
+                    .offline{
+                        border-radius: 100px;
+                        background: #e01e1e;
+                        color: #e01e1e;
+                    }
+                    .online{
+                        border-radius: 100px;
+                        background-color: #15f01e;
+                        color: #15f01e;
+                    }
+                }
             }
         }
         .label{

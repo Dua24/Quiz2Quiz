@@ -13,13 +13,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { toast } from "react-toastify"
 import ModalImg from "../Header/Modals/ModalImg"
 import ReactLoading from 'react-loading';
+import { useSelector } from "react-redux"
+import { postPost } from "../../services/apiServices"
 const Content = (props) => {
-    const { isAuthUser, posts, setPosts, user } = useContext(AuthContext);
+    const { posts, setPosts, fetchListPosts } = useContext(AuthContext);
     const [inputPostValue, setInputPostValue] = useState('')
+    const { isAuthenticated, account } = useSelector(state => state.user)
     const [disabledBtnPost, setDisabledBtnPost] = useState(true)
-    const [attchPost, setAttchPost] = useState()
+    const [attchPost, setAttchPost] = useState('')
     const inputRef = useRef()
     const [showModalImg, setShowModalImg] = useState(false)
+    const [previewImg, setPreviewImg] = useState()
     useEffect(() => {
         if (inputPostValue) {
             setDisabledBtnPost(false)
@@ -29,35 +33,22 @@ const Content = (props) => {
     }, [inputPostValue])
 
 
-    const handleCreatePost = () => {
+    const handleCreatePost = async () => {
         if (disabledBtnPost) return
         let type = "text"
         if (attchPost) {
             type = "img"
         }
-        setPosts(draft => {
-            draft.unshift({
-                id: uuidv4(),
-                num_Evaluate: 0,
-                owner: {
-                    id: user.id,
-                    name: `r/${user.name_user}`,
-                    img: user.img_user,
-                },
-                post_time: '1 seconds',
-                post_detail: inputPostValue,
-                img_detail: attchPost || '',
-                numComment: 0,
-                type: type,
-                deletable: true
+        const res = await postPost(inputPostValue, type, account.id, attchPost)
+        if (res && res.EC === 0) {
+            toast.success("Post successfully", {
+                autoClose: 2000
             })
-        })
-        toast.success("Post successfully", {
-            autoClose: 2000
-        })
-        setInputPostValue("")
-        setDisabledBtnPost(true)
-        setAttchPost()
+            fetchListPosts()
+            setInputPostValue("")
+            setDisabledBtnPost(true)
+            setAttchPost('')
+        }
     }
     const handleImgCreatePost = () => {
         inputRef.current.click()
@@ -65,17 +56,24 @@ const Content = (props) => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         e.target.value = null;
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            setAttchPost(reader.result);
-            setDisabledBtnPost(false)
-        };
+        setAttchPost(file);
+        setDisabledBtnPost(false)
+        file2Base64(file)
     }
+    const file2Base64 = (attchPost) => {
+        if (attchPost) {
+            const reader = new FileReader();
+            reader.readAsDataURL(attchPost);
+            reader.onload = () => {
+                setPreviewImg(reader.result)
+            };
+        }
+    }
+
     return (
 
         <div className="content-container">
-            {!isAuthUser &&
+            {!isAuthenticated &&
                 <div className="header-content">
                     <Trending />
                 </div>}
@@ -86,10 +84,10 @@ const Content = (props) => {
 
                     <div className="main-posts">
 
-                        {isAuthUser &&
+                        {isAuthenticated &&
                             <div className="create_post">
                                 <div className="logo_post">
-                                    <img src={user.img_user} />
+                                    <img src={account.image} />
                                     <span></span>
                                 </div>
                                 <div className="input_post">
@@ -139,7 +137,7 @@ const Content = (props) => {
                     </div>
                 </div>
             </div>
-            <ModalImg show={showModalImg} setShow={setShowModalImg} src={attchPost} />
+            <ModalImg show={showModalImg} setShow={setShowModalImg} src={previewImg} />
         </div>
     )
 }

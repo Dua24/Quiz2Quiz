@@ -157,6 +157,15 @@ code {
     }
   }
 }
+.modalLoading{
+    display: flex !important;
+    z-index: 9999999;
+    background: rgba(0,0,0,0.3);
+    align-items: center;
+    .modal-content{
+      background:unset
+    }
+}
 .App.dark{
   background-color: red !important;
 }

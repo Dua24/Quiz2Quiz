@@ -129,8 +129,11 @@
                                 flex-direction: column;
                                 align-items: center;
                                 img{
-                                    height:38px;
+                                    height: 24px;
+                                    width: 24px;
                                     border-radius: 100px;
+                                    border: 1px solid #cccccc80;
+                                    object-fit: cover;
                                 }
                                
                             }

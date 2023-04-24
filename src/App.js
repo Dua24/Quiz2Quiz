@@ -13,6 +13,8 @@ import ModalSignInUp from './components/Header/Modals/ModalSignInUp';
 import "./globalSass.scss"
 import { getAllPosts } from './services/apiServices';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
+import _ from 'lodash'
 const App = () => {
   const data = [
     {
@@ -211,8 +213,8 @@ const App = () => {
     img_user: "https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png",
   }
 
-
   const [isAuthUser, setIsAuthUser] = useState(false)
+  const { isAuthenticated, account } = useSelector(state => state.user)
   const [posts, setPosts] = useImmer()
   const [showMessageBox, setShowMessageBox] = useState(false)
   const [showModalSignInUp, setShowModalSignInUp] = useState(false)
@@ -223,22 +225,19 @@ const App = () => {
 
   const fetchListPosts = async () => {
     const res = await getAllPosts()
-    console.log(res)
     if (res && res.EC === 0) {
-
       res.DT.forEach((e) => {
         e['post_time'] = handleDurationPostPosted(e.createdAt)
       })
-      setPosts(res.DT)
+      setPosts(_.sortBy(res.DT, ['post_time']))
+    } else {
+      setPosts([])
     }
   }
-
 
   const handleDurationPostPosted = (timeCreateAt) => {
     const start = moment(timeCreateAt);
     const now = moment();
-    console.log("db", timeCreateAt)
-    console.log("now", now)
     const duration = moment.duration(now.diff(start));
 
     let durationText;
@@ -247,12 +246,11 @@ const App = () => {
     } else if (duration.asMinutes() < 60) {
       durationText = `${duration.minutes()} minutes`;
     } else {
-      durationText = `${duration.hours()} hours, ${duration.minutes()} minutes`;
+      durationText = `${duration.hours()} hours`;
     }
     return durationText
   }
 
-  console.log("posts>>> ", posts)
 
   useEffect(() => {
     // 👇️ scroll to top on page load
@@ -262,14 +260,13 @@ const App = () => {
 
 
 
-
   return (
     <AuthContext.Provider value={{
-      isAuthUser, setIsAuthUser,
       posts, setPosts,
       showModalSignInUp, setShowModalSignInUp,
-      user,
-      data
+      account,
+      data,
+      fetchListPosts
     }}>
       <div className="App">
         <div className="header">
