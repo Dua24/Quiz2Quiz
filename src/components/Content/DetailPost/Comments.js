@@ -199,7 +199,7 @@ const Comments = (props) => {
                             <div className="line_level"></div>
                             <div className="f_cmt" key={idCmt}>
                                 <div className="f_cmter">
-                                    <img src={cmt.owner.image || 'https://external-preview.redd.it/5kh5OreeLd85QsqYO1Xz_4XSLYwZntfjqou-8fyBFoE.png?auto=webp&s=dbdabd04c399ce9c761ff899f5d38656d1de87c2'} />
+                                    <img src={cmt.owner.image} />
                                 </div>
                                 <div className="f-cmt_content">
                                     <div className="info">

@@ -13,72 +13,75 @@ import _ from 'lodash'
 import { useContext } from "react"
 import { AuthContext } from "../../Context/Context"
 import { v4 as uuidv4 } from 'uuid'
+import { useSelector } from "react-redux"
+import { getAllUser } from "../../../services/apiServices"
 const Message = (props) => {
-    const userFound = [
-        {
-            id: 1,
-            img: "https://www.redditstatic.com/avatars/avatar_default_20_FFD635.png",
-            name: "DuyNguyen",
-            checked: false
-        },
-        {
-            id: 2,
-            img: "https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png",
-            name: "envy",
-            checked: false
-        }
-        ,
-        {
-            id: 3,
-            img: "https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png",
-            name: "bbbbbbb",
-            checked: false
-        }
+    const { isAuthenticated, account } = useSelector(state => state.user)
 
-    ]
-    const { user } = useContext(AuthContext);
+    // const userFound = [
+    //     {
+    //         id: 1,
+    //         img: "https://www.redditstatic.com/avatars/avatar_default_20_FFD635.png",
+    //         name: "DuyNguyen",
+    //         checked: false
+    //     },
+    //     {
+    //         id: 2,
+    //         img: "https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png",
+    //         name: "envy",
+    //         checked: false
+    //     }
+    //     ,
+    //     {
+    //         id: 3,
+    //         img: "https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png",
+    //         name: "bbbbbbb",
+    //         checked: false
+    //     }
+
+    // ]
 
     const message = {
         1: {
             message_id: 1,
             sender_id: 1,
-            reciever_id: user.id,
+            reciever_id: account.id,
             content: "duy nguyen nhan!!"
         },
         2: {
             message_id: 2,
-            sender_id: user.id,
+            sender_id: account.id,
             reciever_id: 1,
             content: "user nhan cho duy nguyen!!"
         },
         3: {
             message_id: 3,
-            sender_id: user.id,
+            sender_id: account.id,
             reciever_id: 2,
             content: "user nhan cho aliba!!"
         },
         4: {
             message_id: 4,
             sender_id: 1,
-            reciever_id: user.id,
+            reciever_id: account.id,
             content: "duy nguyen nhan cho user lan 2"
         },
         5: {
             message_id: 5,
             sender_id: 2,
-            reciever_id: user.id,
+            reciever_id: account.id,
             content: "aliba nhan cho user lan 1"
         }
     }
-
     const { showMessageBox, setShowMessageBox } = props
     const [minMessageBox, setMinMessageBox] = useState(false)
-    const [listFriend, setListFriend] = useState(userFound)
+    const [listFriend, setListFriend] = useState([])
     const [dataUserFound, setDataUserFound] = useImmer([])
     const [isStartChat, setIsStartChat] = useState(false)
     const [chatValue, setChatValue] = useState('')
     const [searchValue, setSearchValue] = useState('')
     const [recentChatArr, setRecentChatsArr] = useImmer([])
+    console.log(recentChatArr)
     const [currentUserChatting, setCurrentUserChatting] = useState({})
     const [messages, setMessages] = useImmer(message)
     const messagesEndRef = useRef(null);
@@ -98,6 +101,20 @@ const Message = (props) => {
         }
     }, [searchValue]);
 
+    useEffect(() => {
+        fetchListUser()
+    }, [])
+    const fetchListUser = async () => {
+        const res = await getAllUser()
+        if (res && res.EC == 0) {
+            const userFound = res.DT.filter((e) => {
+                e['checked'] = false
+                return e._id !== account.id
+            }
+            )
+            setListFriend(userFound)
+        }
+    }
 
     const handleMsgBox = (type, e) => {
         if (type === "min") {
@@ -118,7 +135,7 @@ const Message = (props) => {
     const handleOnChangeCheck = (id) => {
         setDataUserFound(draft => {
             draft.forEach((uf) => {
-                if (uf.id === id) {
+                if (uf._id === id) {
                     uf.checked = !uf.checked
                 }
             })
@@ -146,25 +163,25 @@ const Message = (props) => {
     const handleAddDirectChat = (uf) => {
         setIsStartChat(true)
         setRecentChatsArr(draft => {
-            if (!recentChatArr.find((e) => { return e.id === uf.id })) {
+            if (!recentChatArr.find((e) => { return e._id === uf._id })) {
                 draft.push(uf)
             }
         })
         setCurrentUserChatting(uf)
         setDataUserFound(draft => {
-            draft.splice(draft.findIndex(e => e.id === uf.id), 1);
+            draft.splice(draft.findIndex(e => e._id === uf._id), 1);
         })
     }
     const handleAddNewChat = () => {
         setIsStartChat(false)
-        setCurrentUserChatting('')
+        setCurrentUserChatting({})
         setSearchValue('')
     }
     const handleTabchater = (uf) => {
         setCurrentUserChatting(uf)
         setIsStartChat(true)
     }
-
+    console.log("currentUserChatting ", currentUserChatting)
     const handleSendMsg = (e) => {
         if (e.key === "Enter") {
             sendMsg()
@@ -177,8 +194,8 @@ const Message = (props) => {
             setMessages(draft => {
                 draft[newMsgId] = {
                     message_id: newMsgId,
-                    sender_id: user.id,
-                    reciever_id: currentUserChatting.id,
+                    sender_id: account.id,
+                    reciever_id: currentUserChatting._id,
                     content: chatValue
                 }
                 setChatValue("")
@@ -192,11 +209,11 @@ const Message = (props) => {
                     {recentChatArr && recentChatArr.length > 0 && recentChatArr.map((uf, i) => {
                         return (
                             <div
-                                className={`chaters ${currentUserChatting.id === uf.id && 'active'}`}
+                                className={`chaters ${currentUserChatting._id === uf._id && 'active'}`}
                                 key={i}
                                 onClick={() => handleTabchater(uf)}
                             >
-                                <img src={uf.img} />
+                                <img src={uf.image} />
                                 <span>{uf.name}</span>
                             </div>
                         )
@@ -209,7 +226,7 @@ const Message = (props) => {
             return (
                 <>
                     <div className="chat_header">
-                        <span>{currentUserChatting.name}</span>
+                        <span className="container_userInfoChat">{currentUserChatting.name} <span className={`${currentUserChatting.Online ? 'online' : 'offline'}`}></span></span>
                         <div className="chat_header">
                             <div className="header_nav">
                                 <TbWindowMinimize onClick={() => handleMsgBox("min")} />
@@ -221,17 +238,17 @@ const Message = (props) => {
                         <div className="boxchat">
                             <div className="contain_messages" >
                                 {Object.entries(messages).map(([key, value]) => {
-                                    if (value.sender_id === user.id && value.reciever_id === currentUserChatting.id) {
+                                    if (value.sender_id === account.id && value.reciever_id === currentUserChatting._id) {
                                         return (
                                             <div key={key} className="owner">
                                                 <span className="msg">{value.content}</span>
                                                 <span className="avt">
-                                                    <img src={user.img_user} />
+                                                    <img src={account.image} />
                                                 </span>
                                             </div>
                                         )
                                     } else {
-                                        if (value.sender_id === currentUserChatting.id) {
+                                        if (value.sender_id === currentUserChatting._id) {
                                             return (
                                                 <div key={key} className="friend">
                                                     <span className="avt">
@@ -319,13 +336,13 @@ const Message = (props) => {
                                         <div className="user_found_container">
                                             {dataUserFound && dataUserFound.length > 0 && dataUserFound.map((uf, i) => {
                                                 return (
-                                                    <div className="user_found" key={i} onClick={() => handleOnChangeCheck(uf.id)}>
-                                                        <img src={uf.img} />
+                                                    <div className="user_found" key={i} onClick={() => handleOnChangeCheck(uf._id)}>
+                                                        <img src={uf.image} />
                                                         <span >{uf.name}</span>
                                                         <input
                                                             type="radio"
                                                             checked={uf.checked}
-                                                            onChange={() => handleOnChangeCheck(uf.id)}
+                                                            onChange={() => handleOnChangeCheck(uf._id)}
                                                         />
                                                     </div>
                                                 )

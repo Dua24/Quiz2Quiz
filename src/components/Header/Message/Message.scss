@@ -91,11 +91,24 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            >span{
+            .container_userInfoChat{
                 font-size: 16px;
                 font-weight: 500;
-                line-height: 20px;
                 color: var(--text_color);
+                span{
+                    width: 11px;
+                    height: 12px;
+                    background: red;
+                    display: inline-block;
+                    border-radius: 100px;
+                    &.online{
+                        background: #46d160
+                    }
+                    &.offline{
+                        background: #e01e1e
+
+                    }
+                }
             }
             .header_nav{
                 font-size: 25px;

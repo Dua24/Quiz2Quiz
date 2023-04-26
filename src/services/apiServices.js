@@ -19,9 +19,11 @@ const postPost = (post_detail, type, owner, img_detail) => {
 const deletePost = (id) => {
     return axios.delete('v1/api/post', { data: { id: id } })
 }
+const getAllUser = () => {
+    return axios.get('v1/api/users')
+}
 const getUser = (id) => {
     return axios.get(`v1/api/user/${id}`)
-
 }
 const getPostsByUser = (idUser) => {
     return axios.get(`v1/api/posts/${idUser}`)
@@ -87,5 +89,5 @@ const getRatingsByUser = (id) => {
 export {
     getAllPosts, getPost, getUser, getPostsByUser, login, register,
     postComment, postReply, postPost, deletePost, deleteComment, deleteReply,
-    checkEmailExist, logout, rate, getRatingsByUser
+    checkEmailExist, logout, rate, getRatingsByUser, getAllUser
 }

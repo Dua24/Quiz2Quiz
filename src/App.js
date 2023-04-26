@@ -213,7 +213,6 @@ const App = () => {
     img_user: "https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png",
   }
 
-  const [isAuthUser, setIsAuthUser] = useState(false)
   const { isAuthenticated, account } = useSelector(state => state.user)
   const [posts, setPosts] = useImmer()
   const [showMessageBox, setShowMessageBox] = useState(false)
@@ -279,14 +278,14 @@ const App = () => {
             <SideBar />
           </div>
           <div className="main-content" style={{ textAlign: 'left' }}>
-            <Outlet params={{ isAuthUser }} />
+            <Outlet />
             <ScrollButton />
-            {isAuthUser && <Message showMessageBox={showMessageBox} setShowMessageBox={setShowMessageBox} />}
+            {isAuthenticated && <Message showMessageBox={showMessageBox} setShowMessageBox={setShowMessageBox} />}
 
           </div>
         </div>
       </div>
-      <ModalSignInUp show={showModalSignInUp} setShow={setShowModalSignInUp} setIsAuthUser={setIsAuthUser} />
+      <ModalSignInUp show={showModalSignInUp} setShow={setShowModalSignInUp} />
     </AuthContext.Provider>
 
   )

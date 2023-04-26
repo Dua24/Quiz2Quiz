@@ -5,11 +5,13 @@ import { useSelector } from 'react-redux';
 import { getRatingsByUser, rate } from '../../services/apiServices';
 import _ from 'lodash';
 const Rate = (props) => {
-    const { data, fetchListPosts } = props
+    const { data, fetchListPosts, fetchDetailPost } = props
     const { setShowModalSignInUp } = useContext(AuthContext);
     const { isAuthenticated, account } = useSelector(state => state.user)
     const [typeRate, setTypeRate] = useState('')
     const [rattingsByUser, setRattingsByUser] = useState([])
+
+
 
     useEffect(() => {
         fetchRatingsByUser()
@@ -50,6 +52,7 @@ const Rate = (props) => {
         if (res && res.EC === 0) {
             setTypeRate(type)
             fetchListPosts()
+            fetchDetailPost()
         }
     }
     return (

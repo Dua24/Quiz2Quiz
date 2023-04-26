@@ -39,7 +39,7 @@ const Participant = () => {
             <div className="board"></div>
             <div className="user_info">
                 <div className="info_detail">
-                    <img src={user.image || "https://external-preview.redd.it/5kh5OreeLd85QsqYO1Xz_4XSLYwZntfjqou-8fyBFoE.png?auto=webp&s=dbdabd04c399ce9c761ff899f5d38656d1de87c2"} />
+                    <img src={user.image} />
                     <div className="contain_name">
                         <h1>{user.name}</h1>
                         <span className="g2_detail" >

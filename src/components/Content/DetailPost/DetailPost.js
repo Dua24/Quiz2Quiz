@@ -41,6 +41,7 @@ const DetailPost = () => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }, []);
 
+
     useEffect(() => {
         fetchDetailPost()
     }, [id])
@@ -115,7 +116,9 @@ const DetailPost = () => {
                     <PostItem
                         post={post ? post : {}}
                         setPosts={setPosts}
-                        typeParent="item" />
+                        typeParent="item"
+                        fetchDetailPost={fetchDetailPost}
+                    />
                     <div className="subPost">
                         <EditorPost
                             handleClickAddCmt={handleClickAddCmt}
@@ -140,7 +143,7 @@ const DetailPost = () => {
                         <div className="contain_contentSlide1">
                             <div className="_info">
                                 <span className="g1">
-                                    <img src={post?.owner?.image || "https://external-preview.redd.it/5kh5OreeLd85QsqYO1Xz_4XSLYwZntfjqou-8fyBFoE.png?auto=webp&s=dbdabd04c399ce9c761ff899f5d38656d1de87c2"} />
+                                    <img src={post?.owner?.image} />
                                 </span>
                                 <div className="g2">
                                     <span
@@ -200,7 +203,7 @@ const DetailPost = () => {
                                     >
                                         <div className="header_post">
                                             <span className="g1">
-                                                <img src={post?.owner?.image || 'https://external-preview.redd.it/5kh5OreeLd85QsqYO1Xz_4XSLYwZntfjqou-8fyBFoE.png?auto=webp&s=dbdabd04c399ce9c761ff899f5d38656d1de87c2'} />
+                                                <img src={post?.owner?.image} />
                                             </span>
                                             <div className="g2">
                                                 <span className="name">{post?.owner?.name}</span>

@@ -23,7 +23,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     // role: action?.payload?.role,
                     email: action?.payload?.email,
                     id: action?.payload?._id,
-                    image: action?.payload?.image || "https://external-preview.redd.it/5kh5OreeLd85QsqYO1Xz_4XSLYwZntfjqou-8fyBFoE.png?auto=webp&s=dbdabd04c399ce9c761ff899f5d38656d1de87c2"
+                    image: action?.payload?.image
                 },
                 isAuthenticated: true
             };
