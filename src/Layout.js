@@ -9,6 +9,7 @@ import DetailPost from "./components/Content/DetailPost/DetailPost";
 import Participant from "./components/Participant/Participant"
 import { Suspense } from 'react'
 import NetworkErr from "./routes/networkErr";
+import Profile from "./components/Profile/Profile";
 const Layout = () => {
     return (
         <Suspense fallback={<div>Loading... </div>}>
@@ -17,6 +18,7 @@ const Layout = () => {
                     <Route path="/" element={<Content />} />
                     <Route path="/posts/:id" element={<DetailPost />} />
                     <Route path="/participant/:id" element={<Participant />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Route>
                 <Route path="/err" element={<NetworkErr />} />
                 <Route path="*" element={<Navigate to="/" replace />} />

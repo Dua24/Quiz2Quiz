@@ -176,7 +176,6 @@ const ModalSignInUp = (props) => {
         if (disabledBtn) return
         if (typeModal === "login") {
             const res = await login(email, md5(password))
-            console.log("res ", res)
             const end = performance.now()
             setShowloading(true)
             setTimeout(() => {

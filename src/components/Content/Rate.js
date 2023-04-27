@@ -4,13 +4,14 @@ import { AuthContext } from '../Context/Context';
 import { useSelector } from 'react-redux';
 import { getRatingsByUser, rate } from '../../services/apiServices';
 import _ from 'lodash';
+import { useParams } from 'react-router-dom';
 const Rate = (props) => {
     const { data, fetchListPosts, fetchDetailPost } = props
     const { setShowModalSignInUp } = useContext(AuthContext);
     const { isAuthenticated, account } = useSelector(state => state.user)
     const [typeRate, setTypeRate] = useState('')
     const [rattingsByUser, setRattingsByUser] = useState([])
-
+    const { id } = useParams()
 
 
     useEffect(() => {
@@ -51,8 +52,15 @@ const Rate = (props) => {
         const res = await rate(type, account.id, postId)
         if (res && res.EC === 0) {
             setTypeRate(type)
-            fetchListPosts()
-            fetchDetailPost()
+            if (id) {
+                if (id === props.detailPostId) {
+                    fetchDetailPost()
+                } else {
+                    props.fetchPostsByUser()
+                }
+            } else {
+                fetchListPosts()
+            }
         }
     }
     return (

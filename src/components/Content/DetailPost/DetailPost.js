@@ -35,12 +35,12 @@ const DetailPost = () => {
         e.stopPropagation()
         navigate(`/participant/${participantId}`)
     }
-    console.log(">> ", post)
     useEffect(() => {
         // 👇️ scroll to top on page load
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }, []);
 
+    console.log(post)
 
     useEffect(() => {
         fetchDetailPost()
@@ -48,6 +48,7 @@ const DetailPost = () => {
     const fetchDetailPost = async () => {
         const res = await getPost(id)
         if (res.EC === 0) {
+            res.DT['post_time'] = handleDurationPostPosted(res.DT.createdAt)
             setPost(res.DT)
         } else {
             setPost({})
@@ -59,18 +60,6 @@ const DetailPost = () => {
             setShowModalSignInUp(true)
             return
         }
-        // const newCmt = {
-        //     cmt_detail: value,
-        //     num_Evaluate: 0,
-        //     owner: {
-        //         id: user.id,
-        //         name: `r/${user.name_user}`,
-        //         img: user.img_user
-        //     },
-        //     cmt_time: '2 seconds',
-        //     reply: [],
-        //     deletable: true
-        // }
         const res = await postComment(value, 0, account.id, post._id)
         if (res.EC === 0) {
             toast.success("Add comments successfully")
@@ -78,24 +67,22 @@ const DetailPost = () => {
             await fetchListPosts()
             setValueEditorCmt('')
         }
-
-        // setPosts(draft => {
-        //     setValueEditorCmt('')
-        //     draft.forEach((e) => {
-        //         if (String(e.id) === String(id)) {
-        //             // if (e.comments) {
-        //             //     e.comments[newIdCmt] = newCmt
-        //             // } else {
-        //             //     e.comments = {}
-        //             //     e.comments[newIdCmt] = newCmt
-        //             // }
-        //             e.numComment++
-        //         }
-        //     })
-        // })
-
     }
+    const handleDurationPostPosted = (timeCreateAt) => {
+        const start = moment(timeCreateAt);
+        const now = moment();
+        const duration = moment.duration(now.diff(start));
 
+        let durationText;
+        if (duration.asSeconds() < 60) {
+            durationText = `${Math.ceil(duration.asSeconds())} seconds`;
+        } else if (duration.asMinutes() < 60) {
+            durationText = `${duration.minutes()} minutes`;
+        } else {
+            durationText = `${duration.hours()} hours`;
+        }
+        return durationText
+    }
     const handleShowReplyArea = (idCmt) => {
         setShowCmtArea(idCmt)
     }
@@ -118,6 +105,7 @@ const DetailPost = () => {
                         setPosts={setPosts}
                         typeParent="item"
                         fetchDetailPost={fetchDetailPost}
+                        detailPostId={id}
                     />
                     <div className="subPost">
                         <EditorPost

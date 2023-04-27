@@ -15,6 +15,7 @@ const Posts = (props) => {
                         <PostItem
                             post={post}
                             typeParent="list"
+                            fetchPostsByUser={props.fetchPostsByUser}
                         />
                     </div>
 

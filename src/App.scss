@@ -166,6 +166,43 @@ code {
       background:unset
     }
 }
+.modalProfile {
+  .card-body{
+    &.img{
+      position: relative;
+     >img{
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+     }
+      .showUpload{
+        position: absolute;
+        top: 0;
+        right: 0;
+        border: 0;
+        left: 0;
+        background: rgb(0 0 0 / 82%);
+        height: 100%;
+        display: none;
+        transition: all ease 1s;
+        >svg{
+          font-size: 102px;
+          background: #ffffff;
+          border-radius: 23px;
+          padding: 10px;
+        }
+       
+      }
+      &:hover .showUpload{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all ease 1s
+      }
+    }
+  }
+}
 .App.dark{
   background-color: red !important;
 }

@@ -19,6 +19,7 @@ instance.interceptors.response.use(function (response) {
     return response && response.data ? response.data : response;
 }, function (error) {
     console.log("ERROR ", error)
+    return
     window.location.href = "/err"
 
     // Any status codes that falls outside the range of 2xx cause this function to trigger

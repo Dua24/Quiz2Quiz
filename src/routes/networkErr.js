@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import io from 'socket.io-client'
 const socket = io.connect('http://localhost:8081')
-const name = prompt("UR NAME")
+const name = 'as'
 const NetworkErr = () => {
     const [message, setMessage] = useState('')
     const [data, setData] = useState([])
@@ -18,10 +18,8 @@ const NetworkErr = () => {
     }
     useEffect(() => {
         socket.on('user_chat', (data1) => {
-            console.log("daata1", data1)
         })
     }, [socket])
-    console.log(">>>>>", data)
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <input

@@ -81,7 +81,6 @@ const Message = (props) => {
     const [chatValue, setChatValue] = useState('')
     const [searchValue, setSearchValue] = useState('')
     const [recentChatArr, setRecentChatsArr] = useImmer([])
-    console.log(recentChatArr)
     const [currentUserChatting, setCurrentUserChatting] = useState({})
     const [messages, setMessages] = useImmer(message)
     const messagesEndRef = useRef(null);
@@ -181,7 +180,6 @@ const Message = (props) => {
         setCurrentUserChatting(uf)
         setIsStartChat(true)
     }
-    console.log("currentUserChatting ", currentUserChatting)
     const handleSendMsg = (e) => {
         if (e.key === "Enter") {
             sendMsg()

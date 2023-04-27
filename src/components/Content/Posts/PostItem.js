@@ -17,9 +17,8 @@ const PostItem = (props) => {
     const navigate = useNavigate()
     const { setShowModalSignInUp, setPosts, fetchListPosts } = useContext(AuthContext);
     const { post, fetchDetailPost } = props
-    const { id } = useParams
+    const { id } = useParams()
     const { isAuthenticated, account } = useSelector(state => state.user)
-
 
     const handleShowLoginModal = (e) => {
         e.stopPropagation()
@@ -41,7 +40,11 @@ const PostItem = (props) => {
             fetchListPosts()
             toast.success("Delete post successfully")
         }
-        navigate(`/`)
+        if (id === account.id) {
+            props.fetchPostsByUser()
+        } else {
+            navigate(`/`)
+        }
     }
 
     const handleNavigateParticipant = (e, participantId) => {
@@ -59,8 +62,10 @@ const PostItem = (props) => {
                     setData={setPosts}
                     data={post}
                     type="post"
-                    fetchListPosts={fetchListPosts}
+                    fetchListPosts={fetchListPosts ? fetchListPosts : () => { }}
                     fetchDetailPost={fetchDetailPost ? fetchDetailPost : () => { }}
+                    fetchPostsByUser={props.fetchPostsByUser ? props.fetchPostsByUser : () => { }}
+                    detailPostId={props.detailPostId}
                 />
                 <div
                     className="content_post"

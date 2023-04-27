@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux'
 const FilterPost = (props) => {
     const { posts, setPosts } = props
     const { isAuthenticated } = useSelector(state => state.user)
-
     const [classNameActive, setClassNameActive] = useState('active')
     const [nameFilter, setNameFilter] = useState('new')
     useEffect(() => {

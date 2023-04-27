@@ -61,6 +61,20 @@
                     }
                 }
             }
+            .changeProfile{
+                margin-left: auto;
+                padding: 4px 8px;
+                background: var(--btn_join);
+                border-radius: 23px;
+                color: var(--text_btn_color);
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 500;
+                opacity: 0.9;
+                &:hover{
+                    opacity: 1;
+                }
+            }
         }
         .label{
             span{

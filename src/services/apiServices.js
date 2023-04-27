@@ -28,7 +28,13 @@ const getUser = (id) => {
 const getPostsByUser = (idUser) => {
     return axios.get(`v1/api/posts/${idUser}`)
 }
-
+const updateProfile = (id, name, image) => {
+    const data = new FormData()
+    data.append('id', id)
+    data.append('name', name)
+    data.append('image', image)
+    return axios.put('v1/api/user', data)
+}
 
 const login = (email, password) => {
     return axios.post('v1/api/login',
@@ -76,6 +82,9 @@ const deleteReply = (id) => {
 const checkEmailExist = (email) => {
     return axios.post('v1/api/email', { email })
 }
+const checkUsernameExist = (username) => {
+    return axios.post('v1/api/username', { username })
+}
 const logout = (email) => {
     return axios.post('v1/api/logout', { email })
 
@@ -89,5 +98,6 @@ const getRatingsByUser = (id) => {
 export {
     getAllPosts, getPost, getUser, getPostsByUser, login, register,
     postComment, postReply, postPost, deletePost, deleteComment, deleteReply,
-    checkEmailExist, logout, rate, getRatingsByUser, getAllUser
+    checkEmailExist, logout, rate, getRatingsByUser, getAllUser, checkUsernameExist,
+    updateProfile
 }

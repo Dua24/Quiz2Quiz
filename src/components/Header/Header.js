@@ -26,6 +26,7 @@ import { logout } from "../../services/apiServices";
 import { doLogout } from "../../redux/action/userAction";
 import { toast } from "react-toastify";
 import { pressDarkMode } from "../../redux/action/darkModeAction";
+import ModalProfile from "./Modals/ModalPofile";
 const Header = (props) => {
     const { showMessageBox, setShowMessageBox } = props
     const [showModalQR, setShowModalQR] = useState(false)
@@ -34,6 +35,7 @@ const Header = (props) => {
     const { account, isAuthenticated } = useSelector(state => state.user)
     const { status } = useSelector(state => state.darkMode)
     const [darkMode, setDarkMode] = useState(status.dark);
+    const navigate = useNavigate()
     useEffect(() => {
         document.body.classList.toggle('dark', darkMode);
     }, [darkMode]);
@@ -49,12 +51,15 @@ const Header = (props) => {
             toast.info("Logout successfully", {
                 position: "top-center",
             })
+            navigate("/")
         } else {
             toast.error("CO Loi khi log out...")
         }
 
     }
-
+    const handleMoveUserPage = () => {
+        navigate(`/participant/${account.id}`)
+    }
     return (
         <div className="header-container">
             <Container fluid>
@@ -157,6 +162,7 @@ const Header = (props) => {
                                                 <SwitchMode toggled={darkMode} />
                                             </Dropdown.Item>
                                             <Dropdown.Item
+                                                onClick={handleMoveUserPage}
                                             >
                                                 <CgProfile />
                                                 Profile
