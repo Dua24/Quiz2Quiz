@@ -113,9 +113,6 @@ const Content = (props) => {
                                     <span onClick={() => handleImgCreatePost()}>
                                         <FiImage />
                                     </span>
-                                    <span>
-                                        <AiOutlineLink />
-                                    </span>
                                     <span onClick={() => handleCreatePost()}>
                                         <PriButton disabled={disabledBtnPost} type="pri" text="Post" />
                                     </span>

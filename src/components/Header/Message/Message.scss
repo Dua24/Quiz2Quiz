@@ -39,6 +39,8 @@
                 img{
                     width: 26px;
                     border-radius: 100px;
+                    height: 26px;
+                    object-fit: cover;
                 }
                 >span{
                     font-size: 12px;
@@ -184,6 +186,7 @@
                         }
                         img{
                             width: 24px;
+                            height: 24px;
                             border-radius: 100px;
                         }
                         span{
@@ -258,6 +261,8 @@
                                 img{
                                     width: 22px;
                                     border-radius: 100px;
+                                    height: 22px;
+                                    object-fit: cover;
                                 }
                             }
                         }
@@ -280,7 +285,9 @@
                             .avt{
                                 img{
                                     width: 24px;
+                                    height: 24px;
                                     border-radius: 100px;
+                                    object-fit: cover;
                                 }
                             }
                         }

@@ -95,9 +95,14 @@ const rate = (type, owner, post) => {
 const getRatingsByUser = (id) => {
     return axios.post('v1/api/rates', { id })
 }
+
+const createChatRoom = (participants) => {
+    return axios.post('v1/api/room', { participants })
+}
+
 export {
     getAllPosts, getPost, getUser, getPostsByUser, login, register,
     postComment, postReply, postPost, deletePost, deleteComment, deleteReply,
     checkEmailExist, logout, rate, getRatingsByUser, getAllUser, checkUsernameExist,
-    updateProfile
+    updateProfile, createChatRoom
 }

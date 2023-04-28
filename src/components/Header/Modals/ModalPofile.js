@@ -16,27 +16,15 @@ const ModalProfile = (props) => {
     const inputRef = useRef()
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const dataURLtoFile = (dataurl, filename) => {
-
-        var arr = dataurl.split(','),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
-
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-
-        return new File([u8arr], filename, { type: mime });
-    }
-    const [imageUpdate, setImageUpdate] = useState(dataURLtoFile(account.image, 'hi'))
+    const [imageUpdate, setImageUpdate] = useState()
     const { fetchListPosts } = useContext(AuthContext);
     const handleUpdateBtn = async () => {
         if (usernameUpdate) {
             if (usernameUpdate !== account.username) {
                 const res = await checkUsernameExist(usernameUpdate)
                 if (res && res.EC == 0) {
+                    if (!imageUpdate) {
+                    }
                     const resUpdate = await updateProfile(account.id, usernameUpdate, imageUpdate)
                     if (resUpdate && resUpdate.EC === 0) {
                         setShow(false)

@@ -14,65 +14,11 @@ import { useContext } from "react"
 import { AuthContext } from "../../Context/Context"
 import { v4 as uuidv4 } from 'uuid'
 import { useSelector } from "react-redux"
-import { getAllUser } from "../../../services/apiServices"
+import { createChatRoom, getAllUser } from "../../../services/apiServices"
+import io from 'socket.io-client'
+const socket = io.connect('http://localhost:8081')
 const Message = (props) => {
     const { isAuthenticated, account } = useSelector(state => state.user)
-
-    // const userFound = [
-    //     {
-    //         id: 1,
-    //         img: "https://www.redditstatic.com/avatars/avatar_default_20_FFD635.png",
-    //         name: "DuyNguyen",
-    //         checked: false
-    //     },
-    //     {
-    //         id: 2,
-    //         img: "https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png",
-    //         name: "envy",
-    //         checked: false
-    //     }
-    //     ,
-    //     {
-    //         id: 3,
-    //         img: "https://styles.redditmedia.com/t5_356bu/styles/communityIcon_ski6pyqvm4t11.png",
-    //         name: "bbbbbbb",
-    //         checked: false
-    //     }
-
-    // ]
-
-    const message = {
-        1: {
-            message_id: 1,
-            sender_id: 1,
-            reciever_id: account.id,
-            content: "duy nguyen nhan!!"
-        },
-        2: {
-            message_id: 2,
-            sender_id: account.id,
-            reciever_id: 1,
-            content: "user nhan cho duy nguyen!!"
-        },
-        3: {
-            message_id: 3,
-            sender_id: account.id,
-            reciever_id: 2,
-            content: "user nhan cho aliba!!"
-        },
-        4: {
-            message_id: 4,
-            sender_id: 1,
-            reciever_id: account.id,
-            content: "duy nguyen nhan cho user lan 2"
-        },
-        5: {
-            message_id: 5,
-            sender_id: 2,
-            reciever_id: account.id,
-            content: "aliba nhan cho user lan 1"
-        }
-    }
     const { showMessageBox, setShowMessageBox } = props
     const [minMessageBox, setMinMessageBox] = useState(false)
     const [listFriend, setListFriend] = useState([])
@@ -82,8 +28,9 @@ const Message = (props) => {
     const [searchValue, setSearchValue] = useState('')
     const [recentChatArr, setRecentChatsArr] = useImmer([])
     const [currentUserChatting, setCurrentUserChatting] = useState({})
-    const [messages, setMessages] = useImmer(message)
+    const [messages, setMessages] = useState([])
     const messagesEndRef = useRef(null);
+    const [currentRoom, setCurrentRoom] = useState('')
     useEffect(() => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -103,6 +50,16 @@ const Message = (props) => {
     useEffect(() => {
         fetchListUser()
     }, [])
+    console.log('currentUserChatting', currentUserChatting)
+    useEffect(() => {
+        socket.on('user_chat', (dataChatFromSever) => {
+            setMessages((messages) => [...messages, {
+                sender_id: dataChatFromSever.sender_id,
+                reciever_id: dataChatFromSever.reciever_id,
+                content: dataChatFromSever.message
+            }])
+        })
+    }, [socket])
     const fetchListUser = async () => {
         const res = await getAllUser()
         if (res && res.EC == 0) {
@@ -159,7 +116,10 @@ const Message = (props) => {
         }
     }
 
-    const handleAddDirectChat = (uf) => {
+    const handleAddDirectChat = async (uf) => {
+        const res = await createChatRoom([account.id, uf._id])
+        socket.emit("room", res.DT._id)
+        setCurrentRoom(res.DT._id)
         setIsStartChat(true)
         setRecentChatsArr(draft => {
             if (!recentChatArr.find((e) => { return e._id === uf._id })) {
@@ -176,7 +136,10 @@ const Message = (props) => {
         setCurrentUserChatting({})
         setSearchValue('')
     }
-    const handleTabchater = (uf) => {
+    const handleTabchater = async (uf) => {
+        const res = await createChatRoom([account.id, uf._id])
+        socket.emit("room", res.DT._id)
+        setCurrentRoom(res.DT._id)
         setCurrentUserChatting(uf)
         setIsStartChat(true)
     }
@@ -188,102 +151,23 @@ const Message = (props) => {
 
     const sendMsg = () => {
         if (chatValue) {
-            const newMsgId = uuidv4()
-            setMessages(draft => {
-                draft[newMsgId] = {
-                    message_id: newMsgId,
-                    sender_id: account.id,
-                    reciever_id: currentUserChatting._id,
-                    content: chatValue
-                }
-                setChatValue("")
+            socket.emit("chat", {
+                message: chatValue,
+                sender_id: account.id,
+                reciever_id: currentUserChatting._id,
+                room: currentRoom
             })
+
+            setMessages([...messages, {
+                sender_id: account.id,
+                reciever_id: currentUserChatting._id,
+                content: chatValue
+            }])
+            setChatValue('')
         }
     }
-    const handleStartChat = (type) => {
-        if (type === "direct") {
-            return (
-                <div className="contain_chat_recent">
-                    {recentChatArr && recentChatArr.length > 0 && recentChatArr.map((uf, i) => {
-                        return (
-                            <div
-                                className={`chaters ${currentUserChatting._id === uf._id && 'active'}`}
-                                key={i}
-                                onClick={() => handleTabchater(uf)}
-                            >
-                                <img src={uf.image} />
-                                <span>{uf.name}</span>
-                            </div>
-                        )
+    const handleStartChat = async (type) => {
 
-                    })
-                    }
-                </div >
-            )
-        } else if (type === 'chat') {
-            return (
-                <>
-                    <div className="chat_header">
-                        <span className="container_userInfoChat">{currentUserChatting.name} <span className={`${currentUserChatting.Online ? 'online' : 'offline'}`}></span></span>
-                        <div className="chat_header">
-                            <div className="header_nav">
-                                <TbWindowMinimize onClick={() => handleMsgBox("min")} />
-                                <AiOutlineClose onClick={() => setShowMessageBox(false)} />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="chat_container started">
-                        <div className="boxchat">
-                            <div className="contain_messages" >
-                                {Object.entries(messages).map(([key, value]) => {
-                                    if (value.sender_id === account.id && value.reciever_id === currentUserChatting._id) {
-                                        return (
-                                            <div key={key} className="owner">
-                                                <span className="msg">{value.content}</span>
-                                                <span className="avt">
-                                                    <img src={account.image} />
-                                                </span>
-                                            </div>
-                                        )
-                                    } else {
-                                        if (value.sender_id === currentUserChatting._id) {
-                                            return (
-                                                <div key={key} className="friend">
-                                                    <span className="avt">
-                                                        <img src={currentUserChatting.img} />
-                                                    </span>
-                                                    <span className="msg">{value.content}</span>
-                                                </div>
-                                            )
-                                        }
-                                    }
-                                })}
-
-                                <div ref={messagesEndRef}></div>
-                            </div>
-                        </div>
-                        <div className="inputChat">
-                            <span className="camera">
-                                <FiCamera />
-                            </span>
-                            <input
-                                type="text"
-                                value={chatValue}
-                                onChange={e => setChatValue(e.target.value)}
-                                onKeyDown={(e) => handleSendMsg(e)}
-                            />
-                            <span
-                                className={`send ${chatValue && "active"}`}
-                                onClick={() => sendMsg()}
-                            >
-                                <TbSend />
-                            </span>
-                        </div>
-
-                    </div>
-                </>
-            )
-        }
 
     }
 
@@ -295,7 +179,22 @@ const Message = (props) => {
 
                         <>
                             <span className="text_direct">All the direct chats that you're in will show up here</span>
-                            {handleStartChat('direct')}
+                            <div className="contain_chat_recent">
+                                {recentChatArr && recentChatArr.length > 0 && recentChatArr.map((uf, i) => {
+                                    return (
+                                        <div
+                                            className={`chaters ${currentUserChatting._id === uf._id && 'active'}`}
+                                            key={i}
+                                            onClick={() => handleTabchater(uf)}
+                                        >
+                                            <img src={uf.image} />
+                                            <span>{uf.name}</span>
+                                        </div>
+                                    )
+
+                                })
+                                }
+                            </div >
                         </>
 
                         <div className="createChat_btn" onClick={() => handleAddNewChat()}>
@@ -305,7 +204,67 @@ const Message = (props) => {
                     </div>
                     <div className="chat">
                         {isStartChat ?
-                            handleStartChat('chat')
+                            <>
+                                <div className="chat_header">
+                                    <span className="container_userInfoChat">{currentUserChatting.name} <span className={`${currentUserChatting.Online ? 'online' : 'offline'}`}></span></span>
+                                    <div className="chat_header">
+                                        <div className="header_nav">
+                                            <TbWindowMinimize onClick={() => handleMsgBox("min")} />
+                                            <AiOutlineClose onClick={() => setShowMessageBox(false)} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="chat_container started">
+                                    <div className="boxchat">
+                                        <div className="contain_messages" >
+                                            {Object.entries(messages).map(([key, value]) => {
+                                                console.log(value)
+                                                if (value.sender_id === account.id && value.reciever_id === currentUserChatting._id) {
+                                                    return (
+                                                        <div key={key} className="owner">
+                                                            <span className="msg">{value.content}</span>
+                                                            <span className="avt">
+                                                                <img src={account.image} />
+                                                            </span>
+                                                        </div>
+                                                    )
+                                                } else {
+                                                    if (value.sender_id === currentUserChatting._id) {
+                                                        return (
+                                                            <div key={key} className="friend">
+                                                                <span className="avt">
+                                                                    <img src={currentUserChatting.image} />
+                                                                </span>
+                                                                <span className="msg">{value.content}</span>
+                                                            </div>
+                                                        )
+                                                    }
+                                                }
+                                            })}
+
+                                            <div ref={messagesEndRef}></div>
+                                        </div>
+                                    </div>
+                                    <div className="inputChat">
+                                        <span className="camera">
+                                            <FiCamera />
+                                        </span>
+                                        <input
+                                            type="text"
+                                            value={chatValue}
+                                            onChange={e => setChatValue(e.target.value)}
+                                            onKeyDown={(e) => handleSendMsg(e)}
+                                        />
+                                        <span
+                                            className={`send ${chatValue && "active"}`}
+                                            onClick={() => sendMsg()}
+                                        >
+                                            <TbSend />
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </>
                             :
                             <>
                                 <div className="chat_header">

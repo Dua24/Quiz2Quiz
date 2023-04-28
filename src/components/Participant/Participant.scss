@@ -93,6 +93,13 @@
             padding: 20px 0;
             max-width: 990px;
             margin: 0 auto;
+            .not{
+                text-align: center;
+                font-size: 17px;
+                color: #1212129c;
+                font-weight: 600;
+                font-style: italic;
+            }
             .filter_posts{
                 align-items: center;
                 background-color: var(--background_component);

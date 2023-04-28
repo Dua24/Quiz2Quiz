@@ -99,8 +99,14 @@ const Participant = () => {
             </div>
             <div className="user_newfeed_container">
                 <div className="user_newfeed">
-                    <FilterPost posts={postsByUser} setPosts={setPostByUser} />
-                    <Posts posts={postsByUser} setPosts={setPostByUser} fetchPostsByUser={fetchPostsByUser} />
+                    {_.isEmpty(postsByUser) ?
+                        <div className="not">You haven't post anythings yet</div>
+                        :
+                        <>
+                            <FilterPost posts={postsByUser} setPosts={setPostByUser} />
+                            <Posts posts={postsByUser} setPosts={setPostByUser} fetchPostsByUser={fetchPostsByUser} />
+                        </>
+                    }
                 </div>
                 <div className="side"></div>
             </div>
