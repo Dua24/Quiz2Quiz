@@ -99,10 +99,15 @@ const getRatingsByUser = (id) => {
 const createChatRoom = (participants) => {
     return axios.post('v1/api/room', { participants })
 }
-
+const postMessage = (message, sender_id, reciever_id, room) => {
+    return axios.post('v1/api/message', { message, sender_id, reciever_id, room })
+}
+const getAllMessageOfRoom = (room) => {
+    return axios.get(`v1/api/message/${room}`)
+}
 export {
     getAllPosts, getPost, getUser, getPostsByUser, login, register,
     postComment, postReply, postPost, deletePost, deleteComment, deleteReply,
     checkEmailExist, logout, rate, getRatingsByUser, getAllUser, checkUsernameExist,
-    updateProfile, createChatRoom
+    updateProfile, createChatRoom, postMessage, getAllMessageOfRoom
 }

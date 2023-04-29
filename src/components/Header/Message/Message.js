@@ -10,13 +10,9 @@ import { useEffect, useRef, useState } from "react"
 import { useImmer } from "use-immer"
 import PriButton from "../../Button/PriButton"
 import _ from 'lodash'
-import { useContext } from "react"
-import { AuthContext } from "../../Context/Context"
-import { v4 as uuidv4 } from 'uuid'
 import { useSelector } from "react-redux"
-import { createChatRoom, getAllUser } from "../../../services/apiServices"
-import io from 'socket.io-client'
-const socket = io.connect('http://localhost:8081')
+import { createChatRoom, getAllMessageOfRoom, getAllUser, postMessage } from "../../../services/apiServices"
+import socket from "../../../services/socket"
 const Message = (props) => {
     const { isAuthenticated, account } = useSelector(state => state.user)
     const { showMessageBox, setShowMessageBox } = props
@@ -50,13 +46,13 @@ const Message = (props) => {
     useEffect(() => {
         fetchListUser()
     }, [])
-    console.log('currentUserChatting', currentUserChatting)
     useEffect(() => {
         socket.on('user_chat', (dataChatFromSever) => {
+            console.log('dataChatFromSever ', dataChatFromSever);
             setMessages((messages) => [...messages, {
                 sender_id: dataChatFromSever.sender_id,
                 reciever_id: dataChatFromSever.reciever_id,
-                content: dataChatFromSever.message
+                message: dataChatFromSever.message
             }])
         })
     }, [socket])
@@ -119,6 +115,11 @@ const Message = (props) => {
     const handleAddDirectChat = async (uf) => {
         const res = await createChatRoom([account.id, uf._id])
         socket.emit("room", res.DT._id)
+        const r = await getAllMessageOfRoom(res.DT._id)
+        console.log("r", r)
+        if (r && r.EC === 0) {
+            setMessages(r.DT)
+        }
         setCurrentRoom(res.DT._id)
         setIsStartChat(true)
         setRecentChatsArr(draft => {
@@ -139,6 +140,11 @@ const Message = (props) => {
     const handleTabchater = async (uf) => {
         const res = await createChatRoom([account.id, uf._id])
         socket.emit("room", res.DT._id)
+        const r = await getAllMessageOfRoom(res.DT._id)
+        console.log("r", r)
+        if (r && r.EC === 0) {
+            setMessages(r.DT)
+        }
         setCurrentRoom(res.DT._id)
         setCurrentUserChatting(uf)
         setIsStartChat(true)
@@ -149,7 +155,7 @@ const Message = (props) => {
         }
     }
 
-    const sendMsg = () => {
+    const sendMsg = async () => {
         if (chatValue) {
             socket.emit("chat", {
                 message: chatValue,
@@ -157,20 +163,18 @@ const Message = (props) => {
                 reciever_id: currentUserChatting._id,
                 room: currentRoom
             })
+            const res = await postMessage(chatValue, account.id, currentUserChatting._id, currentRoom)
+            // if (res && res.EC == 0) {
 
+            // }
             setMessages([...messages, {
                 sender_id: account.id,
                 reciever_id: currentUserChatting._id,
-                content: chatValue
+                message: chatValue
             }])
             setChatValue('')
         }
     }
-    const handleStartChat = async (type) => {
-
-
-    }
-
     return (
         <>
             {showMessageBox &&
@@ -218,11 +222,10 @@ const Message = (props) => {
                                     <div className="boxchat">
                                         <div className="contain_messages" >
                                             {Object.entries(messages).map(([key, value]) => {
-                                                console.log(value)
                                                 if (value.sender_id === account.id && value.reciever_id === currentUserChatting._id) {
                                                     return (
                                                         <div key={key} className="owner">
-                                                            <span className="msg">{value.content}</span>
+                                                            <span className="msg">{value.message}</span>
                                                             <span className="avt">
                                                                 <img src={account.image} />
                                                             </span>
@@ -235,7 +238,7 @@ const Message = (props) => {
                                                                 <span className="avt">
                                                                     <img src={currentUserChatting.image} />
                                                                 </span>
-                                                                <span className="msg">{value.content}</span>
+                                                                <span className="msg">{value.message}</span>
                                                             </div>
                                                         )
                                                     }
@@ -246,9 +249,16 @@ const Message = (props) => {
                                         </div>
                                     </div>
                                     <div className="inputChat">
-                                        <span className="camera">
-                                            <FiCamera />
-                                        </span>
+                                        <label htmlFor="uploadimgMsg">
+                                            <span className="camera">
+                                                <FiCamera />
+                                            </span>
+                                        </label>
+                                        <input
+                                            id="uploadimgMsg"
+                                            type='file'
+                                            hidden
+                                        />
                                         <input
                                             type="text"
                                             value={chatValue}
