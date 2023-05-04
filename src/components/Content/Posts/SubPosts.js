@@ -81,7 +81,7 @@ const SubPosts = () => {
                                     </Typography>
                                 )
                             })}
-                            <span>See more</span>
+                            {/* <span>See more</span> */}
                         </AccordionDetails>
                     </Accordion>
                 )

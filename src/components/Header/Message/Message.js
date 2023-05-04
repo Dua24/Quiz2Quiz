@@ -89,6 +89,8 @@ const Message = (props) => {
             draft.forEach((uf) => {
                 if (uf._id === id) {
                     uf.checked = !uf.checked
+                } else {
+                    uf.checked = false
                 }
             })
         })

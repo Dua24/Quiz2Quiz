@@ -27,7 +27,13 @@
                 &:hover{
                     cursor: pointer;
                     background: #ccc;
-
+                }
+                &.disable{
+                    opacity: 0.4;
+                    cursor: not-allowed;
+                    &:hover{
+                        background: none;
+                    }
                 }
             }
             .dropdown{

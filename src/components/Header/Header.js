@@ -129,7 +129,7 @@ const Header = (props) => {
                                     <span className="user_actions" onClick={() => setShowMessageBox(!showMessageBox)}>
                                         <AiOutlineMessage />
                                     </span>
-                                    <span className="user_actions">
+                                    <span className="user_actions disable">
                                         <IoNotificationsOutline />
                                     </span>
                                     <Dropdown className="drop" autoClose="outside">

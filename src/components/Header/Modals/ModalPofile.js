@@ -16,15 +16,13 @@ const ModalProfile = (props) => {
     const inputRef = useRef()
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [imageUpdate, setImageUpdate] = useState()
+    const [imageUpdate, setImageUpdate] = useState(account.image)
     const { fetchListPosts } = useContext(AuthContext);
     const handleUpdateBtn = async () => {
         if (usernameUpdate) {
             if (usernameUpdate !== account.username) {
                 const res = await checkUsernameExist(usernameUpdate)
                 if (res && res.EC == 0) {
-                    if (!imageUpdate) {
-                    }
                     const resUpdate = await updateProfile(account.id, usernameUpdate, imageUpdate)
                     if (resUpdate && resUpdate.EC === 0) {
                         setShow(false)

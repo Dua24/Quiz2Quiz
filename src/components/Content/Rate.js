@@ -52,15 +52,9 @@ const Rate = (props) => {
         const res = await rate(type, account.id, postId)
         if (res && res.EC === 0) {
             setTypeRate(type)
-            if (id) {
-                if (id === props.detailPostId) {
-                    fetchDetailPost()
-                } else {
-                    props.fetchPostsByUser()
-                }
-            } else {
-                fetchListPosts()
-            }
+            fetchDetailPost()
+            props.fetchPostsByUser()
+            fetchListPosts()
         }
     }
     return (

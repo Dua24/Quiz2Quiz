@@ -69,7 +69,11 @@ const Content = (props) => {
             };
         }
     }
-
+    const handleEnterPost = (e) => {
+        if (e.key === "Enter") {
+            handleCreatePost()
+        }
+    }
     return (
 
         <div className="content-container">
@@ -94,7 +98,9 @@ const Content = (props) => {
                                     <input
                                         value={inputPostValue}
                                         onChange={(e) => setInputPostValue(e.target.value)}
-                                        placeholder="Create post" />
+                                        placeholder="Create post"
+                                        onKeyDown={(e) => handleEnterPost(e)}
+                                    />
                                     {attchPost
                                         &&
                                         <span className="nameAttch" onClick={() => setShowModalImg(true)}>

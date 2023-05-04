@@ -34,6 +34,7 @@ const Participant = () => {
             setUser(res.DT)
         }
     }
+    console.log("user ", user)
     const fetchPostsByUser = async () => {
         const res = await getPostsByUser(id)
         if (res.EC == 0) {

@@ -28,12 +28,12 @@ const SideBar = (props) => {
                 {
                     icon: <AiOutlineHome />,
                     label: 'Home',
-                    link: ''
+                    link: '/'
                 },
                 {
                     icon: <IoTrendingUpSharp />,
                     label: 'Popular',
-                    link: ''
+                    link: '/'
                 },
             ]
         },
@@ -43,43 +43,43 @@ const SideBar = (props) => {
                 {
                     icon: <IoGameControllerOutline />,
                     label: 'Gaming',
-                    link: '',
+                    link: '/',
                     child: ['Valheim', 'Genshin Inpact', 'Minecraft', 'Pokimane', 'Halo Infinite', 'Call of Duty: Warzone', 'Path of Exile', 'Hollow Knight: Silksong']
                 },
                 {
                     icon: <RiBasketballLine />,
                     label: 'Sport',
-                    link: '',
+                    link: '/',
                     child: ['NFL', 'NBA', 'Megan Anderson', 'Atlanta Hawks', 'Los Angeles Lakers', 'Boston Celtics', 'Arsenal F.C.', 'Philadelphia 76ers']
                 },
                 {
                     icon: <AiOutlineBarChart />,
                     label: 'Business, Economics',
-                    link: '',
+                    link: '/',
                     child: ['GameStop', 'Moderna', 'Pfizer', 'Johnson & Johnson', 'AstraZeneca', 'Walgreens', 'Best Buy', 'Novavax']
                 },
                 {
                     icon: <RiMoneyDollarCircleFill />,
                     label: 'Crypto',
-                    link: '',
+                    link: '/',
                     child: ['Cardano', 'Dogecoin', 'Algorand', 'Bitcoin', 'Litecoin', 'Basic Attention Token', 'Bitcoin Cash']
                 },
                 {
                     icon: <BsCassette />,
                     label: 'Television',
-                    link: '',
+                    link: '/',
                     child: ['The Real Housewives of Atlanta', 'The Bachelor', 'Sister Wives', '90 Day Fiance', 'Wife Swap', 'The Amazing Race Australia', 'The Real Housewives of Dallas']
                 },
                 {
                     icon: <RiStarSmileLine />,
                     label: 'Celebrity',
-                    link: '',
+                    link: '/',
                     child: ['Kim Kardashian', 'Doja Cat', 'Iggy Azalea', 'Anya Taylor-Joy', 'Jamie Lee Curtis', 'Natalie Portman', 'Henry Cavill']
                 },
                 {
                     icon: <FiMoreHorizontal />,
                     label: 'More Topics',
-                    link: '',
+                    link: '/',
                     child: ['Animals and Pets', 'Anime', 'Art', 'Cars and Motor Vehicles', 'Crafts and DIY', 'Culture, Race, and Ethnicity', 'Ethics and Philosophy']
                 }
             ]
