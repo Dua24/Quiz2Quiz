@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-const socket = io.connect('http://localhost:8081')
+const socket = io.connect('https://redred-be.onrender.com')
 
 
 export default socket
