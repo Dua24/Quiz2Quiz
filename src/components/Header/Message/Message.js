@@ -184,7 +184,7 @@ const Message = (props) => {
                     <div className="direct_chat">
 
                         <>
-                            <span className="text_direct">All the direct chats that you're in will show up here</span>
+                            <span className="text_direct">All the direct chats that you're in will show up here.</span>
                             <div className="contain_chat_recent">
                                 {recentChatArr && recentChatArr.length > 0 && recentChatArr.map((uf, i) => {
                                     return (
