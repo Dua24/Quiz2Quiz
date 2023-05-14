@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
 const instance = axios.create({
-    baseURL: "http://ec2-13-211-103-172.ap-southeast-2.compute.amazonaws.com:8888"
+    baseURL: "https://redred.onrender.com"
 })
 
 // Add a request interceptor
